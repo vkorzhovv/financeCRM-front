@@ -1,0 +1,5 @@
+.staffItemContent {
+  display: grid;
+  grid-template-columns: 33% auto;
+  gap: 20px;
+}

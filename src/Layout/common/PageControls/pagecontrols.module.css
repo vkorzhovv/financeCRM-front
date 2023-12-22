@@ -1,0 +1,21 @@
+.pageControlItem:not(:first-child) {
+  margin-left: 25px;
+}
+
+.searchInput {
+  border: unset;
+  border-bottom: 1px solid var(--black05);
+  width: 0;
+  transition: .3s;
+  background-color: transparent;
+}
+.searchInput.searchVisible {
+  width: 300px;
+}
+.searchInput:focus {
+  outline: unset;
+}
+
+.searchBtn {
+  margin-left: 25px;
+}

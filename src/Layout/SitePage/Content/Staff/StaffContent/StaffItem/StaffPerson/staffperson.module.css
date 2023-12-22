@@ -1,0 +1,29 @@
+.staffPerson {
+  position: relative;
+  background-color: transparent;
+  transition: .3s;
+  cursor: pointer;
+}
+
+.staffPerson::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 5px;
+  transition: .3s;
+  z-index: 1;
+}
+
+.staffPerson:hover::after {
+  background-color: var(--greenC8);
+}
+
+.staffPerson td {
+  position: relative;
+  padding: 20px 10px 20px 10px;
+  z-index: 5;
+}
+
+.phone {
+  white-space: nowrap;
+}

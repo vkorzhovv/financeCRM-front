@@ -1,0 +1,49 @@
+.theMan {
+  padding: 0 30px 40px 30px;
+  border-radius: 10px;
+  background-color: var(--whiteF8);
+  height: max-content;
+}
+
+.theManHeader {
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 30px;
+  padding: 12px 10px 13px 10px;
+  border-bottom: 1px solid var(--greyE1);
+}
+
+.theManTitle {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.cash {
+  padding: 12px 20px;
+  border-radius: 5px;
+  background-color: var(--greenABB);
+  color: var(--whiteF8);
+}
+
+.manDatas {
+  padding: 0 10px;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.manInfo {
+  margin-right: 150px;
+}
+
+.infoItem {
+  justify-content: flex-start;
+}
+
+.infoItem:not(:last-child) {
+  margin-bottom: 18px;
+}
+
+.itemTitle {
+  min-width: 60px;
+  margin-right: 30px;
+}

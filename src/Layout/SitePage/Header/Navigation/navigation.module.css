@@ -1,0 +1,8 @@
+.navLink {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.navLink:not(:last-child) {
+  margin-right: 80px;
+}

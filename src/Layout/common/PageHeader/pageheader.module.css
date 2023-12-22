@@ -1,0 +1,9 @@
+.pageHeader {
+  justify-content: space-between;
+  padding: 22px 0 30px 0;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 500;
+}
