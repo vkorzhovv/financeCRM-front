@@ -25,7 +25,11 @@ export default function ProjectHeader(props) {
       handleClickAdd={handleClickOpen}
       />
       {
-        isOpenPopup && <ProjectAddPopup handleClickClose={handleClickClose} />
+        isOpenPopup && <ProjectAddPopup
+        handleClickClose={handleClickClose}
+        submitText = {'Добавить'}
+        popupHeader = {'Добавить проект'}
+        />
       }
     </div>
   );

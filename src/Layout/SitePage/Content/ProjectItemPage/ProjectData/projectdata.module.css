@@ -1,0 +1,103 @@
+.projectData {
+  display: grid;
+  grid-template-columns: 52% auto;
+  gap: 20px;
+}
+
+.leftItem {
+  margin-bottom: 20px;
+}
+
+.projectDataItem {
+  width: 100%;
+  height: max-content;
+  padding: 27px 30px 30px 30px;
+  border-radius: 10px;
+  background-color: var(--whiteF8);
+}
+
+.projectDataMain {
+  padding: 20px 30px 30px 30px;
+}
+
+.projectHeader {
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 30px;
+  padding: 0 10px 13px 10px;
+  border-bottom: 1px solid var(--greyE1);
+}
+
+.theProjectTitle {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.status {
+  padding: 0 20px;
+  font-size: 20px;
+}
+
+.projectPersonList {
+  min-width: 200px;
+  margin-right: 90px;
+}
+
+.personItem:not(:last-child) {
+  margin-bottom: 18px;
+}
+
+.personTitle {
+  margin-right: 12px;
+}
+
+.description {
+  align-self: start;
+}
+
+.projectTable {
+  width: 100%;
+}
+
+.projectTable td {
+  text-align: center;
+}
+
+.projectTableTitles {
+  position: relative;
+}
+
+.projectTableTitles th {
+  padding-bottom: 20px;
+}
+
+.projectTableItem td {
+  padding-top: 25px;
+}
+
+.projectTableTitles::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-bottom: 1px solid var(--greyE1);
+  pointer-events: none;
+}
+
+.moneyHeader {
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px 20px 10px;
+  border-bottom: 1px solid var(--greyE1);
+}
+
+.moneyHeaderText {
+  font-size: 18px;
+}
+
+.moneyHeaderSumm {
+  margin-right: 20px;
+}
+
+.moneyTable {
+  width: 100%;
+}

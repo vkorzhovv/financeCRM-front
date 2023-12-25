@@ -7,6 +7,7 @@ import Payment from './Payment/Payment';
 import Money from './Money/Money';
 import Invoices from './Invoices/Invoices';
 import StaffItemPage from './StaffItemPage/StaffItemPage';
+import ProjectItemPage from './ProjectItemPage/ProjectItemPage';
 // import classNames from 'classnames';
 
 export default function Content(props) {
@@ -18,6 +19,7 @@ export default function Content(props) {
           <Route path='/staff' element={<Staff />} />
           <Route path='/staff/:id?' element={<StaffItemPage />} />
           <Route path='/projects' element={<Projects />} />
+          <Route path='/projects/:id?' element={<ProjectItemPage />} />
           <Route path='/money' element={<Money />} />
           <Route path='/invoices' element={<Invoices />} />
           <Route path='/payment' element={<Payment />} />

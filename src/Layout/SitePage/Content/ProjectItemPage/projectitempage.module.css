@@ -1,0 +1,20 @@
+.projectItemContent {
+  display: grid;
+  grid-template-columns: 200px auto;
+  gap: 30px;
+}
+
+.projectsList {
+  width: 100%;
+  height: max-content;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--whiteF8);
+}
+
+.projectListTitle {
+  text-align: center;
+  padding-bottom: 20px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--greyE1);
+}

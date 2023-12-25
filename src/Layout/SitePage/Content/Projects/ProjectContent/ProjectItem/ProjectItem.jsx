@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './projectitem.module.css';
 import classNames from 'classnames';
+import { NavLink } from 'react-router-dom';
 
 export default function ProjectItem(props) {
 
@@ -36,6 +37,11 @@ export default function ProjectItem(props) {
       <td className={classNames(styles.projectCell, styles.centerCell, styles.statusCell)}>
         {props.item.status}
       </td>
+      <NavLink
+        to='/projects/id'
+        className={'absoluteLink'}
+      >
+      </NavLink>
     </tr>
   );
 }

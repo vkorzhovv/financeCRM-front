@@ -27,7 +27,7 @@ export default function ProjectAddPopup(props) {
   return createPortal((
     <div className={classNames('flex', 'popup', styles.projectAddPopup)}>
       <div className={classNames('popupWindow', styles.projectPopupWindow)}>
-        <h3 className={classNames('popupHeader')}>Добавить проект</h3>
+        <h3 className={classNames('popupHeader')}>{props.popupHeader}</h3>
         <form
           className={classNames('flex', 'popupform', styles.projectForm)}
           onSubmit={handleSubmit(onSubmit)}
@@ -214,7 +214,7 @@ export default function ProjectAddPopup(props) {
             <input
               className={classNames('btn')}
               type='submit'
-              value='Добавить'
+              value={props.submitText}
               disabled={!isValid}
             />
           </div>
