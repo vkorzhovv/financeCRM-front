@@ -14,6 +14,7 @@ export default function PageHeader(props) {
         addBtnText={props.addBtnText}
         handleClickAdd={props.handleClickAdd}
         detail={props.detail}
+        onDelete={props.onDelete}
       />
     </div>
   );

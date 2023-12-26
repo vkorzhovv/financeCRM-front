@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { deleteUser } from '../../../../redux/usersReducer';
 import PageHeader from '../../../common/PageHeader/PageHeader';
 import StaffAddPopup from '../Staff/StaffAddPopup/StaffAddPopup';
 import StaffItem from '../Staff/StaffContent/StaffItem/StaffItem';
@@ -9,14 +11,22 @@ import TheMan from './TheMan/TheMan';
 
 export default function StaffItemPage(props) {
 
+  const dispatch = useDispatch();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
+
   const handleClickOpen = () => {
     setIsOpenPopup(true)
     document.body.classList.add('modal-show');
   }
+
   const handleClickClose = () => {
     setIsOpenPopup(false)
     document.body.classList.remove('modal-show');
+  }
+
+  const onDelete = () => {
+    console.log(props.user.id)
+    dispatch(deleteUser(props.user.id))
   }
 
   const staff =
@@ -54,12 +64,15 @@ export default function StaffItemPage(props) {
         addBtnText={'Редактировать'}
         detail={'detail'}
         handleClickAdd={handleClickOpen}
+        onDelete={onDelete}
       />
       {
         isOpenPopup && <StaffAddPopup
         handleClickClose={handleClickClose}
         submitText = {'Готово'}
         popupHeader = {'Редактировать пользователя'}
+        detail={'detail'}
+        user={props.user}
         />
       }
       <div className={styles.staffItemContent}>
@@ -67,7 +80,7 @@ export default function StaffItemPage(props) {
           title={staff.title}
           people={staff.person}
         />
-        <TheMan />
+        <TheMan user={props.user}/>
       </div>
     </div>
   );

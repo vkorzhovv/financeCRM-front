@@ -4,7 +4,6 @@ import StaffPerson from './StaffPerson/StaffPerson';
 // import classNames from 'classnames';
 
 export default function StaffItem(props) {
-  debugger;
   return (
     <div className={styles.staffItem}>
       <h2 className={styles.staffTitle}>
@@ -13,15 +12,18 @@ export default function StaffItem(props) {
       <div className={styles.staffTableWrapper}>
         <table className={styles.staffTable}>
           <tbody>
-            {props.people.map((item) =>
-              <StaffPerson
-                surname={item.surname}
-                name={item.name}
-                patronymic={item.patronymic}
-                phone={item.phone}
-                balance={item.balance}
-              />
-            )}
+            {props.people.length &&
+              props.people.map((item) =>
+                <StaffPerson
+                  key={item.id}
+                  id={item.id}
+                  surname={item.last_name}
+                  name={item.first_name}
+                  patronymic={item.father_name}
+                  phone={item.phone}
+                  balance={item.balance}
+                />
+              )}
           </tbody>
         </table>
       </div>

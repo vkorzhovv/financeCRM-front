@@ -19,7 +19,7 @@ export default function StaffPerson(props) {
         <p>{props.balance}</p>
       </td>
       <NavLink
-        to='/staff/id'
+        to={`/staff/${props.id}`}
         className={'absoluteLink'}
       >
       </NavLink>

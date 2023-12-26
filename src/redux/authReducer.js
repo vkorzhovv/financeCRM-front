@@ -1,16 +1,27 @@
 import { authAPI } from "../API/api";
 
-const SET_USER_DATA = 'SET_USER_DATA';
+const SET_AUTH = 'SET_AUTH';
+const SET_ME_DATA = 'SET_ME_DATA';
 
 let initialState = {
   userData: {
-    isAuth: localStorage.getItem('isAuth') || false,
-  }
+    userId: null,
+    firstName: null,
+    lastName: null,
+    username: null,
+    userType: null,
+  },
+  isAuth: localStorage.getItem('isAuth') || false,
 };
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_USER_DATA:
+    case SET_AUTH:
+      return {
+        ...state,
+        isAuth: action.isAuth
+      }
+    case SET_ME_DATA:
       return {
         ...state,
         userData: {
@@ -22,8 +33,20 @@ export const authReducer = (state = initialState, action) => {
 }
 
 const setAuth = (isAuth) => ({
-  type: SET_USER_DATA, userData: { isAuth }
+  type: SET_AUTH, isAuth
 })
+
+const setMe = (userId, firstName, lastName, username, userType) => ({
+  type: SET_ME_DATA, userData: { userId, firstName, lastName, username, userType }
+})
+
+export const getMe = () => async (dispatch) => {
+  const response = await authAPI.me();
+  if (response.status === 200) {
+    const res = response.data;
+    dispatch(setMe(res.id, res.first_name, res.last_name, res.username, res.user_type_value))
+  }
+}
 
 export const login = (name, password, setError) => async (dispatch) => {
   let response;
@@ -49,8 +72,8 @@ export const logout = () => async (dispatch) => {
   try {
     response = await authAPI.logout();
     if (response.status < 300) {
-      dispatch(setAuth(false));
       localStorage.clear();
+      dispatch(setAuth(false));
     }
   }
   catch (err) {

@@ -9,6 +9,8 @@ function App() {
 
   const isAuth = useSelector(selectIsAuth);
 
+  console.log(isAuth);
+
   return (
     <div className="App">
       {isAuth ? <SitePage /> : <Login />}

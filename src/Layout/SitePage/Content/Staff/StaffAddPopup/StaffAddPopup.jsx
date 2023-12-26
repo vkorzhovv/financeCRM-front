@@ -3,11 +3,12 @@ import React from "react";
 import { createPortal } from "react-dom";
 import styles from './staffaddpopup.module.css';
 import { useForm } from 'react-hook-form';
-// import { useDispatch } from 'react-redux';
+import { addUser, editUser } from "../../../../../redux/usersReducer";
+import { useDispatch } from 'react-redux';
 
 export default function StaffAddPopup(props) {
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const {
     clearErrors,
@@ -20,7 +21,33 @@ export default function StaffAddPopup(props) {
   });
 
   const onSubmit = (data => {
-    // dispatch(login(data.username, data.password, setError));
+
+      props.detail
+      ?
+      dispatch(editUser(
+        props.user.id,
+        data.name,
+        data.surname,
+        data.patronymic,
+        data.login,
+        data.type,
+        data.phone,
+        data.finance,
+        data.description
+      ))
+      :
+      dispatch(addUser(
+        data.name,
+        data.surname,
+        data.patronymic,
+        data.login,
+        data.password,
+        data.type,
+        data.phone,
+        data.finance,
+        data.description
+      ))
+
     console.log(data);
   })
 
@@ -36,25 +63,65 @@ export default function StaffAddPopup(props) {
           }
           }
         >
-          <div className={!errors.name
-            ? classNames('popupInputBox', styles.inputBox)
-            : classNames('popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <input
-              className={!errors.name
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
-              type='text'
-              name='name'
-              placeholder='Фамилия Имя Отчество'
-              {...register('name',
-                {
-                  required: 'Введите полное имя',
-                })}
-            />
-            {errors.name && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.name.message}</div>}
+          <div className={classNames(styles.group)}>
+            <div className={!errors.surname
+              ? classNames(styles.inputBox)
+              : classNames('popupBoxError', styles.inputBox, styles.boxError)}>
+              <input
+                className={!errors.surname
+                  ? classNames('popupInput', styles.input)
+                  : classNames('popupInput', 'popupError', styles.input, styles.error)}
+                type='text'
+                name='surname'
+                defaultValue={props.detail && props.user.last_name}
+                placeholder='Фамилия'
+                {...register('surname',
+                  {
+                    required: 'Введите фамилию',
+                  })}
+              />
+              {errors.surname && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.surname.message}</div>}
+            </div>
+            <div className={!errors.name
+              ? classNames(styles.inputBox)
+              : classNames('popupBoxError', styles.inputBox, styles.boxError)}>
+              <input
+                className={!errors.name
+                  ? classNames('popupInput', styles.input)
+                  : classNames('popupInput', 'popupError', styles.input, styles.error)}
+                type='text'
+                name='name'
+                defaultValue={props.detail && props.user.first_name}
+                placeholder='Имя'
+                {...register('name',
+                  {
+                    required: 'Введите имя',
+                  })}
+              />
+              {errors.name && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.name.message}</div>}
+            </div>
+            <div className={!errors.patronymic
+              ? classNames(styles.inputBox)
+              : classNames('popupBoxError', styles.inputBox, styles.boxError)}>
+              <input
+                className={!errors.patronymic
+                  ? classNames('popupInput', styles.input)
+                  : classNames('popupInput', 'popupError', styles.input, styles.error)}
+                type='text'
+                name='patronymic'
+                defaultValue={props.detail && props.user.father_name}
+                placeholder='Отчество'
+                {...register('patronymic',
+                  {
+                    required: 'Введите отчетство',
+                  })}
+              />
+              {errors.patronymic && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.patronymic.message}</div>}
+            </div>
           </div>
+
           <div className={!errors.description
-            ? classNames('popupInputBox',  styles.inputBox)
+            ? classNames('popupInputBox', styles.inputBox)
             : classNames('popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <textarea
               className={!errors.description
@@ -62,6 +129,7 @@ export default function StaffAddPopup(props) {
                 : classNames('popupInput', 'popupError', 'popupTextarea', styles.input, styles.error)}
               type={'text'}
               name='description'
+              defaultValue={props.detail && props.user.description}
               placeholder='Описание'
               {...register('description',
                 {
@@ -79,6 +147,7 @@ export default function StaffAddPopup(props) {
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
               type='text'
               name='login'
+              defaultValue={props.detail && props.user.username}
               placeholder='Логин'
               {...register('login',
                 {
@@ -87,23 +156,24 @@ export default function StaffAddPopup(props) {
             />
             {errors.login && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.login.message}</div>}
           </div>
-          <div className={!errors.password
-            ? classNames('popupInputBox', styles.inputBox)
-            : classNames('popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <input
-              className={!errors.password
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
-              type='password'
-              name='password'
-              placeholder='Пароль'
-              {...register('password',
-                {
-                  required: 'Введите пароль',
-                })}
-            />
-            {errors.password && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.password.message}</div>}
-          </div>
+          {!props.detail &&
+            <div className={!errors.password
+              ? classNames('popupInputBox', styles.inputBox)
+              : classNames('popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
+              <input
+                className={!errors.password
+                  ? classNames('popupInput', styles.input)
+                  : classNames('popupInput', 'popupError', styles.input, styles.error)}
+                type='password'
+                name='password'
+                placeholder='Пароль'
+                {...register('password',
+                  {
+                    required: 'Введите пароль',
+                  })}
+              />
+              {errors.password && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.password.message}</div>}
+            </div>}
           <div className={!errors.type
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
@@ -114,6 +184,7 @@ export default function StaffAddPopup(props) {
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
               type='text'
               name='type'
+              defaultValue={props.detail && props.user.user_type}
               placeholder='Выбрать'
               {...register('type',
                 {
@@ -133,6 +204,7 @@ export default function StaffAddPopup(props) {
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
               type='text'
               name='phone'
+              defaultValue={props.detail && props.user.phone}
               placeholder='7800000000'
               {...register('phone',
                 {
@@ -149,6 +221,7 @@ export default function StaffAddPopup(props) {
                 className={classNames(styles.inputCheck)}
                 type='checkbox'
                 name='finance'
+                defaultChecked={props.detail && props.user.financial_accounting}
                 {...register('finance')}
               />
             </div>

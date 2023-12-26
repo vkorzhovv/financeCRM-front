@@ -3,7 +3,7 @@ import styles from './header.module.css';
 import classNames from 'classnames';
 import Logo from '../../common/Logo/Logo';
 import Navigation from './Navigation/Navigation';
-import UserControls from './UserControls/UserControls';
+import UserControlsContainer from './UserControls/UserControlsContainer';
 
 export default function Header(props) {
 
@@ -11,7 +11,7 @@ export default function Header(props) {
     <header className={classNames('flex', styles.header)}>
       <Logo />
       <Navigation />
-      <UserControls />
+      <UserControlsContainer />
     </header>
   );
 }

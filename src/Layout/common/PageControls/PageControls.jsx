@@ -29,7 +29,10 @@ export default function PageControls(props) {
       </div>
       {props.detail &&
         <div className={classNames(styles.pageControlItem, styles.deleteBlock)}>
-          <button className={classNames('btn', 'btnTransparent', styles.deleteBtn)}>
+          <button
+            className={classNames('btn', 'btnTransparent', styles.deleteBtn)}
+            onClick={props.onDelete}
+          >
             Удалить
           </button>
         </div>
@@ -37,7 +40,7 @@ export default function PageControls(props) {
       <div className={classNames(styles.pageControlItem, styles.addBlock)}>
         <button
           className={classNames('btn', styles.addBtn)}
-          onClick = {props.handleClickAdd}
+          onClick={props.handleClickAdd}
         >
           {props.addBtnText}
         </button>
