@@ -7,8 +7,6 @@ import StaffItem from '../Staff/StaffContent/StaffItem/StaffItem';
 import styles from './staffitempage.module.css';
 import TheMan from './TheMan/TheMan';
 import { useNavigate } from "react-router-dom";
-// import StaffItem from './StaffItem/StaffItem';
-// import classNames from 'classnames';
 
 export default function StaffItemPage(props) {
 

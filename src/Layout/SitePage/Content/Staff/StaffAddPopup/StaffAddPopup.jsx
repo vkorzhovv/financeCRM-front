@@ -56,8 +56,6 @@ export default function StaffAddPopup(props) {
 
   const onSubmit = (data => {
     props.detail ? editUserLocal(data) : addUserLocal(data)
-
-    console.log(data);
   })
 
   return createPortal((
@@ -128,7 +126,6 @@ export default function StaffAddPopup(props) {
               {errors.patronymic && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.patronymic.message}</div>}
             </div>
           </div>
-
           <div className={!errors.description
             ? classNames('popupInputBox', styles.inputBox)
             : classNames('popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
@@ -187,7 +184,21 @@ export default function StaffAddPopup(props) {
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel', styles.staffLabel)} htmlFor="type">Тип пользователя</label>
-            <input
+            <select {...register('type', {
+              required: 'Выберите клиента',
+            })}
+              className={!errors.type
+                ? classNames('popupInput', styles.input)
+                : classNames('popupInput', 'popupError', styles.input, styles.error)}
+            >
+              <option value="">Выбрать</option>
+              <option value="k" selected={props.detail && props.user.user_type === 'k'}>Клиент</option>
+              <option value="p" selected={props.detail && props.user.user_type === 'p'}>Подрядчик</option>
+              <option value="s" selected={props.detail && props.user.user_type === 's'}>Сотрудник</option>
+
+            </select>
+
+            {/* <input
               className={!errors.type
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
@@ -200,7 +211,7 @@ export default function StaffAddPopup(props) {
                   required: 'Введите пароль',
                 })
               }
-            />
+            /> */}
             {errors.type && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.type.message}</div>}
           </div>
           <div className={!errors.phone
@@ -218,6 +229,18 @@ export default function StaffAddPopup(props) {
               {...register('phone',
                 {
                   required: 'Введите номер телефона',
+                  minLength: {
+                    value: 12,
+                    message: 'Введите номер целиком'
+                  },
+                  maxLength: {
+                    value: 12,
+                    message: 'Слишком длинный номер'
+                  },
+                  pattern: {
+                    value: /^((\+7)([0-9]){10})$/,
+                    message: 'Формат +70000000000'
+                  },
                 })
               }
             />

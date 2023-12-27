@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PageHeader from '../../../common/PageHeader/PageHeader';
-import ProjectAddPopup from '../Projects/ProjectAddPopup/ProjectAddPopup';
 import ProjectData from './ProjectData/ProjectData';
 import styles from './projectitempage.module.css';
 import ProjectsList from './ProjectsList/ProjectsList';
-// import classNames from 'classnames';
+import { useNavigate } from "react-router-dom";
+import { deleteProject } from '../../../../redux/projectsReducer';
+import ProjectAddPopupContainer from '../Projects/ProjectAddPopup/ProjectAddPopupContainer';
 
 export default function ProjectItemPage(props) {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const handleClickOpen = () => {
@@ -18,18 +23,9 @@ export default function ProjectItemPage(props) {
     document.body.classList.remove('modal-show');
   }
 
-  const project = {
-    name: 'Главный проект',
-    manager: 'Петров Петр Петрович',
-    client: 'Сидоров Сидор Сидорович',
-    foreman: 'Николаев Николай Николаевич',
-    start: '01.02.2022',
-    end: '01.02.2024',
-    summ: '1 000 000 р',
-    balance: '500 000 р',
-    expend: '5,3 л',
-    status: 'Активен',
-    description: 'Описание. Стены из гипсокартона под покраску или обои. Несмотря на высокую стоимость материалов и сложность подготовки стен, это самый популярный вид отделки жилых домов.'
+  const onDelete = () => {
+    dispatch(deleteProject(props.project.id));
+    navigate("/projects");
   }
 
   const payments = [
@@ -83,25 +79,28 @@ export default function ProjectItemPage(props) {
     },
   ]
 
-
   return (
     <div className={styles.projectItemPage}>
       <PageHeader
         title={'Проекты'}
         addBtnText={'Редактировать'}
         detail={'detail'}
+        onDelete={onDelete}
         handleClickAdd={handleClickOpen}
       />
 
       {
-        isOpenPopup && <ProjectAddPopup
+        isOpenPopup && <ProjectAddPopupContainer
           handleClickClose={handleClickClose}
           submitText={'Готово'}
           popupHeader={'Редактировать проект'}
+          detail={'detail'}
+          project={props.project}
+          close={setIsOpenPopup}
         />
       }
 
-      <div className ={styles.projectItemContent}>
+      <div className={styles.projectItemContent}>
         <div className={styles.projectsList}>
           <p className={styles.projectListTitle}>Название проекта</p>
           {list.map(item =>
@@ -109,7 +108,7 @@ export default function ProjectItemPage(props) {
           )}
         </div>
         <ProjectData
-          project={project}
+          project={props.project}
           costs={costs}
           payments={payments}
         />

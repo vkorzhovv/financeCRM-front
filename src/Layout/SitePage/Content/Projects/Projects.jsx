@@ -1,15 +1,18 @@
 import React from 'react';
-import ProjectContent from './ProjectContent/ProjectContent';
+import { useSelector } from 'react-redux';
+import { selectProjects } from '../../../../redux/projectsSelector';
+import ProjectContentContainer from './ProjectContent/ProjectContentContainer';
 import ProjectHeader from './ProjectHeader/ProjectHeader';
 import styles from './projects.module.css';
-// import classNames from 'classnames';
 
 export default function Projects(props) {
+
+  let projects = useSelector(selectProjects)
 
   return (
     <div className={styles.project}>
       <ProjectHeader />
-      <ProjectContent />
+      <ProjectContentContainer projects={projects}/>
     </div>
   );
 }

@@ -5,9 +5,9 @@ import Projects from './Projects/Projects';
 import Payment from './Payment/Payment';
 import Money from './Money/Money';
 import Invoices from './Invoices/Invoices';
-import ProjectItemPage from './ProjectItemPage/ProjectItemPage';
 import StaffContainer from './Staff/StaffContainer';
 import StaffItemPageContainer from './StaffItemPage/StaffItemPageContainer';
+import ProjectItemPageContainer from './ProjectItemPage/ProjectItemPageContainer';
 
 export default function Content(props) {
 
@@ -18,7 +18,7 @@ export default function Content(props) {
           <Route path='/staff' element={<StaffContainer />} />
           <Route path='/staff/:userId?' element={<StaffItemPageContainer />} />
           <Route path='/projects' element={<Projects />} />
-          <Route path='/projects/:id?' element={<ProjectItemPage />} />
+          <Route path='/projects/:projectId?' element={<ProjectItemPageContainer />} />
           <Route path='/money' element={<Money />} />
           <Route path='/invoices' element={<Invoices />} />
           <Route path='/payment' element={<Payment />} />

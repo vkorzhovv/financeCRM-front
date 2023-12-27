@@ -3,11 +3,13 @@ import React from "react";
 import { createPortal } from "react-dom";
 import styles from './projectaddpopup.module.css';
 import { useForm } from 'react-hook-form';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { addProject } from "../../../../../redux/projectsReducer";
+import { editProject } from "../../../../../redux/projectItemReducer";
 
 export default function ProjectAddPopup(props) {
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const {
     clearErrors,
@@ -19,9 +21,19 @@ export default function ProjectAddPopup(props) {
     mode: 'onChange',
   });
 
+  const addProjectLocal = (data) => {
+    dispatch(addProject(data.name, data.description, data.start, data.end, data.summ, Boolean(Number(data.status)), Number(data.manager), Number(data.client), Number(data.foreman)));
+    props.close(false)
+    document.body.classList.remove('modal-show');
+  }
+  const editProjectLocal = (data) => {
+    dispatch(editProject(props.project.id, data.name, data.description, data.start, data.end, data.summ, Boolean(Number(data.status)), Number(data.manager), Number(data.client), Number(data.foreman)));
+    props.close(false)
+    document.body.classList.remove('modal-show');
+  }
+
   const onSubmit = (data => {
-    // dispatch(login(data.username, data.password, setError));
-    console.log(data);
+    props.detail ? editProjectLocal(data) : addProjectLocal(data);
   })
 
   return createPortal((
@@ -45,6 +57,7 @@ export default function ProjectAddPopup(props) {
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
               type='text'
               name='name'
+              defaultValue={props.detail && props.project.name}
               placeholder='Название'
               {...register('name',
                 {
@@ -54,7 +67,7 @@ export default function ProjectAddPopup(props) {
             {errors.name && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.name.message}</div>}
           </div>
           <div className={!errors.description
-            ? classNames('popupInputBox',  styles.inputBox)
+            ? classNames('popupInputBox', styles.inputBox)
             : classNames('popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <textarea
               className={!errors.description
@@ -62,6 +75,7 @@ export default function ProjectAddPopup(props) {
                 : classNames('popupInput', 'popupError', 'popupTextarea', styles.input, styles.error)}
               type={'text'}
               name='description'
+              defaultValue={props.detail && props.project.description}
               placeholder='Описание'
               {...register('description',
                 {
@@ -74,26 +88,52 @@ export default function ProjectAddPopup(props) {
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="type">Менеджер</label>
-            <input
+            <select {...register('manager', {
+              required: 'Выберите менеджера',
+            })}
+              className={!errors.status
+                ? classNames('popupInput', styles.input)
+                : classNames('popupInput', 'popupError', styles.input, styles.error)}
+            >
+              <option value="">Выбрать</option>
+              {props.employees && props.employees.map(item =>
+                <option value={item.id} selected={props.detail && item.id === props.project.project_manager.id}>{item.last_name} {item.first_name} {item.father_name}</option>
+              )}
+            </select>
+
+            {/* <input
               className={!errors.manager
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
               type='text'
               name='manager'
               placeholder='Выбрать'
-              {...register('type',
+              {...register('manager',
                 {
-                  required: 'Выбурите менеджера',
+                  required: 'Выберите менеджера',
                 })
               }
-            />
+            /> */}
             {errors.manager && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.manager.message}</div>}
           </div>
           <div className={!errors.client
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="type">Клиент</label>
-            <input
+            <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="client">Клиент</label>
+            <select {...register('client', {
+              required: 'Выберите клиента',
+            })}
+              className={!errors.status
+                ? classNames('popupInput', styles.input)
+                : classNames('popupInput', 'popupError', styles.input, styles.error)}
+            >
+              <option value="">Выбрать</option>
+              {props.clients && props.clients.map(item =>
+                <option value={item.id} selected={props.detail && item.id === props.project.client.id}>{item.last_name} {item.first_name} {item.father_name}</option>
+              )}
+            </select>
+
+            {/* <input
               className={!errors.client
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
@@ -105,14 +145,26 @@ export default function ProjectAddPopup(props) {
                   required: 'Выберите клиента',
                 })
               }
-            />
+            /> */}
             {errors.client && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.client.message}</div>}
           </div>
           <div className={!errors.foreman
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="foreman">Прораб</label>
-            <input
+            <select {...register('foreman', {
+              required: 'Выберите прораба',
+            })}
+              className={!errors.status
+                ? classNames('popupInput', styles.input)
+                : classNames('popupInput', 'popupError', styles.input, styles.error)}
+            >
+              <option value="">Выбрать</option>
+              {props.contractors && props.contractors.map(item =>
+                <option value={item.id} selected={props.detail && item.id === props.project.foreman.id}>{item.last_name} {item.first_name} {item.father_name}</option>
+              )}
+            </select>
+            {/* <input
               className={!errors.foreman
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
@@ -124,14 +176,26 @@ export default function ProjectAddPopup(props) {
                   required: 'Выберите прораба',
                 })
               }
-            />
+            /> */}
             {errors.foreman && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.foreman.message}</div>}
           </div>
           <div className={!errors.status
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="status">Статус</label>
-            <input
+            <select {...register('status', {
+              required: 'Выберите статус',
+            })}
+              className={!errors.status
+                ? classNames('popupInput', styles.input)
+                : classNames('popupInput', 'popupError', styles.input, styles.error)}
+            >
+              <option value="">Выбрать</option>
+              <option value='1' selected={props.detail && props.project.active}>Активен</option>
+              <option value='0' selected={props.detail && !props.project.active}>Неактивен</option>
+            </select>
+
+            {/* <input
               className={!errors.status
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
@@ -140,10 +204,10 @@ export default function ProjectAddPopup(props) {
               placeholder='Выбрать'
               {...register('status',
                 {
-                  required: 'Выбурите статус',
+                  required: 'Выберите статус',
                 })
               }
-            />
+            /> */}
             {errors.status && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.status.message}</div>}
           </div>
           <div className={!errors.start
@@ -155,8 +219,8 @@ export default function ProjectAddPopup(props) {
                 ? classNames('popupInput', styles.inputHalf, styles.input)
                 : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
               type='date'
+              defaultValue={props.detail && props.project.start_date}
               name='start'
-              // placeholder='дд.мм.гггг'
               {...register('start',
                 {
                   required: 'Выберите дату',
@@ -174,8 +238,8 @@ export default function ProjectAddPopup(props) {
                 ? classNames('popupInput', styles.inputHalf, styles.input)
                 : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
               type='date'
+              defaultValue={props.detail && props.project.end_date}
               name='end'
-              // placeholder='дд.мм.гггг'
               {...register('end',
                 {
                   required: 'Выберите дату',
@@ -187,13 +251,14 @@ export default function ProjectAddPopup(props) {
           <div className={!errors.summ
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="summ">Окончание проекта</label>
+            <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="summ">Сумма договора</label>
             <input
               className={!errors.summ
                 ? classNames('popupInput', styles.inputHalf, styles.input)
                 : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
               type='text'
               name='summ'
+              defaultValue={props.detail && props.project.price}
               placeholder='0 р'
               {...register('summ',
                 {

@@ -82,7 +82,17 @@ export const usersAPI = {
       }
     })
   },
-  addUser(name, surname, patronymic, login, password, type, phone, finance, descr) {
+  addUser(
+    name,
+    surname,
+    patronymic,
+    login,
+    password,
+    type,
+    phone,
+    finance,
+    descr
+  ) {
     return instance.post('/api/auth/users/', {
       first_name: name,
       last_name: surname,
@@ -121,6 +131,91 @@ export const usersAPI = {
   },
   deleteUser(userId) {
     return instance.delete(`/api/delete_user/${userId}/`,
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      }
+    )
+  }
+}
+
+export const projectsAPI = {
+  getProjects() {
+    return instance.get('/api/projects/', {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
+  addProject(
+    name,
+    description,
+    start,
+    end,
+    price,
+    active,
+    manager,
+    client,
+    foreman
+  ) {
+    return instance.post('/api/projects/',
+      {
+        name: name,
+        description: description,
+        start_date: start,
+        end_date: end,
+        price: price,
+        active: active,
+        project_manager: manager,
+        client: client,
+        foreman: foreman
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+  },
+  editProject(
+    projectId,
+    name,
+    description,
+    start,
+    end,
+    price,
+    active,
+    manager,
+    client,
+    foreman
+  ) {
+    return instance.patch(`/api/projects/${projectId}/`,
+      {
+        name: name,
+        description: description,
+        start_date: start,
+        end_date: end,
+        price: price,
+        active: active,
+        project_manager: manager,
+        client: client,
+        foreman: foreman
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+  },
+  getProjectItem(projectId) {
+    return instance.get(`/api/projects/${projectId}/`, {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
+  deleteProject(projectId) {
+    return instance.delete(`/api/projects/${projectId}/`,
       {
         headers: {
           'Authorization': `Token ${localStorage.getItem('token')}`

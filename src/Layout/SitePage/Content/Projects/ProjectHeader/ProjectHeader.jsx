@@ -2,7 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import PageHeader from '../../../../common/PageHeader/PageHeader';
 import styles from './projectheader.module.css';
-import ProjectAddPopup from '../ProjectAddPopup/ProjectAddPopup';
+// import ProjectAddPopup from '../ProjectAddPopup/ProjectAddPopup';
+import ProjectAddPopupContainer from '../ProjectAddPopup/ProjectAddPopupContainer';
 // import classNames from 'classnames';
 
 export default function ProjectHeader(props) {
@@ -25,10 +26,11 @@ export default function ProjectHeader(props) {
       handleClickAdd={handleClickOpen}
       />
       {
-        isOpenPopup && <ProjectAddPopup
+        isOpenPopup && <ProjectAddPopupContainer
         handleClickClose={handleClickClose}
         submitText = {'Добавить'}
         popupHeader = {'Добавить проект'}
+        close={setIsOpenPopup}
         />
       }
     </div>
