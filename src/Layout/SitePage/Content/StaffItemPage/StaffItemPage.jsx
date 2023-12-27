@@ -6,11 +6,13 @@ import StaffAddPopup from '../Staff/StaffAddPopup/StaffAddPopup';
 import StaffItem from '../Staff/StaffContent/StaffItem/StaffItem';
 import styles from './staffitempage.module.css';
 import TheMan from './TheMan/TheMan';
+import { useNavigate } from "react-router-dom";
 // import StaffItem from './StaffItem/StaffItem';
 // import classNames from 'classnames';
 
 export default function StaffItemPage(props) {
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
 
@@ -25,8 +27,8 @@ export default function StaffItemPage(props) {
   }
 
   const onDelete = () => {
-    console.log(props.user.id)
-    dispatch(deleteUser(props.user.id))
+    dispatch(deleteUser(props.user.id));
+    navigate("/staff");
   }
 
   const staff =
@@ -68,11 +70,12 @@ export default function StaffItemPage(props) {
       />
       {
         isOpenPopup && <StaffAddPopup
-        handleClickClose={handleClickClose}
-        submitText = {'Готово'}
-        popupHeader = {'Редактировать пользователя'}
-        detail={'detail'}
-        user={props.user}
+          handleClickClose={handleClickClose}
+          submitText={'Готово'}
+          popupHeader={'Редактировать пользователя'}
+          detail={'detail'}
+          user={props.user}
+          close={setIsOpenPopup}
         />
       }
       <div className={styles.staffItemContent}>
@@ -80,7 +83,7 @@ export default function StaffItemPage(props) {
           title={staff.title}
           people={staff.person}
         />
-        <TheMan user={props.user}/>
+        <TheMan user={props.user} />
       </div>
     </div>
   );

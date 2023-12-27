@@ -24,13 +24,9 @@ export const getUserItem = (userId) => async (dispatch) => {
   dispatch(setUserItem(response.data));
 }
 
-// "id": 0,
-//   "user_type_value": "string",
-//   "balance": "2982480",
-//   "phone": "string",
-//   "first_name": "string",
-//   "last_name": "string",
-//   "father_name": "string",
-//   "username": "1ddCW4IBhzY2xgovsl98F4fA69l@w.s6uynvOjouuVBJ1.wLhy",
-//   "description": "string",
-//   "financial_accounting": true
+export const editUser = (userId, name, surname, patronymic, login, password, type, phone, finance, descr) => async (dispatch) => {
+  const response = await usersAPI.editUser(userId, name, surname, patronymic, login, password, type, phone, finance, descr);
+  if (response.status < 300) {
+    dispatch(setUserItem(response.data))
+  }
+}

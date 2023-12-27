@@ -3,8 +3,10 @@ import React from "react";
 import { createPortal } from "react-dom";
 import styles from './staffaddpopup.module.css';
 import { useForm } from 'react-hook-form';
-import { addUser, editUser } from "../../../../../redux/usersReducer";
+import { addUser } from "../../../../../redux/usersReducer";
 import { useDispatch } from 'react-redux';
+import { editUser } from "../../../../../redux/userItemReducer";
+
 
 export default function StaffAddPopup(props) {
 
@@ -20,33 +22,40 @@ export default function StaffAddPopup(props) {
     mode: 'onChange',
   });
 
-  const onSubmit = (data => {
+  const addUserLocal = (data) => {
+    dispatch(addUser(
+      data.name,
+      data.surname,
+      data.patronymic,
+      data.login,
+      data.password,
+      data.type,
+      data.phone,
+      data.finance,
+      data.description
+    ));
+    props.close(false);
+    document.body.classList.remove('modal-show');
+  }
 
-      props.detail
-      ?
-      dispatch(editUser(
-        props.user.id,
-        data.name,
-        data.surname,
-        data.patronymic,
-        data.login,
-        data.type,
-        data.phone,
-        data.finance,
-        data.description
-      ))
-      :
-      dispatch(addUser(
-        data.name,
-        data.surname,
-        data.patronymic,
-        data.login,
-        data.password,
-        data.type,
-        data.phone,
-        data.finance,
-        data.description
-      ))
+  const editUserLocal = (data) => {
+    dispatch(editUser(
+      props.user.id,
+      data.name,
+      data.surname,
+      data.patronymic,
+      data.login,
+      data.type,
+      data.phone,
+      data.finance,
+      data.description
+    ));
+    props.close(false);
+    document.body.classList.remove('modal-show');
+  }
+
+  const onSubmit = (data => {
+    props.detail ? editUserLocal(data) : addUserLocal(data)
 
     console.log(data);
   })

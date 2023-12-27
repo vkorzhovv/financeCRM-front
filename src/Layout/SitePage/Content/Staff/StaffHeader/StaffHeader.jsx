@@ -29,6 +29,7 @@ export default function StaffHeader(props) {
         handleClickClose={handleClickClose}
         submitText = {'Добавить'}
         popupHeader = {'Добавить пользователя'}
+        close={setIsOpenPopup}
         />
       }
     </div>

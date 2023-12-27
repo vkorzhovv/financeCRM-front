@@ -4,6 +4,7 @@ const SET_ALL_USERS = 'SET_AUTH';
 const SET_CLIENTS = 'SET_CLIENTS';
 const SET_EMPLOYEES = 'SET_EMPLOYEES';
 const SET_CONTRACTORS = 'SET_CONTRACTORS';
+const ADD_USER = 'ADD_USER';
 
 let initialState = {
   allUsers: [],
@@ -34,10 +35,20 @@ export const usersReducer = (state = initialState, action) => {
         ...state,
         contractors: action.contractors
       }
+    case ADD_USER: {
+      return {
+        ...state,
+        allUsers: [...state.allUsers, action.newUser],
+        contractors: [...state.contractors],
+        employees: [...state.employees],
+        clients: [...state.clients]
+      }
+    }
     default: return {...state};
   }
 }
 
+const setAddUser = (newUser) => ({type: ADD_USER, newUser})
 const setUsers = (allUsers) => ({ type: SET_ALL_USERS, allUsers });
 const setClients = (clients) => ({ type: SET_CLIENTS, clients });
 const setEmployees = (employees) => ({ type: SET_EMPLOYEES, employees });
@@ -65,30 +76,11 @@ export const getContractors = () => async (dispatch) => {
 
 export const addUser = (name, surname, patronymic, login, password, type, phone, finance, descr) => async (dispatch) => {
   const response = await usersAPI.addUser(name, surname, patronymic, login, password, type, phone, finance, descr);
-  if (response.status === 200) {
-    dispatch(setUsers(response.data));
-    dispatch(setClients(response.data));
-    dispatch(setEmployees(response.data));
-    dispatch(setContractors(response.data));
+  if (response.status < 300) {
+    dispatch(setAddUser(response.data))
   }
 }
 
-export const editUser = (userId, name, surname, patronymic, login, password, type, phone, finance, descr) => async (dispatch) => {
-  const response = await usersAPI.editUser(userId, name, surname, patronymic, login, password, type, phone, finance, descr);
-  if (response.status === 200) {
-    dispatch(setUsers(response.data));
-    dispatch(setClients(response.data));
-    dispatch(setEmployees(response.data));
-    dispatch(setContractors(response.data));
-  }
-}
-
-export const deleteUser = (userId) => async (dispatch) => {
-  const response = await usersAPI.deleteUser(userId);
-  if (response.status === 200) {
-    dispatch(setUsers(response.data));
-    dispatch(setClients(response.data));
-    dispatch(setEmployees(response.data));
-    dispatch(setContractors(response.data));
-  }
+export const deleteUser = (userId) => async () => {
+  await usersAPI.deleteUser(userId);
 }
