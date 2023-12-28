@@ -97,7 +97,7 @@ export default function ProjectAddPopup(props) {
             >
               <option value="">Выбрать</option>
               {props.employees && props.employees.map(item =>
-                <option value={item.id} selected={props.detail && item.id === props.project.project_manager.id}>{item.last_name} {item.first_name} {item.father_name}</option>
+                <option value={item.id} selected={props.detail && props.project.project_manager && item.id === props.project.project_manager.id}>{item.last_name} {item.first_name} {item.father_name}</option>
               )}
             </select>
 
@@ -129,7 +129,7 @@ export default function ProjectAddPopup(props) {
             >
               <option value="">Выбрать</option>
               {props.clients && props.clients.map(item =>
-                <option value={item.id} selected={props.detail && item.id === props.project.client.id}>{item.last_name} {item.first_name} {item.father_name}</option>
+                <option value={item.id} selected={props.detail && props.project.client && item.id === props.project.client.id}>{item.last_name} {item.first_name} {item.father_name}</option>
               )}
             </select>
 
@@ -161,7 +161,7 @@ export default function ProjectAddPopup(props) {
             >
               <option value="">Выбрать</option>
               {props.contractors && props.contractors.map(item =>
-                <option value={item.id} selected={props.detail && item.id === props.project.foreman.id}>{item.last_name} {item.first_name} {item.father_name}</option>
+                <option value={item.id} selected={props.detail && props.project.foreman && item.id === props.project.foreman.id}>{item.last_name} {item.first_name} {item.father_name}</option>
               )}
             </select>
             {/* <input

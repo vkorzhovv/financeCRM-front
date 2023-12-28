@@ -13,19 +13,31 @@ export default function ProjectItem(props) {
         {props.item.name}
       </td>
       <td className={classNames(styles.projectCell, styles.cellWidth, styles.centerCell)}>
-        {props.item.project_manager.last_name}&nbsp;
-        {editName(props.item.project_manager.first_name)}&nbsp;
-        {editName(props.item.project_manager.father_name)}
+        {
+          props.item.project_manager
+            ?
+            `${props.item.project_manager.last_name} ${editName(props.item.project_manager.first_name)} ${editName(props.item.project_manager.father_name)}`
+            :
+            'Не выбран'
+        }
       </td>
       <td className={classNames(styles.projectCell, styles.cellWidth, styles.centerCell)}>
-        {props.item.client.last_name}&nbsp;
-        {editName(props.item.client.first_name)}&nbsp;
-        {editName(props.item.client.father_name)}
+        {
+          props.item.client
+            ?
+            `${props.item.client.last_name} ${editName(props.item.client.first_name)} ${editName(props.item.client.father_name)}`
+            :
+            'Не выбран'
+        }
       </td>
       <td className={classNames(styles.projectCell, styles.cellWidth, styles.centerCell)}>
-        {props.item.foreman.last_name}&nbsp;
-        {editName(props.item.foreman.first_name)}&nbsp;
-        {editName(props.item.foreman.father_name)}
+        {
+          props.item.foreman
+            ?
+            `${props.item.foreman.last_name} ${editName(props.item.foreman.first_name)} ${editName(props.item.foreman.father_name)}`
+            :
+            'Не выбран'
+        }
       </td>
       <td className={classNames(styles.projectCell, styles.centerCell)}>
         {editDate(props.item.start_date)}
