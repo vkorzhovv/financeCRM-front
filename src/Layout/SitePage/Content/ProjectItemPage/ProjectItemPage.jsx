@@ -64,21 +64,6 @@ export default function ProjectItemPage(props) {
     },
   ]
 
-  const list = [
-    {
-      name: 'Главный проект',
-      id: 'id'
-    },
-    {
-      name: 'Главный проект',
-      id: 'id'
-    },
-    {
-      name: 'Главный проект',
-      id: 'id'
-    },
-  ]
-
   return (
     <div className={styles.projectItemPage}>
       <PageHeader
@@ -103,8 +88,8 @@ export default function ProjectItemPage(props) {
       <div className={styles.projectItemContent}>
         <div className={styles.projectsList}>
           <p className={styles.projectListTitle}>Название проекта</p>
-          {list.map(item =>
-            <ProjectsList projectItem={item} />
+          {props.allProjects.map(item =>
+            <ProjectsList key={item.id} projectItem={item} />
           )}
         </div>
         <ProjectData

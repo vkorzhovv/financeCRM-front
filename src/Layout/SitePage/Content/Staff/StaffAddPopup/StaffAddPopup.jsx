@@ -7,7 +7,6 @@ import { addUser } from "../../../../../redux/usersReducer";
 import { useDispatch } from 'react-redux';
 import { editUser } from "../../../../../redux/userItemReducer";
 
-
 export default function StaffAddPopup(props) {
 
   const dispatch = useDispatch();

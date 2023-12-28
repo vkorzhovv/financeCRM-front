@@ -29,34 +29,6 @@ export default function StaffItemPage(props) {
     navigate("/staff");
   }
 
-  const staff =
-  {
-    title: 'Клиенты',
-    person: [
-      {
-        surname: 'Дмитриев',
-        name: 'Дмитрий',
-        patronymic: 'Дмитриевич',
-        phone: '+7 (999) 222 22 22',
-        balance: 'баланс'
-      },
-      {
-        surname: 'Игорев',
-        name: 'Игорь',
-        patronymic: 'Игоревич',
-        phone: '+7 (000) 000 00 00',
-        balance: 'баланс'
-      },
-      {
-        surname: 'Васильев',
-        name: 'Василий',
-        patronymic: 'Васильевич',
-        phone: '+7 (000) 070 60 00',
-        balance: 'баланс'
-      },
-    ]
-  }
-
   return (
     <div className={styles.staffItemPage}>
       <PageHeader
@@ -78,8 +50,8 @@ export default function StaffItemPage(props) {
       }
       <div className={styles.staffItemContent}>
         <StaffItem
-          title={staff.title}
-          people={staff.person}
+          title={props.userListTitle}
+          people={props.userList}
         />
         <TheMan user={props.user} />
       </div>
