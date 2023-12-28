@@ -1,0 +1,105 @@
+.name {
+  margin-right: 10px;
+  font-family: Roboto Condensed;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.avatarBox {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.userPopup {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 360px;
+  padding: 22px 30px 30px 30px;
+  border: 1px solid var(--greyE1);
+  border-radius: 10px;
+  background-color: var(--whiteF8);
+  z-index: 100;
+}
+
+.userData {
+  justify-content: flex-start;
+  padding: 0 10px 20px 10px;
+}
+
+.userInfo {
+  align-self: stretch;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.userFullName {
+  justify-content: flex-start;
+}
+
+.email {
+  color: var(--grey78);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.popupBtnBox {
+  border-top: 1px solid var(--greyE1);
+}
+
+.cabinetBtnBox {
+  padding: 20px 10px;
+}
+
+.exitBtnBox {
+  padding: 20px 10px 0 10px;
+}
+
+.popupBtn {
+  border: unset;
+  background-color: transparent;
+}
+
+.popupBtn svg {
+  margin-right: 15px;
+  pointer-events: none;
+}
+
+.popupBtn svg * {
+  transition: .3s;
+}
+
+.popupBtn span {
+  font-size: 18px;
+  line-height: 21px;
+  transition: .3s;
+  pointer-events: none;
+}
+
+.strokeSVG:hover svg * {
+  stroke: var(--green63);
+}
+
+.fillSVG:hover svg * {
+  fill: var(--green63);
+}
+
+.popupBtn:hover span {
+  color: var(--green63);
+}
+.strokeSVG:active svg * {
+  stroke: var(--black05);
+}
+
+.fillSVG:active svg * {
+  fill: var(--black05);
+}
+
+.popupBtn:active span {
+  color: var(--black05);
+}

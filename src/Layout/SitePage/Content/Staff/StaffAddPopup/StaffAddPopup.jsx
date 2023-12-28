@@ -225,7 +225,7 @@ export default function StaffAddPopup(props) {
               type='text'
               name='phone'
               defaultValue={props.detail && props.user.phone}
-              placeholder='7800000000'
+              placeholder='+7800000000'
               {...register('phone',
                 {
                   required: 'Введите номер телефона',

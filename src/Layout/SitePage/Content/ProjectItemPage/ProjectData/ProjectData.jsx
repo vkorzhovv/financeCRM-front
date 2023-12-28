@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './projectdata.module.css';
 import classNames from 'classnames';
-import ProjectMoney from './ProjectMoney/ProjectMoney';
+import { editDate } from '../../../../../utils/dateEditor';
+import ProjectMoneyBox from './ProjectMoneyBox/ProjectMoneyBox';
 
 export default function ProjectData(props) {
 
@@ -20,7 +21,7 @@ export default function ProjectData(props) {
             <div className={classNames('flex', styles.projectHeader)}>
               <h2 className={styles.theProjectTitle}>{props.project.name}</h2>
               <div className={styles.status}>
-                {props.project.active ? "Активен" : "Неактивен"}
+                {props.project.active ? <span className={styles.statusTrue}>Активен</span> : <span className={styles.statusFalse}>Неактивен</span>}
               </div>
             </div>
             <div className={classNames('flex', styles.projectMainInfo)}>
@@ -54,10 +55,10 @@ export default function ProjectData(props) {
               <tbody>
                 <tr className={styles.projectTableItem}>
                   <td>
-                    {props.project.start_date}
+                    {editDate(props.project.start_date)}
                   </td>
                   <td>
-                    {props.project.end_date}
+                    {editDate(props.project.end_date)}
                   </td>
                   <td>
                     {props.project.price}
@@ -70,38 +71,18 @@ export default function ProjectData(props) {
             </table>
           </div>
         </div>
-        <div className={classNames(styles.projectDataItem, styles.projectMoney)}>
-          <div className={classNames('flex', styles.moneyHeader)}>
-            <h3 className={classNames(styles.moneyHeaderText)}>Поступления по проекту</h3>
-            <div className={classNames('flex')}>
-              <p className={classNames(styles.moneyHeaderText, styles.moneyHeaderSumm)}>Общая сумма</p>
-              <div>Плюс</div>
-            </div>
-          </div>
-          <table className={styles.moneyTable}>
-            <tbody>
-              {props.payments.map(item =>
-                <ProjectMoney money={item} />
-              )}
-            </tbody>
-          </table>
+        <div className={styles.projectDataItem}>
+          <ProjectMoneyBox
+            title={"Поступления по проекту"}
+            cash={props.payments}
+          />
         </div>
       </div>
-      <div className={classNames(styles.projectDataItem, styles.projectMoney)}>
-        <div className={classNames('flex', styles.moneyHeader)}>
-          <h3 className={classNames(styles.moneyHeaderText)}>Расходы по проекту</h3>
-          <div className={classNames('flex')}>
-            <p className={classNames(styles.moneyHeaderText, styles.moneyHeaderSumm)}>Общая сумма</p>
-            <div>Плюс</div>
-          </div>
-        </div>
-        <table className={styles.moneyTable}>
-          <tbody>
-            {props.costs.map(item =>
-              <ProjectMoney money={item} />
-            )}
-          </tbody>
-        </table>
+      <div className={styles.projectDataItem}>
+        <ProjectMoneyBox
+          title={"Расходы по проекту"}
+          cash={props.costs}
+        />
       </div>
     </div>
   );

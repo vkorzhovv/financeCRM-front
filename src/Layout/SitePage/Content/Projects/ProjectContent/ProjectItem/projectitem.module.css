@@ -31,6 +31,9 @@
   text-align: center;
 }
 
-.statusCell {
+.statusTrue {
   color: var(--green76);
+}
+.statusFalse {
+  color: var(--redCF);
 }

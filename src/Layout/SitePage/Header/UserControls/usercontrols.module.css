@@ -1,3 +1,16 @@
+.controls {
+  position: relative;
+}
+
+.userBtn {
+  border: unset;
+  background-color: transparent;
+}
+
 .name {
   margin-right: 10px;
+  font-family: Roboto Condensed;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 21px;
 }

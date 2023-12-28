@@ -42,8 +42,8 @@ export default function ProjectItem(props) {
       <td className={classNames(styles.projectCell, styles.centerCell)}>
         {props.item.expenses}
       </td>
-      <td className={classNames(styles.projectCell, styles.centerCell, styles.statusCell)}>
-        {props.item.active ? "Активен" : "Неактивен"}
+      <td className={classNames(styles.projectCell, styles.centerCell)}>
+        {props.item.active ? <span className={styles.statusTrue}>Активен</span> : <span className={styles.statusFalse}>Неактивен</span>}
       </td>
       <NavLink
         to={`/projects/${props.item.id}`}

@@ -1,0 +1,20 @@
+.controlBtn:not(:last-child) {
+  margin-right: 10px;
+}
+
+.controlBtn {
+  border: unset;
+  background-color: transparent;
+}
+
+.controlBtn svg * {
+  transition: .3s;
+}
+
+.strokeSVG:hover svg * {
+  stroke: var(--green63);
+}
+
+.fillSVG:hover svg * {
+  fill: var(--green63);
+}

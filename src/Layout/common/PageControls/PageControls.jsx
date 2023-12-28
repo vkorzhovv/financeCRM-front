@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styles from './pagecontrols.module.css';
 import classNames from 'classnames';
+import SettingsIcon from '../../../svgIcons/settings';
+import SearchIcon from '../../../svgIcons/search';
 
 export default function PageControls(props) {
 
@@ -18,13 +20,13 @@ export default function PageControls(props) {
             ? classNames(styles.searchInput, styles.searchVisible)
             : styles.searchInput}
           placeholder='Введите запрос'></input>
-        <button className={classNames(styles.searchBtn)} onClick={handleClick}>
-          Искать
+        <button className={classNames(styles.searchBtn, styles.controlsBtn)} onClick={handleClick}>
+          <SearchIcon />
         </button>
       </div>
       <div className={classNames(styles.pageControlItem, styles.settingsBlock)}>
-        <button className={classNames(styles.settingsBtn)}>
-          Настройки
+        <button className={classNames(styles.settingsBtn, styles.controlsBtn)}>
+          <SettingsIcon />
         </button>
       </div>
       {props.detail &&
