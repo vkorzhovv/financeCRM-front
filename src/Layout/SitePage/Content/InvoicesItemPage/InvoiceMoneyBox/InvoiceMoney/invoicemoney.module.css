@@ -1,0 +1,11 @@
+.moneyCell {
+  padding: 20px 5px;
+  text-align: center;
+}
+
+.statusTrue {
+  color: var(--green76);
+}
+.statusFalse {
+  color: var(--redCF);
+}

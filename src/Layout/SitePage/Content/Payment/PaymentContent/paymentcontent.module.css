@@ -1,0 +1,22 @@
+.paymentContent {
+  width: 100%;
+  padding: 20px 30px;
+  border-radius: 10px;
+  background-color: var(--whiteF8);
+}
+
+.titles {
+  position: relative;
+}
+
+.titles::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-bottom: 1px solid var(--greyE1);
+  pointer-events: none;
+}
+
+.titlesItem {
+  padding-bottom: 25px;
+}

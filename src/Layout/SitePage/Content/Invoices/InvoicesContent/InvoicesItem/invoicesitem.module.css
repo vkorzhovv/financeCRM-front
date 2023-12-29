@@ -1,0 +1,39 @@
+.invoicesItem {
+  position: relative;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.invoicesItem::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 5px;
+  transition: .3s;
+  z-index: 1;
+}
+
+.invoicesItem:hover::after {
+  background-color: var(--greenC8);
+}
+
+.invoicesCell {
+  position: relative;
+  padding: 22px 5px;
+  z-index: 5;
+}
+
+.cellWidth {
+  max-width: 12%;
+}
+
+.centerCell {
+  text-align: center;
+}
+
+.statusTrue {
+  color: var(--green76);
+}
+.statusFalse {
+  color: var(--redCF);
+}

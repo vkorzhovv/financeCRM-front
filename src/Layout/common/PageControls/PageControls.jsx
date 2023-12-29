@@ -24,11 +24,25 @@ export default function PageControls(props) {
           <SearchIcon />
         </button>
       </div>
-      <div className={classNames(styles.pageControlItem, styles.settingsBlock)}>
-        <button className={classNames(styles.settingsBtn, styles.controlsBtn)}>
-          <SettingsIcon />
-        </button>
-      </div>
+      {
+        !props.withoutCash &&
+        <div className={classNames(styles.pageControlItem, styles.settingsBlock)}>
+          <button className={classNames(styles.settingsBtn, styles.controlsBtn)}>
+            <SettingsIcon />
+          </button>
+        </div>
+      }
+      {
+        props.withInvoices &&
+        <div className={classNames(styles.invoicesBtnBlock)}>
+          <button className={classNames(styles.invoicesBtn)}>
+            Неоплаченные счета
+          </button>
+          <button className={classNames(styles.invoicesBtn)}>
+            Дебиторка
+          </button>
+        </div>
+      }
       {props.detail &&
         <div className={classNames(styles.pageControlItem, styles.deleteBlock)}>
           <button

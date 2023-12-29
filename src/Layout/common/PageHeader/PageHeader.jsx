@@ -15,6 +15,8 @@ export default function PageHeader(props) {
         handleClickAdd={props.handleClickAdd}
         detail={props.detail}
         onDelete={props.onDelete}
+        withoutCash={props.withoutCash}
+        withInvoices={props.withInvoices}
       />
     </div>
   );

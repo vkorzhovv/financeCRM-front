@@ -1,0 +1,12 @@
+.paymentLink {
+  display: block;
+  text-align: center;
+  padding: 22px 0;
+  border-radius: 5px;
+  background-color: transition;
+  transition: .3s;
+}
+
+.paymentLink:hover {
+  background-color: var(--greenC8);
+}

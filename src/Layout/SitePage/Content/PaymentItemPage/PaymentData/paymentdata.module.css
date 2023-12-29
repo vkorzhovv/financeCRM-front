@@ -1,0 +1,131 @@
+.paymentData {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.paymentMainInfo {
+  justify-content: flex-start;
+}
+
+.leftItem {
+  margin-bottom: 20px;
+}
+
+.paymentDataItem:first-child {
+  margin-bottom: 20px;
+}
+
+.paymentDataItem {
+  width: 100%;
+  height: max-content;
+  padding: 27px 30px 30px 30px;
+  border-radius: 10px;
+  background-color: var(--whiteF8);
+}
+
+.paymentDataMain {
+  padding: 20px 30px 30px 30px;
+}
+
+.paymentHeader {
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 30px;
+  padding: 0 10px 13px 10px;
+  border-bottom: 1px solid var(--greyE1);
+}
+
+.thepaymentTitle {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.status {
+  padding: 0 20px;
+}
+
+.statusTrue {
+  color: var(--green76);
+}
+.statusFalse {
+  color: var(--redCF);
+}
+
+.paymentDataList {
+  min-width: 200px;
+  margin-right: 50px;
+}
+
+.paymentDataField {
+  justify-content: flex-start;
+}
+
+.paymentDataField:not(:last-child) {
+  margin-bottom: 18px;
+}
+
+.paymentDataTitle {
+  margin-right: 12px;
+}
+
+.description {
+  align-self: start;
+}
+
+.paymentTable {
+  width: 100%;
+}
+
+.paymentTable td {
+  text-align: center;
+}
+
+.paymentTableTitles {
+  position: relative;
+}
+
+.paymentTableTitles th {
+  padding-bottom: 20px;
+}
+
+.paymentTableItem td {
+  padding-top: 25px;
+}
+
+.paymentTableTitles::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-bottom: 1px solid var(--greyE1);
+  pointer-events: none;
+}
+
+.attachmentHeader {
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 0 10px 20px 10px;
+  border-bottom: 1px solid var(--greyE1);
+}
+
+.attachmentHeaderText {
+  font-size: 18px;
+}
+
+.attachmentField {
+  justify-content: flex-start;
+  margin-top: 25px;
+  padding-left: 10px;
+}
+
+.attachmentFieldName {
+  width: 100px;
+  margin-right: 80px;
+}
+
+.attachmentFieldDocument {
+  display: inline-block;
+  margin-right: 10px;
+  border-bottom: 1px solid var(--black05);
+}

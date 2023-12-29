@@ -1,0 +1,142 @@
+.invoiceData {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.invoiceMainInfo {
+  justify-content: flex-start;
+}
+
+.leftItem {
+  margin-bottom: 20px;
+}
+
+.invoiceDataItem {
+  width: 100%;
+  height: max-content;
+  padding: 27px 30px 30px 30px;
+  border-radius: 10px;
+  background-color: var(--whiteF8);
+}
+
+.invoiceDataMain {
+  padding: 20px 30px 30px 30px;
+}
+
+.invoiceHeader {
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 30px;
+  padding: 0 10px 13px 10px;
+  border-bottom: 1px solid var(--greyE1);
+}
+
+.theinvoiceTitle {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.status {
+  padding: 0 20px;
+}
+
+.statusTrue {
+  color: var(--green76);
+}
+.statusFalse {
+  color: var(--redCF);
+}
+
+.invoiceDataList {
+  min-width: 200px;
+  margin-right: 20px;
+}
+
+.invoiceDataField {
+  justify-content: flex-start;
+}
+
+.invoiceDataField:not(:last-child) {
+  margin-bottom: 18px;
+}
+
+.invoiceDataTitle {
+  margin-right: 12px;
+}
+
+.description {
+  align-self: start;
+}
+
+.invoiceTable {
+  width: 100%;
+}
+
+.invoiceTable td {
+  text-align: center;
+}
+
+.invoiceTableTitles {
+  position: relative;
+}
+
+.invoiceTableTitles th {
+  padding-bottom: 20px;
+}
+
+.invoiceTableItem td {
+  padding-top: 25px;
+}
+
+.invoiceTableTitles::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-bottom: 1px solid var(--greyE1);
+  pointer-events: none;
+}
+
+.moneyHeader {
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 0 10px 20px 10px;
+  border-bottom: 1px solid var(--greyE1);
+}
+
+.moneyHeaderText {
+  font-size: 18px;
+}
+
+.moneyHeaderSumm {
+  margin-right: 20px;
+}
+
+.moneyTable {
+  width: 100%;
+}
+
+.addPayBtn {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border-radius: 50%;
+  padding: 5px;
+  border: 1px solid var(--black05);
+  transition: .3s;
+}
+
+.line {
+  position: absolute;
+  inset: 5px;
+  top: calc(50% - 1px);
+  display: block;
+  height: 1px;
+  background-color: var(--black05);
+}
+
+.verLine {
+  transform: rotate(90deg);
+}

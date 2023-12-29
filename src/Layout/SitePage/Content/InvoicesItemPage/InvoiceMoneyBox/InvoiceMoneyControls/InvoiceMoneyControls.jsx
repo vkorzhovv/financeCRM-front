@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './moneycontrols.module.css';
+import styles from './invoicemoneycontrols.module.css';
 import classNames from 'classnames';
-import DeleteIcon from '../../../../../../../svgIcons/delete';
-import EditIcon from '../../../../../../../svgIcons/edit';
-import CheckIcon from '../../../../../../../svgIcons/check';
+import DeleteIcon from '../../../../../../svgIcons/delete';
+import EditIcon from '../../../../../../svgIcons/edit';
+import CheckIcon from '../../../../../../svgIcons/check';
 
-export default function MoneyControls(props) {
+export default function InvoiceMoneyControls(props) {
 
   return (
     <div className={classNames('flex', styles.moneyControls)}>

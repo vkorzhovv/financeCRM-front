@@ -33,3 +33,18 @@
 .controlsBtn:active svg path {
   stroke: var(--black05);
 }
+
+.invoicesBtnBlock {
+  margin-left: 20px;
+}
+
+.invoicesBtn:first-child {
+  margin-right: 20px;
+}
+
+.invoicesBtn {
+  padding-bottom: 5px;
+  border: unset;
+  border-bottom: 1px solid var(--black05);
+  background-color: transparent;
+}
