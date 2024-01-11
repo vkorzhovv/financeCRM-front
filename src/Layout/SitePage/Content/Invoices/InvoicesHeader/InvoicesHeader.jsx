@@ -1,11 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import PageHeader from '../../../../common/PageHeader/PageHeader';
-import InvoicesAddPopup from '../InvoicesAddPopup/InvoicesAddPopup';
-// import { useState } from 'react';
-// import StaffAddPopup from '../StaffAddPopup/StaffAddPopup';
+import InvoicesAddPopupContainer from '../InvoicesAddPopup/InvoicesAddPopupContainer';
 import styles from './invoicesheader.module.css';
-// import classNames from 'classnames';
 
 export default function InvoicesHeader(props) {
 
@@ -22,13 +19,13 @@ export default function InvoicesHeader(props) {
   return (
     <div className={styles.staffheader}>
       <PageHeader
-        title={'Счета на оплату'}
+        title={'Начисления'}
         addBtnText={'Добавить'}
         withInvoices={'withInvoices'}
         handleClickAdd={handleClickOpen}
       />
       {
-        isOpenPopup && <InvoicesAddPopup
+        isOpenPopup && <InvoicesAddPopupContainer
         handleClickClose={handleClickClose}
         submitText = {'Добавить'}
         popupHeader = {'Добавить счет'}

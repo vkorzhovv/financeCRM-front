@@ -53,14 +53,18 @@ export default function PageControls(props) {
           </button>
         </div>
       }
-      <div className={classNames(styles.pageControlItem, styles.addBlock)}>
-        <button
-          className={classNames('btn', styles.addBtn)}
-          onClick={props.handleClickAdd}
-        >
-          {props.addBtnText}
-        </button>
-      </div>
+      {
+        !props.withoutCash &&
+        <div className={classNames(styles.pageControlItem, styles.addBlock)}>
+          <button
+            className={classNames('btn', styles.addBtn)}
+            onClick={props.handleClickAdd}
+          >
+            {props.addBtnText}
+          </button>
+        </div>
+      }
+
     </div>
   );
 }

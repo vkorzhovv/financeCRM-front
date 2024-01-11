@@ -10,10 +10,12 @@ export default function CashContentItem(props) {
         {props.title}
       </h2>
       <div className={styles.cashWrapper}>
-        {props.item.map(item =>
+        {props.items.map(item =>
           <CashData
+            key={item.id}
+            id={item.id}
             name={item.name}
-            type={item.type}
+            type={item.item_type}
             isOpenPopup={props.isOpenPopup}
             handleClickClose={props.handleClickClose}
             handleClickOpen={props.handleClickOpen}

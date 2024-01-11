@@ -13,7 +13,7 @@ export default function PaymentContent(props) {
     'Плательщик',
     'Дата начисления',
     'Статус платежа',
-    'Сумма начислено',
+    'Сумма счета',
     'Сумма оплачено',
   ]
 
@@ -28,7 +28,7 @@ export default function PaymentContent(props) {
           </tr>
         </thead>
         <tbody>
-          {props.payment && props.payment.map(item =>
+          {props.payments && props.payments.map(item =>
             <PaymentItem
               key={item.id}
               item={item}

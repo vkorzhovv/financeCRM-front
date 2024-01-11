@@ -16,7 +16,7 @@ export const projectItemReducer = (state = initialState, action) => {
     default: return state;
   }
 }
-
+ 
 const setProjectItem = (projectItem) => ({ type: SET_PROJECT_ITEM, projectItem });
 
 export const getProjectItem = (projectId) => async (dispatch) => {

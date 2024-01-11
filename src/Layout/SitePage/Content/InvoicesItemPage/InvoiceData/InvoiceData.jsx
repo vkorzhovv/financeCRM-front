@@ -1,15 +1,16 @@
 import React from 'react';
 import styles from './invoicedata.module.css';
 import classNames from 'classnames';
-import { editDate } from '../../../../../utils/dateEditor';
 import InvoiceMoneyBox from '../InvoiceMoneyBox/InvoiceMoneyBox';
+import PaymentAddPopupContainer from '../../Payment/PaymentAddPopup/PaymentAddPopupContainer';
+import { editDate } from '../../../../../utils/dateEditor';
 
 export default function InvoiceData(props) {
 
   const invoiceTh = [
-    'Дата выставления',
     'Сумма счета',
-    'Сумма поступления',
+    'Поступления',
+    'Остаток',
     'Статус оплаты',
   ]
 
@@ -19,29 +20,45 @@ export default function InvoiceData(props) {
         <div className={classNames(styles.leftItem)}>
           <div className={classNames(styles.leftItem, styles.invoiceDataItem, styles.invoiceDataMain)}>
             <div className={classNames('flex', styles.invoiceHeader)}>
-              <h2 className={styles.theinvoiceTitle}>{props.invoice.name}</h2>
+              <h2 className={styles.theinvoiceTitle}>Счет № {props.invoice.id + 10000} <span>от {editDate(props.invoice.date)}</span></h2>
             </div>
             <div className={classNames('flex', styles.invoiceMainInfo)}>
               <div className={styles.invoiceDataList}>
                 <div className={classNames('flex', styles.invoiceDataField)}>
-                  <p className={styles.invoiceDataTitle}>Проект:</p> <p>{props.invoice.project}</p>
+                  <p className={styles.invoiceDataTitle}>Проект:</p> <p>{props.invoice.project ? props.invoice.project.name : 'Не выбран'}</p>
                 </div>
                 <div className={classNames('flex', styles.invoiceDataField)}>
-                  <p className={styles.invoiceDataTitle}>Получатель:</p><p>{props.invoice.recipient.last_name} {props.invoice.recipient.first_name}</p>
+                  <p className={styles.invoiceDataTitle}>Получатель:</p><p>
+                    {
+                      props.invoice.receiver
+                        ?
+                        `${props.invoice.receiver.last_name} ${props.invoice.receiver.first_name}`
+                        :
+                        'Не выбран'
+                    }
+                  </p>
                 </div>
                 <div className={classNames('flex', styles.invoiceDataField)}>
-                  <p className={styles.invoiceDataTitle}>Плательщик:</p><p>{props.invoice.payer.last_name} {props.invoice.payer.first_name}</p>
+                  <p className={styles.invoiceDataTitle}>Плательщик:</p><p>
+                    {
+                      props.invoice.payer
+                        ?
+                        `${props.invoice.payer.last_name} ${props.invoice.payer.first_name}`
+                        :
+                        'Не выбран'
+                    }
+                  </p>
                 </div>
                 <div className={classNames('flex', styles.invoiceDataField)}>
-                  <p className={styles.invoiceDataTitle}>Тип начисления:</p><p>Тип начисления</p>
+                  <p className={styles.invoiceDataTitle}>Тип начисления:</p><p>{props.invoice.payment_type}</p>
                 </div>
                 <div className={classNames('flex', styles.invoiceDataField)}>
-                  <p className={styles.invoiceDataTitle}>Назначение начисления:</p><p>Назначение начисления</p>
+                  <p className={styles.invoiceDataTitle}>Назначение начисления:</p><p>{props.invoice.subtype}</p>
                 </div>
               </div>
               <div className={styles.description}>
                 <p>
-                  {props.invoice.description}
+                  {props.invoice.comment}
                 </p>
               </div>
             </div>
@@ -58,7 +75,7 @@ export default function InvoiceData(props) {
               <tbody>
                 <tr className={styles.invoiceTableItem}>
                   <td>
-                    {editDate(props.invoice.date)}
+                    {props.invoice.summ}
                   </td>
                   <td>
                     {props.invoice.summ}
@@ -67,7 +84,7 @@ export default function InvoiceData(props) {
                     {props.invoice.receipt}
                   </td>
                   <td>
-                    {props.invoice.status ? <span className={styles.statusTrue}>Оплачено</span> : <span className={styles.statusFalse}>Не оплачено</span>}
+                    {props.invoice.approved ? <span className={styles.statusTrue}>Оплачено</span> : <span className={styles.statusFalse}>Не оплачено</span>}
                   </td>
                 </tr>
               </tbody>
@@ -75,10 +92,17 @@ export default function InvoiceData(props) {
           </div>
         </div>
       </div>
-      <div className={styles.invoiceDataItem}>
-        <InvoiceMoneyBox
-          title={"Поступления по счету"}
-          cash={props.costs}
+      <div>
+        <div className={classNames(styles.invoiceDataItem, styles.paymentsBox)}>
+          <InvoiceMoneyBox
+            title={"Поступления по счету"}
+            cash={props.costs}
+          />
+        </div>
+        <PaymentAddPopupContainer
+          isStatic={'isStatic'}
+          submitText={'Добавить'}
+          popupHeader={`Добавить платеж`}
         />
       </div>
     </div>

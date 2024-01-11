@@ -10,30 +10,30 @@ export default function PaymentItem(props) {
   return (
     <tr className={styles.paymentItem}>
       <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell)}>
-        {props.item.number_payment}
+        Платеж № {props.item.id + 10000}
       </td>
       <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell)}>
-        {props.item.number_check}
+        Счет № {props.item.invoice.id + 10000}
       </td>
       <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell)}>
         {
-          props.item.project
+          props.item.invoice.project && props.item.invoice.project.name
         }
       </td>
       <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell)}>
         {
-          props.item.recipient
+          props.item.invoice.receiver
             ?
-            `${props.item.recipient.last_name} ${editName(props.item.recipient.first_name)} ${editName(props.item.recipient.father_name)}`
+            `${props.item.invoice.receiver.last_name} ${editName(props.item.invoice.receiver.first_name)} ${editName(props.item.invoice.receiver.father_name)}`
             :
             'Не выбран'
         }
       </td>
       <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell)}>
         {
-          props.item.payer
+          props.item.invoice.payer
             ?
-            `${props.item.payer.last_name} ${editName(props.item.payer.first_name)} ${editName(props.item.payer.father_name)}`
+            `${props.item.invoice.payer.last_name} ${editName(props.item.invoice.payer.first_name)} ${editName(props.item.invoice.payer.father_name)}`
             :
             'Не выбран'
         }
@@ -42,13 +42,13 @@ export default function PaymentItem(props) {
         {editDate(props.item.date)}
       </td>
       <td className={classNames(styles.paymentCell, styles.centerCell)}>
-        {props.item.status ? <span className={styles.statusTrue}>Подтвержден</span> : <span className={styles.statusFalse}>Не подтвержден</span>}
+        {props.item.approved ? <span className={styles.statusTrue}>Подтвержден</span> : <span className={styles.statusFalse}>Не подтвержден</span>}
       </td>
       <td className={classNames(styles.paymentCell, styles.centerCell)}>
-        {props.item.summ_plus}
+        {props.item.total}
       </td>
       <td className={classNames(styles.paymentCell, styles.centerCell)}>
-      {props.item.summ_minus}
+        {props.item.total}
       </td>
       <NavLink
         to={`/payment/${props.item.id}`}

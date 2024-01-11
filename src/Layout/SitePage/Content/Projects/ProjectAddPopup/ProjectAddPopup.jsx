@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import styles from './projectaddpopup.module.css';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { addProject } from "../../../../../redux/projectsReducer";
+import { addProject, getProjects } from "../../../../../redux/projectsReducer";
 import { editProject } from "../../../../../redux/projectItemReducer";
 
 export default function ProjectAddPopup(props) {
@@ -22,14 +22,36 @@ export default function ProjectAddPopup(props) {
   });
 
   const addProjectLocal = (data) => {
-    dispatch(addProject(data.name, data.description, data.start, data.end, data.summ, Boolean(Number(data.status)), Number(data.manager), Number(data.client), Number(data.foreman)));
+    dispatch(addProject(
+      data.name,
+      data.description,
+      data.start,
+      data.end,
+      data.summ,
+      Boolean(Number(data.status)),
+      Number(data.manager),
+      Number(data.client),
+      Number(data.foreman)));
     props.close(false)
     document.body.classList.remove('modal-show');
   }
-  const editProjectLocal = (data) => {
-    dispatch(editProject(props.project.id, data.name, data.description, data.start, data.end, data.summ, Boolean(Number(data.status)), Number(data.manager), Number(data.client), Number(data.foreman)));
-    props.close(false)
-    document.body.classList.remove('modal-show');
+  const editProjectLocal = async (data) => {
+    await dispatch(editProject(
+      props.project.id,
+      data.name,
+      data.description,
+      data.start,
+      data.end,
+      data.summ,
+      Boolean(Number(data.status)),
+      Number(data.manager),
+      Number(data.client),
+      Number(data.foreman)))
+      .then(() => {
+        props.close(false)
+        document.body.classList.remove('modal-show');
+        dispatch(getProjects());
+      })
   }
 
   const onSubmit = (data => {
@@ -274,7 +296,7 @@ export default function ProjectAddPopup(props) {
               onClick={props.handleClickClose}
               type="button"
             >
-              Отмена
+              Отменить
             </button>
             <input
               className={classNames('btn')}

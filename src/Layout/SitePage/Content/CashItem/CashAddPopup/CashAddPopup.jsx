@@ -1,29 +1,48 @@
 import classNames from "classnames";
 import React from "react";
-import { createPortal } from "react-dom";
 import styles from './cashaddpopup.module.css';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from "react-redux";
+import { addItem, editItem, getItems } from "../../../../../redux/cashItemReducer";
 
 export default function CashAddPopup(props) {
+
+  const dispatch = useDispatch();
 
   const {
     clearErrors,
     // setError,
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid }
   } = useForm({
     mode: 'onChange',
   });
 
+  const addCashItem = async (data) => {
+    await dispatch(addItem(data.type, data.name))
+      .then(reset())
+  }
+
+  const editCashItem = async (data) => {
+    await dispatch(editItem(props.id, data.type, data.name))
+      .then(() => {
+        props.close(false)
+        document.body.classList.remove('modal-show');
+        dispatch(getItems())
+      }
+      )
+  }
+
   const onSubmit = (data => {
-    console.log(data)
+    props.detail ? editCashItem(data) : addCashItem(data)
   })
 
-  return createPortal((
-    <div className={classNames('flex', 'popup', styles.cashAddPopup)}>
-      <div className={classNames('popupWindow', styles.cashPopupWindow)}>
-        <h3 className={classNames('popupHeader')}>{props.popupHeader}</h3>
+  return (
+    <div className={classNames('flex', props.isStatic ? styles.cashAddPopupStatic : 'popup')}>
+      <div className={classNames(props.isStatic ? styles.cashPopupStaticWindow : 'popupWindow')}>
+        <h3 className={classNames(props.isStatic ? styles.popupHeaderStatic : 'popupHeader')}>{props.popupHeader}</h3>
         <form
           className={classNames('flex', 'popupform', styles.staffForm)}
           onSubmit={handleSubmit(onSubmit)}
@@ -32,28 +51,10 @@ export default function CashAddPopup(props) {
           }
           }
         >
-          <div className={!errors.name
-            ? classNames('popupInputBox', styles.inputBox)
-            : classNames('popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <input
-              className={!errors.name
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
-              type='text'
-              name='name'
-              // defaultValue={props.detail && props.user.username}
-              placeholder='Название статьи'
-              {...register('name',
-                {
-                  required: 'Введите название',
-                })}
-            />
-            {errors.name && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.name.message}</div>}
-          </div>
           <div className={!errors.type
-            ? classNames('flex', 'popupInputBox', styles.inputBox)
-            : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel', styles.staffLabel)} htmlFor="type">Тип статьи</label>
+            ? classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox')
+            : classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox', 'popupBoxError', styles.boxError)}>
+            <label className={classNames('popupLabel', styles.cashLabel)} htmlFor="type">Тип статьи</label>
             <select {...register('type', {
               required: 'Выберите тип',
             })}
@@ -62,20 +63,44 @@ export default function CashAddPopup(props) {
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
             >
               <option value="">Выбрать</option>
-              <option value="1">Тип 1</option>
-              <option value="2">Тип 2</option>
-              <option value="3">Тип 3</option>
+              <option value="p" selected={props.detail && props.type === 'p'}>Поступление</option>
+              <option value="o" selected={props.detail && props.type === 'o'}>Операционные</option>
+              <option value="s" selected={props.detail && props.type === 's'}>Стройматериалы</option>
+              <option value="n" selected={props.detail && props.type === 'n'}>Налоги</option>
+              <option value="z" selected={props.detail && props.type === 'z'}>Зарплата</option>
+              <option value="d" selected={props.detail && props.type === 'd'}>Другие</option>
             </select>
             {errors.type && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.type.message}</div>}
           </div>
+          <div className={!errors.name
+            ? classNames(props.isStatic ? styles.inputBoxStatic : 'popupInputBox')
+            : classNames(props.isStatic ? styles.inputBoxStatic : 'popupInputBox', 'popupBoxError', styles.boxError)}>
+            <input
+              className={!errors.name
+                ? classNames('popupInput', styles.input)
+                : classNames('popupInput', 'popupError', styles.input, styles.error)}
+              type='text'
+              name='name'
+              defaultValue={props.detail && props.name}
+              placeholder='Название статьи'
+              {...register('name',
+                {
+                  required: 'Введите название',
+                })}
+            />
+            {errors.name && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.name.message}</div>}
+          </div>
           <div className={classNames('popupBtnsWrapper', styles.btnsWrapper)}>
-            <button
-              className={classNames('btn', 'btnTransparent')}
-              onClick={props.handleClickClose}
-              type="button"
-            >
-              Отмена
-            </button>
+            {
+              props.handleClickClose &&
+              <button
+                className={classNames('btn', 'btnTransparent')}
+                onClick={props.handleClickClose}
+                type="button"
+              >
+                Отменить
+              </button>
+            }
             <input
               className={classNames('btn')}
               type='submit'
@@ -86,5 +111,5 @@ export default function CashAddPopup(props) {
         </form>
       </div>
     </div>
-  ), document.getElementById('modal_root'))
+  )
 }

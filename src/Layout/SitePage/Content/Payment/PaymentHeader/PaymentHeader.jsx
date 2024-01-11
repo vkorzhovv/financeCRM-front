@@ -2,7 +2,7 @@ import React from 'react';
 import PageHeader from '../../../../common/PageHeader/PageHeader';
 import { useState } from 'react';
 import styles from './paymentheader.module.css';
-import PaymentAddPopup from '../PaymentAddPopup/PaymentAddPopup';
+import PaymentAddPopupContainer from '../PaymentAddPopup/PaymentAddPopupContainer';
 // import classNames from 'classnames';
 
 export default function PaymentHeader(props) {
@@ -20,12 +20,12 @@ export default function PaymentHeader(props) {
   return (
     <div className={styles.staffheader}>
       <PageHeader
-        title={'Оплата'}
+        title={'Платежи'}
         addBtnText={'Добавить'}
         handleClickAdd={handleClickOpen}
       />
       {
-        isOpenPopup && <PaymentAddPopup
+        isOpenPopup && <PaymentAddPopupContainer
           handleClickClose={handleClickClose}
           submitText={'Добавить'}
           popupHeader={'Добавить платеж'}

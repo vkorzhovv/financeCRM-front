@@ -1,6 +1,6 @@
 .cashContent {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 55% calc(45% - 20px);
   gap: 20px;
 }

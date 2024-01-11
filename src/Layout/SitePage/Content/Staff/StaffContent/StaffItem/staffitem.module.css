@@ -1,4 +1,5 @@
 .staffItem {
+  height: max-content;
   padding: 20px 30px;
   border-radius: 10px;
   background-color: var(--whiteF8);

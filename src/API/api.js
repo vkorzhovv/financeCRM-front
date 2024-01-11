@@ -224,3 +224,200 @@ export const projectsAPI = {
     )
   }
 }
+
+export const cashItemAPI = {
+  getItems() {
+    return instance.get('/api/items/', {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
+  addItem(type, name) {
+    return instance.post('/api/items/',
+      {
+        item_type: type,
+        name: name,
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+  },
+  editItem(itemId, type, name) {
+    return instance.patch(`/api/items/${itemId}/`,
+      {
+        item_type: type,
+        name: name,
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+  },
+  deleteItem(itemId) {
+    return instance.delete(`/api/items/${itemId}/`,
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      }
+    )
+  }
+}
+
+export const invoicesAPI = {
+  getInvoices() {
+    return instance.get('/api/invoices/', {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
+  addInvoice(
+    comment,
+    approved,
+    type,
+    subtype,
+    payer,
+    receiver,
+    project
+  ) {
+    return instance.post('/api/invoices/',
+      {
+        comment: comment,
+        approved: approved,
+        payment_type: type,
+        subtype: subtype,
+        payer: payer,
+        receiver: receiver,
+        project: project
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+  },
+  editInvoice(
+    invoiceId,
+    comment,
+    approved,
+    type,
+    subtype,
+    payer,
+    receiver,
+    project
+  ) {
+    return instance.patch(`/api/invoices/${invoiceId}/`,
+      {
+        comment: comment,
+        approved: approved,
+        payment_type: type,
+        subtype: subtype,
+        payer: payer,
+        receiver: receiver,
+        project: project
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+  },
+  getInvoiceItem(invoiceId) {
+    return instance.get(`/api/invoices/${invoiceId}/`,
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      }
+    )
+  },
+  deleteInvoice(invoiceId) {
+    return instance.delete(`/api/invoices/${invoiceId}/`,
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      }
+    )
+  },
+}
+
+export const paymentsAPI = {
+  getPayments() {
+    return instance.get('/api/payments/', {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
+  addPayment(
+    date,
+    total,
+    approved,
+    invoice,
+    project,
+    subtype,
+  ) {
+    return instance.post('/api/payments/',
+      {
+        date: date,
+        total: total,
+        approved: approved,
+        invoice: invoice,
+        project: project,
+        subtype: subtype,
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+  },
+  editPayment(
+    paymentId,
+    date,
+    total,
+    approved,
+    invoice,
+    project,
+    subtype,
+  ) {
+    return instance.patch(`/api/payments/${paymentId}/`,
+      {
+        date: date,
+        total: total,
+        approved: approved,
+        invoice: invoice,
+        project: project,
+        subtype: subtype,
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+  },
+  getPaymentItem(paymentId) {
+    return instance.get(`/api/payments/${paymentId}/`,
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      }
+    )
+  },
+  deletePayment(paymentId) {
+    return instance.delete(`/api/payments/${paymentId}/`,
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      }
+    )
+  },
+}

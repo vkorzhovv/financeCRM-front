@@ -23,12 +23,12 @@ export default function Navigation(props) {
     },
     {
       key: 'invoices',
-      itemName: 'Счета на оплату',
+      itemName: 'Начисления',
       linkUrl: '/invoices',
     },
     {
       key: 'payment',
-      itemName: 'Оплата',
+      itemName: 'Платежи',
       linkUrl: '/payment',
     },
   ]

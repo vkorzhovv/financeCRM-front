@@ -20,6 +20,8 @@ export default function ProjectItemPageContainer(props) {
     dispatch(getProjects())
   }, [dispatch, projectId])
 
+  console.log(project)
+
   return (
     <ProjectItemPage project={project} allProjects={allProjects}/>
   );

@@ -27,6 +27,7 @@ export default function UserControls(props) {
           <UserPopup
             lastName={props.lastName}
             firstName={props.firstName}
+            username={props.username}
             closeUser={setIsOpenUser}
             handleClick={props.handleClick}
             isOpen={isOpenUser}

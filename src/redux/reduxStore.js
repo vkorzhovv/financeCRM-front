@@ -1,6 +1,11 @@
 import { combineReducers, legacy_createStore as createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk'
 import { authReducer } from './authReducer';
+import { itemsReducer } from './cashItemReducer';
+import { invoiceItemReducer } from './invoiceItemReducer';
+import { invoicesReducer } from './invoicesReducer';
+import { paymentItemReducer } from './paymentItemReducer';
+import { paymentsReducer } from './paymentReducer';
 import { projectItemReducer } from './projectItemReducer';
 import { projectsReducer } from './projectsReducer';
 import { userItemReducer } from './userItemReducer';
@@ -12,6 +17,11 @@ let reducers = combineReducers({
   userItem: userItemReducer,
   projects: projectsReducer,
   projectItem: projectItemReducer,
+  cashItems: itemsReducer,
+  invoices: invoicesReducer,
+  invoiceItem: invoiceItemReducer,
+  payments: paymentsReducer,
+  paymentItem: paymentItemReducer,
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

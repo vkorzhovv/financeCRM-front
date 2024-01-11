@@ -10,18 +10,18 @@ export default function InvoicesItem(props) {
   return (
     <tr className={styles.invoicesItem}>
       <td className={classNames(styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
-        {props.item.name}
+        Счет № {props.item.id + 10000}
       </td>
       <td className={classNames(styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
         {
-          props.item.project
+          props.item.project ? props.item.project.name : 'Не выбран'
         }
       </td>
       <td className={classNames(styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
         {
-          props.item.recipient
+          props.item.receiver
             ?
-            `${props.item.recipient.last_name} ${editName(props.item.recipient.first_name)} ${editName(props.item.recipient.father_name)}`
+            `${props.item.receiver.last_name} ${editName(props.item.receiver.first_name)} ${editName(props.item.receiver.father_name)}`
             :
             'Не выбран'
         }
@@ -29,17 +29,17 @@ export default function InvoicesItem(props) {
       <td className={classNames(styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
         {
           props.item.payer
-            ?
-            `${props.item.payer.last_name} ${editName(props.item.payer.first_name)} ${editName(props.item.payer.father_name)}`
-            :
-            'Не выбран'
+          ?
+          `${props.item.payer.last_name} ${editName(props.item.payer.first_name)} ${editName(props.item.payer.father_name)}`
+          :
+          'Не выбран'
         }
       </td>
       <td className={classNames(styles.invoicesCell, styles.centerCell)}>
         {editDate(props.item.date)}
       </td>
       <td className={classNames(styles.invoicesCell, styles.centerCell)}>
-        {props.item.status ? <span className={styles.statusTrue}>Оплачено</span> : <span className={styles.statusFalse}>Не оплачено</span>}
+        {props.item.approved ? <span className={styles.statusTrue}>Оплачено</span> : <span className={styles.statusFalse}>Не оплачено</span>}
       </td>
       <td className={classNames(styles.invoicesCell, styles.centerCell)}>
         {props.item.summ}

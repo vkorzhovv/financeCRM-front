@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { deleteInvoice } from '../../../../redux/invoicesReducer';
 import PageHeader from '../../../common/PageHeader/PageHeader';
-import InvoicesAddPopup from '../Invoices/InvoicesAddPopup/InvoicesAddPopup';
+import InvoicesAddPopupContainer from '../Invoices/InvoicesAddPopup/InvoicesAddPopupContainer';
 import InvoiceData from './InvoiceData/InvoiceData';
 import styles from './invoicesitempage.module.css';
-import InvoicesList from './InvoicesList/InvoicesList';
 
 export default function InvoicesItemPage(props) {
 
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const handleClickOpen = () => {
@@ -20,10 +22,10 @@ export default function InvoicesItemPage(props) {
     document.body.classList.remove('modal-show');
   }
 
-  // const onDelete = () => {
-  //   dispatch(deleteProject(props.project.id));
-  //   navigate("/projects");
-  // }
+  const onDelete = async () => {
+    await dispatch(deleteInvoice(props.invoice.id))
+      .then(() => navigate("/invoices"))
+  }
 
   const costs = [
     {
@@ -49,39 +51,30 @@ export default function InvoicesItemPage(props) {
   return (
     <div className={styles.invoiceItemPage}>
       <PageHeader
-        title={'Счета на оплату'}
+        title={'Начисления'}
         addBtnText={'Редактировать'}
         detail={'detail'}
-        // onDelete={onDelete}
+        onDelete={onDelete}
         handleClickAdd={handleClickOpen}
       />
 
       {
-        isOpenPopup && <InvoicesAddPopup
+        isOpenPopup && <InvoicesAddPopupContainer
+          invoice={props.invoice}
           handleClickClose={handleClickClose}
           submitText={'Готово'}
-          popupHeader={'Номер счета'}
+
+          popupHeader={`Счет № ${props.invoice.id + 10000}`}
           detail={'detail'}
+
           close={setIsOpenPopup}
         />
       }
 
-      <div className={styles.invoiceItemContent}>
-        <div className={styles.invoicesList}>
-          <p className={styles.invoicesListTitle}>Номер счета</p>
-          {props.allInvoices.map(item =>
-            <InvoicesList
-            // key={item.id}
-            invoiceItem={item}
-            />
-          )}
-        </div>
-        <InvoiceData
-          invoice={props.invoice}
-          costs={costs}
-        />
-      </div>
-
+      <InvoiceData
+        invoice={props.invoice}
+        costs={costs}
+      />
     </div>
   );
 }

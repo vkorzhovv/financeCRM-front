@@ -1,46 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getInvoiceItem } from '../../../../redux/invoiceItemReducer';
+import { selectInvoiceItem } from '../../../../redux/invoiceItemSelector';
 import InvoicesItemPage from './InvoicesItemPage';
 
 export default function InvoicesItemPageContainer(props) {
 
-  // const dispatch = useDispatch();
-  // const project = useSelector(selectProjectItem);
-  // const allProjects = useSelector(selectProjects)
+  const dispatch = useDispatch();
+  const invoice = useSelector(selectInvoiceItem);
 
-  // let { invoicesId } = useParams();
+  let { invoicesId } = useParams();
 
-  // useEffect(() => {
-  //   dispatch(getProjectItem(projectId))
-  //   dispatch(getProjects())
-  // }, [dispatch, projectId])
-
-  const invoice = {
-    name: 'Счет1',
-    project: 'Проект1',
-    recipient: {
-      first_name: 'Валик',
-      last_name: 'Даник',
-      father_name: 'Петр'
-    },
-    payer: {
-      first_name: 'Игорь',
-      last_name: 'Вова',
-      father_name: 'Иннокентий'
-    },
-    date: new Date(),
-    status: true,
-    summ: '100000',
-    receipt: '50000',
-    description: 'Комментарий'
-  }
-
-  const allInvoices = [
-    { name: 'Не кликабельно' },
-    { name: 'Не кликабельно' },
-    { name: 'Не кликабельно' },
-  ]
+  useEffect(() => {
+    dispatch(getInvoiceItem(invoicesId))
+  }, [dispatch, invoicesId])
 
   return (
-    <InvoicesItemPage invoice={invoice} allInvoices={allInvoices} />
+    <InvoicesItemPage invoice={invoice} />
   );
 }

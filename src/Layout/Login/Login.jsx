@@ -24,7 +24,6 @@ export default function Login(props) {
 
   const onSubmit = (data => {
     dispatch(login(data.username, data.password, setError));
-    console.log(data);
   })
 
   return (

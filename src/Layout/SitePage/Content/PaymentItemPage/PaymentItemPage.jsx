@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import PageHeader from '../../../common/PageHeader/PageHeader';
 import PaymentData from './PaymentData/PaymentData';
-import PaymentAddPopup from '../Payment/PaymentAddPopup/PaymentAddPopup';
 import styles from './paymentitempage.module.css';
 import PaymentList from './PaymentList/PaymentList';
+import PaymentAddPopupContainer from '../Payment/PaymentAddPopup/PaymentAddPopupContainer';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { deletePayment } from '../../../../redux/paymentReducer';
 
 export default function PaymentItemPage(props) {
 
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const handleClickOpen = () => {
@@ -20,28 +23,28 @@ export default function PaymentItemPage(props) {
     document.body.classList.remove('modal-show');
   }
 
-  // const onDelete = () => {
-  //   dispatch(deleteProject(props.project.id));
-  //   navigate("/projects");
-  // }
+  const onDelete = async () => {
+    await dispatch(deletePayment(props.payment.id))
+      .then(navigate("/payment"))
+  }
 
   return (
     <div className={styles.paymentItemPage}>
       <PageHeader
-        title={'Оплата'}
+        title={'Платежи'}
         addBtnText={'Редактировать'}
         detail={'detail'}
-      // onDelete={onDelete}
-      handleClickAdd={handleClickOpen}
+        onDelete={onDelete}
+        handleClickAdd={handleClickOpen}
       />
 
       {
-        isOpenPopup && <PaymentAddPopup
+        isOpenPopup && <PaymentAddPopupContainer
+          payment={props.payment}
           handleClickClose={handleClickClose}
           submitText={'Готово'}
           popupHeader={'Номер платежа'}
           detail={'detail'}
-          project={props.project}
           close={setIsOpenPopup}
         />
       }
@@ -51,7 +54,7 @@ export default function PaymentItemPage(props) {
           <p className={styles.paymentListTitle}>Номер платежа</p>
           {props.allPayment.map(item =>
             <PaymentList
-              // key={item.id}
+              key={item.name}
               paymentItem={item}
             />
           )}
@@ -60,7 +63,6 @@ export default function PaymentItemPage(props) {
           payment={props.payment}
         />
       </div>
-
     </div>
   );
 }

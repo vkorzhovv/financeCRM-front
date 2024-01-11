@@ -22,7 +22,7 @@ export default function InvoicesContent(props) {
         <thead className={styles.titles}>
           <tr>
             {projectTh.map(item =>
-              <th className={styles.titlesItem}>{item}</th>
+              <th key={item} className={styles.titlesItem}>{item}</th>
             )}
           </tr>
         </thead>

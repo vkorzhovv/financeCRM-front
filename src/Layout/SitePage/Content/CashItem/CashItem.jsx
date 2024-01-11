@@ -5,9 +5,6 @@ import styles from './cashitem.module.css';
 // import classNames from 'classnames';
 
 export default function CashItem(props) {
-
-
-
   return (
     <div className={styles.cashItem}>
       <CashHeader />

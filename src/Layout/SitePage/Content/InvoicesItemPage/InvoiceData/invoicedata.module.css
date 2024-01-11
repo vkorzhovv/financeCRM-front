@@ -140,3 +140,7 @@
 .verLine {
   transform: rotate(90deg);
 }
+
+.paymentsBox {
+  margin-bottom: 20px;
+}

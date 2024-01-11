@@ -37,8 +37,8 @@ export default function StaffAddPopup(props) {
     document.body.classList.remove('modal-show');
   }
 
-  const editUserLocal = (data) => {
-    dispatch(editUser(
+  const editUserLocal = async (data) => {
+     await dispatch(editUser(
       props.user.id,
       data.name,
       data.surname,
@@ -48,9 +48,12 @@ export default function StaffAddPopup(props) {
       data.phone,
       data.finance,
       data.description
-    ));
-    props.close(false);
-    document.body.classList.remove('modal-show');
+    ))
+    .then (() => {
+      props.close(false);
+      document.body.classList.remove('modal-show');
+      props.getList(data.type);
+    })
   }
 
   const onSubmit = (data => {
@@ -263,7 +266,7 @@ export default function StaffAddPopup(props) {
               onClick={props.handleClickClose}
               type="button"
             >
-              Отмена
+              Отменить
             </button>
             <input
               className={classNames('btn')}

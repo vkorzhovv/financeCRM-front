@@ -38,7 +38,7 @@ export default function UserPopup(props) {
             <p className={styles.name}>{props.lastName}</p>
           </div>
           <p className={styles.email}>
-            email@email.com
+            {props.username}
           </p>
         </div>
       </div>

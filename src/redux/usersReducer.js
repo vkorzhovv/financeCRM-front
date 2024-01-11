@@ -46,7 +46,7 @@ export const usersReducer = (state = initialState, action) => {
     }
     default: return {...state};
   }
-}
+} 
 
 const setAddUser = (newUser) => ({type: ADD_USER, newUser})
 const setUsers = (allUsers) => ({ type: SET_ALL_USERS, allUsers });
