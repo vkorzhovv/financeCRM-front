@@ -19,9 +19,11 @@ export default function InvoiceMoney(props) {
       <td className={classNames(styles.moneyCell)}>
         {props.money.status ? <span className={styles.statusTrue}>Оплачено</span> : <span className={styles.statusFalse}>Не оплачено</span>}
       </td>
-      <td className={classNames(styles.moneyCell)}>
-        <InvoiceMoneyControls />
-      </td>
+      {!props.approved &&
+        <td className={classNames(styles.moneyCell)}>
+          <InvoiceMoneyControls />
+        </td>
+      }
     </tr>
   );
 }

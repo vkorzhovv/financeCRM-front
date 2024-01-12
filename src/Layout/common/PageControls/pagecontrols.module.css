@@ -38,7 +38,7 @@
   margin-left: 20px;
 }
 
-.invoicesBtn:first-child {
+.invoicesBtn:not(:last-child) {
   margin-right: 20px;
 }
 

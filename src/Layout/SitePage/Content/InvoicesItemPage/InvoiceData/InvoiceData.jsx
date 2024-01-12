@@ -21,6 +21,13 @@ export default function InvoiceData(props) {
           <div className={classNames(styles.leftItem, styles.invoiceDataItem, styles.invoiceDataMain)}>
             <div className={classNames('flex', styles.invoiceHeader)}>
               <h2 className={styles.theinvoiceTitle}>Счет № {props.invoice.id + 10000} <span>от {editDate(props.invoice.date)}</span></h2>
+              <div>
+                {
+                  props.invoice.approved ?
+                    <span className={classNames(styles.approved, styles.approvedTrue)}>Подтвержден</span> :
+                    <span className={classNames(styles.approved, styles.approvedFalse)}>Не подтвержден</span>
+                }
+              </div>
             </div>
             <div className={classNames('flex', styles.invoiceMainInfo)}>
               <div className={styles.invoiceDataList}>
@@ -50,10 +57,10 @@ export default function InvoiceData(props) {
                   </p>
                 </div>
                 <div className={classNames('flex', styles.invoiceDataField)}>
-                  <p className={styles.invoiceDataTitle}>Тип начисления:</p><p>{props.invoice.payment_type}</p>
+                  <p className={styles.invoiceDataTitle}>Тип начисления:</p><p>{props.invoice.payment_type && props.invoice.payment_type.name}</p>
                 </div>
                 <div className={classNames('flex', styles.invoiceDataField)}>
-                  <p className={styles.invoiceDataTitle}>Назначение начисления:</p><p>{props.invoice.subtype}</p>
+                  <p className={styles.invoiceDataTitle}>Назначение начисления:</p><p>{props.invoice.subtype && props.invoice.subtype.name}</p>
                 </div>
               </div>
               <div className={styles.description}>
@@ -75,16 +82,22 @@ export default function InvoiceData(props) {
               <tbody>
                 <tr className={styles.invoiceTableItem}>
                   <td>
-                    {props.invoice.summ}
+                    {props.invoice.amount}
                   </td>
                   <td>
-                    {props.invoice.summ}
+                    {props.invoice.receipts}
                   </td>
                   <td>
-                    {props.invoice.receipt}
+                    {props.remainder}
                   </td>
                   <td>
-                    {props.invoice.approved ? <span className={styles.statusTrue}>Оплачено</span> : <span className={styles.statusFalse}>Не оплачено</span>}
+                    {
+                      props.remainder === parseFloat(props.invoice.amount).toFixed(2) ?
+                        <span className={styles.statusFalse}>Не оплачено</span> :
+                        props.remainder > 0 ?
+                          <span className={styles.statusFalse}>Частично оплачено</span> :
+                          <span className={styles.statusTrue}>Оплачено</span>
+                    }
                   </td>
                 </tr>
               </tbody>
@@ -97,13 +110,18 @@ export default function InvoiceData(props) {
           <InvoiceMoneyBox
             title={"Поступления по счету"}
             cash={props.costs}
+            approved={props.invoice.approved}
           />
         </div>
-        <PaymentAddPopupContainer
-          isStatic={'isStatic'}
-          submitText={'Добавить'}
-          popupHeader={`Добавить платеж`}
-        />
+
+        {
+          !props.invoice.approved &&
+          <PaymentAddPopupContainer
+            isStatic={'isStatic'}
+            submitText={'Добавить'}
+            popupHeader={`Добавить платеж`}
+          />
+        }
       </div>
     </div>
   );

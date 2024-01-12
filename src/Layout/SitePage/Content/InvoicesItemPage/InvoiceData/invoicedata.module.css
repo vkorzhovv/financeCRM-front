@@ -44,6 +44,7 @@
 .statusTrue {
   color: var(--green76);
 }
+
 .statusFalse {
   color: var(--redCF);
 }
@@ -143,4 +144,20 @@
 
 .paymentsBox {
   margin-bottom: 20px;
+}
+
+.approved {
+  display: block;
+  padding: 12px 30px;
+  border-radius: 5px;
+  color: var(--whiteF8);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.approvedTrue {
+  background-color: var(--greenABB);
+}
+.approvedFalse {
+  background-color: var(--redCF);
 }

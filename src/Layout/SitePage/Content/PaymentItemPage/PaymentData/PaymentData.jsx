@@ -76,7 +76,7 @@ export default function PaymentData(props) {
                   {editDate(props.payment.date)}
                 </td>
                 <td>
-                  {props.payment.total}
+                  {props.payment.invoice.amount}
                 </td>
                 <td>
                   {props.payment.total}

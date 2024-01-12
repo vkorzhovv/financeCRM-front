@@ -24,9 +24,29 @@ export const getInvoiceItem = (invoiceId) => async (dispatch) => {
   dispatch(setInvoiceItem(response.data));
 }
 
-export const editInvoice = (invoiceId, comment, approved, type, subtype, payer, receiver, project) => async (dispatch) => {
-  const response = await invoicesAPI.editInvoice(invoiceId, comment, approved, type, subtype, payer, receiver, project);
-  if (response.status < 300) {
-    dispatch(setInvoiceItem(response.data))
+export const editInvoice = (
+  invoiceId,
+  comment,
+  approved,
+  type,
+  subtype,
+  payer,
+  receiver,
+  project,
+  amount,
+  date) => async (dispatch) => {
+    const response = await invoicesAPI.editInvoice(
+      invoiceId,
+      comment,
+      approved,
+      type,
+      subtype,
+      payer,
+      receiver,
+      project,
+      amount,
+      date);
+    if (response.status < 300) {
+      dispatch(setInvoiceItem(response.data))
+    }
   }
-}

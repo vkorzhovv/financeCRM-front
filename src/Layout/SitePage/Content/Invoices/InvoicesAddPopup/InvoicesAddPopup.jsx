@@ -5,8 +5,7 @@ import styles from './invoicesaddpopup.module.css';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { addInvoice, getInvoices } from "../../../../../redux/invoicesReducer";
-import { editInvoice } from "../../../../../redux/invoiceItemReducer";
-
+import { editInvoice, getInvoiceItem } from "../../../../../redux/invoiceItemReducer";
 
 export default function InvoicesAddPopup(props) {
 
@@ -16,11 +15,14 @@ export default function InvoicesAddPopup(props) {
     clearErrors,
     // setError,
     register,
+    watch,
     handleSubmit,
     formState: { errors, isValid }
   } = useForm({
     mode: 'onChange',
   });
+
+  const watchType = watch('type', false)
 
   const addInvoiceLocal = async (data) => {
     await dispatch(addInvoice(
@@ -31,6 +33,8 @@ export default function InvoicesAddPopup(props) {
       Number(data.payer),
       Number(data.receiver),
       Number(data.project),
+      data.summ,
+      data.date,
     ))
       .then(() => {
         dispatch(getInvoices())
@@ -39,19 +43,24 @@ export default function InvoicesAddPopup(props) {
       })
   }
 
-  const editInvoiceLocal = (data) => {
-    dispatch(editInvoice(
+  const editInvoiceLocal = async (data) => {
+    await dispatch(editInvoice(
       props.invoice.id,
       data.description,
-      false,
+      Boolean(Number(data.status)),
       data.type,
       data.purpose,
       Number(data.payer),
       Number(data.receiver),
       Number(data.project),
-    ));
-    props.close(false)
-    document.body.classList.remove('modal-show');
+      data.summ,
+      data.date,
+    ))
+      .then(() => {
+        dispatch(getInvoiceItem(props.invoice.id))
+        props.close(false)
+        document.body.classList.remove('modal-show');
+      })
   }
 
   const onSubmit = (data => {
@@ -83,7 +92,7 @@ export default function InvoicesAddPopup(props) {
             >
               <option value="">Выбрать</option>
               {props.payersList && props.payersList.map(item =>
-                <option value={item.id} selected={props.detail && props.invoice.payer && item.id === props.invoice.payer}>{item.last_name} {item.first_name} {item.father_name}</option>
+                <option value={item.id} selected={props.detail && props.invoice.payer.id && item.id === props.invoice.payer.id}>{item.last_name} {item.first_name} {item.father_name}</option>
               )}
             </select>
             {errors.payer && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.payer.message}</div>}
@@ -101,7 +110,7 @@ export default function InvoicesAddPopup(props) {
             >
               <option value="">Выбрать</option>
               {props.receiversList && props.receiversList.map(item =>
-                <option value={item.id} selected={props.detail && props.invoice.receiver && item.id === props.invoice.receiver}>{item.last_name} {item.first_name} {item.father_name}</option>
+                <option value={item.id} selected={props.detail && props.invoice.receiver.id && item.id === props.invoice.receiver.id}>{item.last_name} {item.first_name} {item.father_name}</option>
               )}
             </select>
             {errors.receiver && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.receiver.message}</div>}
@@ -119,7 +128,7 @@ export default function InvoicesAddPopup(props) {
             >
               <option value="">Выбрать</option>
               {props.projectsList && props.projectsList.map(item =>
-                <option value={item.id} selected={props.detail && props.invoice.project && item.id === props.invoice.project}>{item.name}</option>
+                <option value={item.id} selected={props.detail && props.invoice.project.id && item.id === props.invoice.project.id}>{item.name}</option>
               )}
             </select>
             {errors.project && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.project.message}</div>}
@@ -128,40 +137,43 @@ export default function InvoicesAddPopup(props) {
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel')} htmlFor="type">Тип начисления</label>
-            <input
-              className={!errors.purpose
+            <select
+              onChange={
+                props.setTypeId(watchType)
+              }
+              {...register('type', {
+                required: 'Выберите тип',
+              })}
+              className={!errors.type
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
-              type='text'
-              name='type'
-              // defaultValue={props.detail && props.project.price}
-              placeholder='Тип начисления'
-              {...register('type',
-                {
-                  required: 'Введите тип',
-                })
-              }
-            />
+            >
+              <option value="">Выбрать</option>
+              {props.typesList && props.typesList.map(item =>
+                <option value={item.id} selected={props.detail && props.invoice.payment_type && item.id === props.invoice.payment_type.id}>{item.name}</option>
+              )}
+            </select>
             {errors.type && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.type.message}</div>}
           </div>
           <div className={!errors.purpose
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel')} htmlFor="purpose">Назначение начисления</label>
-            <input
+            <select
+              disabled={!watchType}
+              {...register('purpose', {
+                required: 'Выберите тип',
+              })}
               className={!errors.purpose
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
-              type='text'
-              name='purpose'
-              // defaultValue={props.detail && props.project.price}
-              placeholder='Назначение начисления'
-              {...register('purpose',
-                {
-                  required: 'Введите назначение',
-                })
-              }
-            />
+            >
+              <option value="">Выбрать</option>
+              {props.subtypesList && props.subtypesList.map(item =>
+                <option value={item.id} selected={props.detail && props.invoice.subtype && item.id === props.invoice.subtype.id}>{item.name}</option>
+              )}
+            </select>
+
             {errors.purpose && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.purpose.message}</div>}
           </div>
           <div className={!errors.summ
@@ -174,7 +186,7 @@ export default function InvoicesAddPopup(props) {
                 : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
               type='text'
               name='summ'
-              // defaultValue={props.detail && props.project.price}
+              defaultValue={props.detail && props.invoice.amount}
               placeholder='0 р'
               {...register('summ',
                 {
@@ -193,7 +205,7 @@ export default function InvoicesAddPopup(props) {
                 ? classNames('popupInput', styles.inputHalf, styles.input)
                 : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
               type='date'
-              // defaultValue={props.detail && props.project.start_date}
+              defaultValue={props.detail && props.invoice.date}
               name='date'
               {...register('date',
                 {
@@ -203,7 +215,25 @@ export default function InvoicesAddPopup(props) {
             />
             {errors.date && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.date.message}</div>}
           </div>
-
+          {props.remainder === (0).toFixed(2) &&
+            <div className={!errors.status
+              ? classNames('flex', 'popupInputBox', styles.inputBox)
+              : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
+              <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="status">Статус</label>
+              <select {...register('status', {
+                required: 'Выберите статус',
+              })}
+                className={!errors.status
+                  ? classNames('popupInput', styles.input)
+                  : classNames('popupInput', 'popupError', styles.input, styles.error)}
+              >
+                {/* <option value="">Выбрать</option> */}
+                <option value='1' selected={props.detail && props.invoice.approved}>Подтвержден</option>
+                <option value='0' selected={props.detail && !props.invoice.approved}>Не подтвержен</option>
+              </select>
+              {errors.status && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.status.message}</div>}
+            </div>
+          }
           <div className={!errors.description
             ? classNames('popupInputBox', styles.inputBox)
             : classNames('popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
@@ -222,7 +252,6 @@ export default function InvoicesAddPopup(props) {
             ></textarea>
             {errors.description && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.description.message}</div>}
           </div>
-
           <div className={classNames('popupBtnsWrapper', styles.btnsWrapper)}>
             <button
               className={classNames('btn', 'btnTransparent')}

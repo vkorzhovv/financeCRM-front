@@ -11,6 +11,7 @@ export default function PageHeader(props) {
         {props.title}
       </h1>
       <PageControls
+        approved={props.approved}
         addBtnText={props.addBtnText}
         handleClickAdd={props.handleClickAdd}
         detail={props.detail}

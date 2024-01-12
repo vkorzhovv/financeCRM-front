@@ -48,9 +48,12 @@ export default function InvoicesItemPage(props) {
     },
   ]
 
+  const remainder = (parseFloat(props.invoice.amount) - parseFloat(props.invoice.receipts)).toFixed(2);
+
   return (
     <div className={styles.invoiceItemPage}>
       <PageHeader
+        approved={props.invoice.approved}
         title={'Начисления'}
         addBtnText={'Редактировать'}
         detail={'detail'}
@@ -63,6 +66,7 @@ export default function InvoicesItemPage(props) {
           invoice={props.invoice}
           handleClickClose={handleClickClose}
           submitText={'Готово'}
+          remainder={remainder}
 
           popupHeader={`Счет № ${props.invoice.id + 10000}`}
           detail={'detail'}
@@ -72,6 +76,7 @@ export default function InvoicesItemPage(props) {
       }
 
       <InvoiceData
+        remainder={remainder}
         invoice={props.invoice}
         costs={costs}
       />

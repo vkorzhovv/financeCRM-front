@@ -13,6 +13,7 @@ export default function PaymentAddPopupContainer(props) {
   const invoicesList = useSelector(selectInvoices)
 
   useEffect(() => {
+
     !props.isStatic && dispatch(getInvoices())
   }, [dispatch, props.isStatic])
 

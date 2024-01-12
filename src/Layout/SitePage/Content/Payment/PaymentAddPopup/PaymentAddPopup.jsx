@@ -21,16 +21,27 @@ export default function PaymentAddPopup(props) {
     mode: 'onChange',
   });
 
+  function arrayFiles(list) {
+    const arr = [];
+    for (let key in list) {
+      arr.push(list[key])
+    }
+    return arr.slice(0, -2);
+  }
+
   const addPaymentLocal = async (data) => {
     await dispatch(addPayment(
       data.date,
       data.summ_plus,
       false,
       data.check,
-      6,
-      1,
+      data.description,
+      arrayFiles(data.scan)
     ))
       .then(() => {
+        console.log(
+          arrayFiles(data.scan)
+        )
         dispatch(getPayments());
         props.close(false);
         document.body.classList.remove('modal-show');
@@ -43,8 +54,6 @@ export default function PaymentAddPopup(props) {
       data.summ_plus,
       Boolean(Number(data.status)),
       data.check,
-      6,
-      1,
     ));
     props.close(false);
     document.body.classList.remove('modal-show');
@@ -52,7 +61,6 @@ export default function PaymentAddPopup(props) {
 
   const onSubmit = (data => {
     props.detail ? editPaymentLocal(data) : addPaymentLocal(data);
-    console.log(data)
   })
 
   return (
@@ -81,7 +89,7 @@ export default function PaymentAddPopup(props) {
               >
                 <option value="">Выбрать</option>
                 {props.invoicesList && props.invoicesList.map(item =>
-                  <option value={item.id} selected={props.detail && props.payment.invoice && item.id === props.payment.invoice}>Счет № {item.id + 10000}</option>
+                  <option value={item.id} selected={props.detail && props.payment.invoice && item.id === props.payment.invoice.id}>Счет № {item.id + 10000}</option>
                 )}
               </select>
               {errors.check && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.check.message}</div>}
@@ -108,7 +116,7 @@ export default function PaymentAddPopup(props) {
             />
             {errors.summ_plus && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.summ_plus.message}</div>}
           </div>
-          {props.detail &&
+          {/* {props.detail &&
             <div className={!errors.summ_minus
               ? classNames('flex', 'popupInputBox', styles.inputBox)
               : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
@@ -129,7 +137,7 @@ export default function PaymentAddPopup(props) {
               />
               {errors.summ_minus && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.summ_minus.message}</div>}
             </div>
-          }
+          } */}
           <div className={!errors.date
             ? classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox')
             : classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox', 'popupBoxError', styles.boxError)}>
@@ -162,8 +170,8 @@ export default function PaymentAddPopup(props) {
                   : classNames('popupInput', 'popupError', styles.input, styles.error)}
               >
                 <option value="">Выбрать</option>
-                <option value='1' selected={props.detail && props.payment.approved}>Подтвержден</option>
-                <option value='0' selected={props.detail && !props.payment.approved}>Не подтвержден</option>
+                <option value='1' selected={props.detail && props.payment.approved}>Оплачен</option>
+                <option value='0' selected={props.detail && !props.payment.approved}>Не оплачен</option>
               </select>
               {errors.status && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.status.message}</div>}
             </div>
@@ -199,7 +207,7 @@ export default function PaymentAddPopup(props) {
                   : classNames('popupInput', 'popupError', 'popupTextarea', styles.input, styles.error)}
                 type={'text'}
                 name='description'
-                // defaultValue={props.detail && props.project.description}
+                defaultValue={props.detail && props.payment.comment}
                 placeholder='Комментарий'
                 {...register('description',
                   {

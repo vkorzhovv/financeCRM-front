@@ -92,6 +92,11 @@ button {
   background-color: transparent;
 }
 
+.btn:disabled {
+  pointer-events: none;
+  background-color: var(--grey78);
+}
+
 .absoluteLink {
   position: absolute;
   inset: 0;

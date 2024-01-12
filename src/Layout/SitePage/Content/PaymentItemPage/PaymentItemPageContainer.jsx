@@ -22,7 +22,6 @@ export default function PaymentItemPageContainer(props) {
     { name: 'Не кликабельно' },
   ]
 
-  console.log(payment)
   return (
     <PaymentItemPage
       payment={payment}

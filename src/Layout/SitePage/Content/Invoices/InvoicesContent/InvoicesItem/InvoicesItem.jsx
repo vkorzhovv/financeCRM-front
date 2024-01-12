@@ -7,6 +7,8 @@ import { editDate } from '../../../../../../utils/dateEditor';
 
 export default function InvoicesItem(props) {
 
+  const remainder = (parseFloat(props.item.amount) - parseFloat(props.item.receipts)).toFixed(2);
+
   return (
     <tr className={styles.invoicesItem}>
       <td className={classNames(styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
@@ -29,23 +31,29 @@ export default function InvoicesItem(props) {
       <td className={classNames(styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
         {
           props.item.payer
-          ?
-          `${props.item.payer.last_name} ${editName(props.item.payer.first_name)} ${editName(props.item.payer.father_name)}`
-          :
-          'Не выбран'
+            ?
+            `${props.item.payer.last_name} ${editName(props.item.payer.first_name)} ${editName(props.item.payer.father_name)}`
+            :
+            'Не выбран'
         }
       </td>
       <td className={classNames(styles.invoicesCell, styles.centerCell)}>
         {editDate(props.item.date)}
       </td>
       <td className={classNames(styles.invoicesCell, styles.centerCell)}>
-        {props.item.approved ? <span className={styles.statusTrue}>Оплачено</span> : <span className={styles.statusFalse}>Не оплачено</span>}
+        {
+          remainder === parseFloat(props.item.amount).toFixed(2) ?
+            <span className={styles.statusFalse}>Не оплачено</span> :
+            remainder > 0 ?
+              <span className={styles.statusFalse}>Частично оплачено</span> :
+              <span className={styles.statusTrue}>Оплачено</span>
+        }
       </td>
       <td className={classNames(styles.invoicesCell, styles.centerCell)}>
-        {props.item.summ}
+        {props.item.amount}
       </td>
       <td className={classNames(styles.invoicesCell, styles.centerCell)}>
-        {props.item.receipt}
+        {props.item.receipts}
       </td>
       <NavLink
         to={`/invoices/${props.item.id}`}

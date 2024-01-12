@@ -276,6 +276,20 @@ export const invoicesAPI = {
       }
     })
   },
+  getUnpaidInvoices() {
+    return instance.get('/api/unpaid_invoices/', {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
+  getDebInvoices() {
+    return instance.get('/api/deb_nvoices/', {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
   addInvoice(
     comment,
     approved,
@@ -283,7 +297,9 @@ export const invoicesAPI = {
     subtype,
     payer,
     receiver,
-    project
+    project,
+    amount,
+    date,
   ) {
     return instance.post('/api/invoices/',
       {
@@ -293,7 +309,9 @@ export const invoicesAPI = {
         subtype: subtype,
         payer: payer,
         receiver: receiver,
-        project: project
+        project: project,
+        amount: amount,
+        date: date,
       },
       {
         headers: {
@@ -309,7 +327,9 @@ export const invoicesAPI = {
     subtype,
     payer,
     receiver,
-    project
+    project,
+    amount,
+    date,
   ) {
     return instance.patch(`/api/invoices/${invoiceId}/`,
       {
@@ -319,7 +339,9 @@ export const invoicesAPI = {
         subtype: subtype,
         payer: payer,
         receiver: receiver,
-        project: project
+        project: project,
+        amount: amount,
+        date: date,
       },
       {
         headers: {
@@ -345,6 +367,24 @@ export const invoicesAPI = {
       }
     )
   },
+  getTypes() {
+    return instance.get(`/api/types/`,
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      }
+    )
+  },
+  getSubtypes(typeId) {
+    return instance.get(`/api/subtypes/${typeId}/`,
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      }
+    )
+  },
 }
 
 export const paymentsAPI = {
@@ -360,21 +400,22 @@ export const paymentsAPI = {
     total,
     approved,
     invoice,
-    project,
-    subtype,
+    comment,
+    scans,
   ) {
-    return instance.post('/api/payments/',
+    return instance.post('/api/add_payment/',
       {
         date: date,
         total: total,
         approved: approved,
         invoice: invoice,
-        project: project,
-        subtype: subtype,
+        comment: comment,
+        scans: scans
       },
       {
         headers: {
-          'Authorization': `Token ${localStorage.getItem('token')}`
+          'Authorization': `Token ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data'
         }
       })
   },
@@ -384,21 +425,20 @@ export const paymentsAPI = {
     total,
     approved,
     invoice,
-    project,
-    subtype,
+    comment,
   ) {
-    return instance.patch(`/api/payments/${paymentId}/`,
+    return instance.patch(`/api/change_payment/${paymentId}/`,
       {
         date: date,
         total: total,
         approved: approved,
         invoice: invoice,
-        project: project,
-        subtype: subtype,
+        comment: comment,
       },
       {
         headers: {
-          'Authorization': `Token ${localStorage.getItem('token')}`
+          'Authorization': `Token ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data'
         }
       })
   },

@@ -3,8 +3,10 @@ import { paymentsAPI } from "../API/api";
 const SET_PAYMENTS = 'SET_PAYMENTS';
 const ADD_PAYMENT = 'ADD_PAYMENT';
 
+
 let initialState = {
   payments: [],
+
 };
 
 export const paymentsReducer = (state = initialState, action) => {
@@ -22,7 +24,7 @@ export const paymentsReducer = (state = initialState, action) => {
     default: return { ...state };
   }
 }
- 
+
 const setPayments = (payments) => ({ type: SET_PAYMENTS, payments });
 const setAddPayment = (newPayment) => ({ type: ADD_PAYMENT, newPayment });
 
@@ -36,15 +38,15 @@ export const addPayment = (
   total,
   approved,
   invoice,
-  project,
-  subtype,) => async (dispatch) => {
+  comment,
+  scans) => async (dispatch) => {
     const response = await paymentsAPI.addPayment(
       date,
       total,
       approved,
       invoice,
-      project,
-      subtype);
+      comment,
+      scans);
     if (response.status < 300) {
       dispatch(setAddPayment(response.data))
     }

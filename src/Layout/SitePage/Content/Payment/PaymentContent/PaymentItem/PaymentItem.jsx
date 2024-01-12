@@ -42,10 +42,10 @@ export default function PaymentItem(props) {
         {editDate(props.item.date)}
       </td>
       <td className={classNames(styles.paymentCell, styles.centerCell)}>
-        {props.item.approved ? <span className={styles.statusTrue}>Подтвержден</span> : <span className={styles.statusFalse}>Не подтвержден</span>}
+        {props.item.approved ? <span className={styles.statusTrue}>Оплачен</span> : <span className={styles.statusFalse}>Не оплачен</span>}
       </td>
       <td className={classNames(styles.paymentCell, styles.centerCell)}>
-        {props.item.total}
+        {props.item.invoice.amount}
       </td>
       <td className={classNames(styles.paymentCell, styles.centerCell)}>
         {props.item.total}
