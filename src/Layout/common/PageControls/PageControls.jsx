@@ -14,7 +14,6 @@ export default function PageControls(props) {
     isVisible ? setIsVisible(false) : setIsVisible(true);
   }
 
-
   const dispatch = useDispatch()
   const handleDebInvoices = () => {
     dispatch(getDebInvoices());
@@ -69,7 +68,7 @@ export default function PageControls(props) {
           </button>
         </div>
       }
-      {props.detail &&
+      {props.detail && !props.isApprovedInvoiceForPayment &&
         <div className={classNames(styles.pageControlItem, styles.deleteBlock)}>
           <button
             className={classNames('btn', 'btnTransparent', styles.deleteBtn)}
@@ -80,7 +79,7 @@ export default function PageControls(props) {
         </div>
       }
       {
-        !props.withoutCash && !props.approved &&
+        !props.withoutCash && !props.approved && !props.isApprovedInvoiceForPayment &&
         <div className={classNames(styles.pageControlItem, styles.addBlock)}>
           <button
             className={classNames('btn', styles.addBtn)}

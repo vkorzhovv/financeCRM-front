@@ -32,16 +32,16 @@ export const editPayment = (
   total,
   approved,
   invoice,
-  project,
-  subtype,) => async (dispatch) => {
+  comment,
+  scans) => async (dispatch) => {
     const response = await paymentsAPI.editPayment(
       paymentId,
       date,
       total,
       approved,
       invoice,
-      project,
-      subtype);
+      comment,
+      scans);
     if (response.status < 300) {
       dispatch(setPaymentItem(response.data))
     }

@@ -27,27 +27,6 @@ export default function InvoicesItemPage(props) {
       .then(() => navigate("/invoices"))
   }
 
-  const costs = [
-    {
-      payer: 'Плательщик',
-      date: 'дд.мм.гггг',
-      summ: 'сумма',
-      status: false,
-    },
-    {
-      payer: 'Плательщик',
-      date: 'дд.мм.гггг',
-      summ: 'сумма',
-      status: true,
-    },
-    {
-      payer: 'Плательщик',
-      date: 'дд.мм.гггг',
-      summ: 'сумма',
-      status: true,
-    },
-  ]
-
   const remainder = (parseFloat(props.invoice.amount) - parseFloat(props.invoice.receipts)).toFixed(2);
 
   return (
@@ -76,9 +55,9 @@ export default function InvoicesItemPage(props) {
       }
 
       <InvoiceData
+        paymentsInInvoice={props.paymentsInInvoice}
         remainder={remainder}
         invoice={props.invoice}
-        costs={costs}
       />
     </div>
   );

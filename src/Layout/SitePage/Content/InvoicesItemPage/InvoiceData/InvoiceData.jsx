@@ -108,15 +108,17 @@ export default function InvoiceData(props) {
       <div>
         <div className={classNames(styles.invoiceDataItem, styles.paymentsBox)}>
           <InvoiceMoneyBox
+            paymentsInInvoice={props.paymentsInInvoice}
             title={"Поступления по счету"}
-            cash={props.costs}
-            approved={props.invoice.approved}
+            invoice={props.invoice}
           />
         </div>
 
         {
           !props.invoice.approved &&
           <PaymentAddPopupContainer
+            invoicePage={'InvoicePage'}
+            invoice={props.invoice}
             isStatic={'isStatic'}
             submitText={'Добавить'}
             popupHeader={`Добавить платеж`}

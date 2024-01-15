@@ -4,20 +4,52 @@ import classNames from 'classnames';
 import DeleteIcon from '../../../../../../svgIcons/delete';
 import EditIcon from '../../../../../../svgIcons/edit';
 import CheckIcon from '../../../../../../svgIcons/check';
+import { useState } from 'react';
+import PaymentAddPopupContainer from '../../../Payment/PaymentAddPopup/PaymentAddPopupContainer';
 
 export default function InvoiceMoneyControls(props) {
 
+  const [isOpenPopup, setIsOpenPopup] = useState(false);
+
+  const handleClickOpen = () => {
+    setIsOpenPopup(true)
+    document.body.classList.add('modal-show');
+  }
+  const handleClickClose = () => {
+    setIsOpenPopup(false)
+    document.body.classList.remove('modal-show');
+  }
+
   return (
     <div className={classNames('flex', styles.moneyControls)}>
-      <button className={classNames('flex', styles.controlBtn, styles.fillSVG, styles.deleteBtn)}>
+      <button
+        onClick={props.onDelete}
+        className={classNames('flex', styles.controlBtn, styles.fillSVG, styles.deleteBtn)}>
         <DeleteIcon />
       </button>
-      <button className={classNames('flex', styles.controlBtn, styles.strokeSVG)}>
+      <button
+        onClick={handleClickOpen}
+        className={classNames('flex', styles.controlBtn, styles.strokeSVG)}
+      >
         <EditIcon />
       </button>
-      <button className={classNames('flex', styles.controlBtn, styles.fillSVG)}>
+      <button
+        onClick={props.onApproved}
+        className={classNames('flex', styles.controlBtn, styles.fillSVG)}>
         <CheckIcon />
       </button>
+      {
+        isOpenPopup && <PaymentAddPopupContainer
+          invoicePage={'invoicePage'}
+          invoice={props.invoice}
+          payment={props.payment}
+          handleClickClose={handleClickClose}
+          submitText={'Готово'}
+          popupHeader={`Платеж номер`}
+          detail={'detail'}
+          close={setIsOpenPopup}
+        />
+      }
     </div>
   );
 }

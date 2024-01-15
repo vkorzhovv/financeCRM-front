@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import PageHeader from '../../../common/PageHeader/PageHeader';
 import PaymentData from './PaymentData/PaymentData';
 import styles from './paymentitempage.module.css';
-import PaymentList from './PaymentList/PaymentList';
 import PaymentAddPopupContainer from '../Payment/PaymentAddPopup/PaymentAddPopupContainer';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deletePayment } from '../../../../redux/paymentReducer';
+import PaymentListContainer from './PaymentList/PaymentListContainer';
 
 export default function PaymentItemPage(props) {
 
@@ -31,6 +31,7 @@ export default function PaymentItemPage(props) {
   return (
     <div className={styles.paymentItemPage}>
       <PageHeader
+        isApprovedInvoiceForPayment={props.payment.invoice.approved}
         title={'Платежи'}
         addBtnText={'Редактировать'}
         detail={'detail'}
@@ -43,7 +44,7 @@ export default function PaymentItemPage(props) {
           payment={props.payment}
           handleClickClose={handleClickClose}
           submitText={'Готово'}
-          popupHeader={'Номер платежа'}
+          popupHeader={`Платеж № ${props.payment.id + 10000}`}
           detail={'detail'}
           close={setIsOpenPopup}
         />
@@ -52,12 +53,7 @@ export default function PaymentItemPage(props) {
       <div className={styles.paymentItemContent}>
         <div className={styles.paymentList}>
           <p className={styles.paymentListTitle}>Номер платежа</p>
-          {props.allPayment.map(item =>
-            <PaymentList
-              key={item.name}
-              paymentItem={item}
-            />
-          )}
+          <PaymentListContainer payment={props.payment} />
         </div>
         <PaymentData
           payment={props.payment}

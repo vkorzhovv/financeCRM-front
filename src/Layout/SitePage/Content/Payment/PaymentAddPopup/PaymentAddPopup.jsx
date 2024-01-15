@@ -3,8 +3,8 @@ import React from "react";
 import styles from './paymentaddpopup.module.css';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { addPayment, getPayments } from "../../../../../redux/paymentReducer";
-import { editPayment } from "../../../../../redux/paymentItemReducer";
+import { addPayment, getPayments, getPaymentsInInvoice } from "../../../../../redux/paymentReducer";
+import { editPayment, getPaymentItem } from "../../../../../redux/paymentItemReducer";
 
 
 export default function PaymentAddPopup(props) {
@@ -15,6 +15,7 @@ export default function PaymentAddPopup(props) {
     clearErrors,
     // setError,
     register,
+    reset,
     handleSubmit,
     formState: { errors, isValid }
   } = useForm({
@@ -34,34 +35,43 @@ export default function PaymentAddPopup(props) {
       data.date,
       data.summ_plus,
       false,
-      data.check,
-      data.description,
-      arrayFiles(data.scan)
+      data.check || props.invoice.id,
+      data.description || 'Нет комментария',
+      arrayFiles(data.scans)
     ))
       .then(() => {
         console.log(
-          arrayFiles(data.scan)
+          arrayFiles(data.scans)
         )
-        dispatch(getPayments());
-        props.close(false);
-        document.body.classList.remove('modal-show');
+        !props.invoicePage && dispatch(getPayments());
+        !props.invoicePage && props.close(false);
+        !props.invoicePage && document.body.classList.remove('modal-show');
+        props.invoicePage && dispatch(getPaymentsInInvoice(props.invoice.id));
+        props.invoicePage && reset();
       })
   }
-  const editPaymentLocal = (data) => {
-    dispatch(editPayment(
+  const editPaymentLocal = async (data) => {
+    await dispatch(editPayment(
       props.payment.id,
       data.date,
       data.summ_plus,
       Boolean(Number(data.status)),
       data.check,
-    ));
-    props.close(false);
-    document.body.classList.remove('modal-show');
+    ))
+      .then(() => {
+        props.invoicePage && dispatch(getPaymentsInInvoice(props.invoice.id));
+        !props.invoicePage && dispatch(getPaymentItem(props.payment.id))
+        props.close(false);
+        document.body.classList.remove('modal-show');
+      })
   }
 
   const onSubmit = (data => {
     props.detail ? editPaymentLocal(data) : addPaymentLocal(data);
   })
+
+  console.log(props.invoicesList);
+  console.log(props.payment);
 
   return (
     <div className={classNames('flex', props.isStatic ? styles.paymentAddPopupStatic : 'popup')}>
@@ -176,25 +186,25 @@ export default function PaymentAddPopup(props) {
               {errors.status && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.status.message}</div>}
             </div>
           }
-          <div className={!errors.scan
+          <div className={!errors.scans
             ? classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox')
             : classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox', 'popupBoxError', styles.boxError)}>
             <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="start">Скан/фото документа</label>
             <input
-              className={!errors.scan
+              className={!errors.scans
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
               type='file'
               multiple
               // defaultValue={props.detail && props.project.start_date}
-              name='scan'
-              {...register('scan',
+              name='scans'
+              {...register('scans',
                 {
                   required: 'Выберите документ',
                 })
               }
             />
-            {errors.scan && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.scan.message}</div>}
+            {errors.scans && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.scans.message}</div>}
           </div>
 
           {!props.isStatic &&

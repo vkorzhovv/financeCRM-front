@@ -16,16 +16,9 @@ export default function PaymentItemPageContainer(props) {
     dispatch(getPaymentItem(paymentId))
   }, [dispatch, paymentId])
 
-  const allPayment = [
-    { name: 'Не кликабельно' },
-    { name: 'Не кликабельно' },
-    { name: 'Не кликабельно' },
-  ]
-
   return (
     <PaymentItemPage
       payment={payment}
-      allPayment={allPayment}
     />
   );
 }

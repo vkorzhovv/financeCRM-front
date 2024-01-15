@@ -284,7 +284,14 @@ export const invoicesAPI = {
     })
   },
   getDebInvoices() {
-    return instance.get('/api/deb_nvoices/', {
+    return instance.get('/api/deb_invoices/', {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
+  getUnapprovedInvoices() {
+    return instance.get('/api/unapproved_invoices/', {
       headers: {
         'Authorization': `Token ${localStorage.getItem('token')}`
       }
@@ -460,4 +467,11 @@ export const paymentsAPI = {
       }
     )
   },
+  getPaymentsInInvoice(invoiceId) {
+    return instance.get(`/api/invoice_payments/${invoiceId}/`, {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  }
 }

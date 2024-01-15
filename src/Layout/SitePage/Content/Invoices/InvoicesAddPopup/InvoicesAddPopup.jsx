@@ -162,7 +162,7 @@ export default function InvoicesAddPopup(props) {
             <select
               disabled={!watchType}
               {...register('purpose', {
-                required: 'Выберите тип',
+                required: 'Выберите назначение',
               })}
               className={!errors.purpose
                 ? classNames('popupInput', styles.input)

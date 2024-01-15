@@ -1,6 +1,7 @@
 import { invoicesAPI } from "../API/api";
 
 const SET_INVOICES = 'SET_INVOICES'
+const SET_UNAPPROVED_INVOICES = 'SET_UNAPPROVED_INVOICES'
 const ADD_INVOICE = 'ADD_INVOICE'
 const SET_TYPES = 'SET_TYPES';
 const SET_SUBTYPES = 'SET_SUBTYPES';
@@ -8,7 +9,8 @@ const SET_SUBTYPES = 'SET_SUBTYPES';
 let initialState = {
   invoices: [],
   types: [],
-  subtypes: []
+  subtypes: [],
+  unapprovedInvoices: []
 };
 
 export const invoicesReducer = (state = initialState, action) => {
@@ -17,6 +19,11 @@ export const invoicesReducer = (state = initialState, action) => {
       return {
         ...state,
         invoices: action.invoices
+      }
+    case SET_UNAPPROVED_INVOICES:
+      return {
+        ...state,
+        unapprovedInvoices: action.unapprovedInvoices
       }
     case ADD_INVOICE:
       return {
@@ -38,6 +45,7 @@ export const invoicesReducer = (state = initialState, action) => {
 }
 
 const setInvoices = (invoices) => ({ type: SET_INVOICES, invoices });
+const setUnapprovedInvoices = (unapprovedInvoices) => ({ type: SET_UNAPPROVED_INVOICES, unapprovedInvoices });
 const setAddInvoices = (newInvoice) => ({ type: ADD_INVOICE, newInvoice });
 const setTypes = (types) => ({ type: SET_TYPES, types });
 const setSubtypes = (subtypes) => ({ type: SET_SUBTYPES, subtypes });
@@ -45,6 +53,10 @@ const setSubtypes = (subtypes) => ({ type: SET_SUBTYPES, subtypes });
 export const getInvoices = () => async (dispatch) => {
   const response = await invoicesAPI.getInvoices();
   dispatch(setInvoices(response.data));
+}
+export const getUnapprovedInvoices = () => async (dispatch) => {
+  const response = await invoicesAPI.getUnapprovedInvoices();
+  dispatch(setUnapprovedInvoices(response.data));
 }
 export const getUnpaidInvoices = () => async (dispatch) => {
   const response = await invoicesAPI.getUnpaidInvoices();

@@ -82,7 +82,7 @@ export default function PaymentData(props) {
                   {props.payment.total}
                 </td>
                 <td>
-                  {props.payment.approved ? <span className={styles.statusTrue}>Подтвержден</span> : <span className={styles.statusFalse}>Не подтвержден</span>}
+                  {props.payment.approved ? <span className={styles.statusTrue}>Оплачен</span> : <span className={styles.statusFalse}>Не оплачен</span>}
                 </td>
               </tr>
             </tbody>

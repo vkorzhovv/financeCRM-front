@@ -18,9 +18,10 @@ export default function InvoiceMoneyBox(props) {
       </div>
       <table className={styles.moneyTable}>
         <tbody>
-          {props.cash.map(item =>
+          {props.paymentsInInvoice.map(item =>
             <InvoiceMoney
-              approved={props.approved}
+              key={item.id}
+              invoice={props.invoice}
               money={item}
             />
           )}
