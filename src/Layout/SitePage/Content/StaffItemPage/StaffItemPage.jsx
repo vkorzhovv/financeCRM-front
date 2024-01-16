@@ -24,9 +24,12 @@ export default function StaffItemPage(props) {
     document.body.classList.remove('modal-show');
   }
 
-  const onDelete = () => {
-    dispatch(deleteUser(props.user.id));
-    navigate("/staff");
+  const onDelete = async () => {
+    await dispatch(deleteUser(props.user.id))
+      .then(() => {
+        navigate("/staff");
+        document.body.classList.remove('modal-show')
+      })
   }
 
   return (

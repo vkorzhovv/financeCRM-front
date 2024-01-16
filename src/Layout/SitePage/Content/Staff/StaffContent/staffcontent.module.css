@@ -4,3 +4,20 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
+
+@media (max-width: 1400px) {}
+
+@media (max-width: 1200px) {
+  .staffContent {
+    grid-template-columns: 100%;
+  }
+}
+
+@media (max-width: 992px) {
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 576px) {
+}

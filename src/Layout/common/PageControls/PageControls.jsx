@@ -5,13 +5,25 @@ import SettingsIcon from '../../../svgIcons/settings';
 import SearchIcon from '../../../svgIcons/search';
 import { useDispatch } from 'react-redux';
 import { getDebInvoices, getInvoices, getUnpaidInvoices } from '../../../redux/invoicesReducer';
+import ConfirmDelete from '../ConfirmDelete/ConfirmDelete';
 
 export default function PageControls(props) {
 
   const [isVisible, setIsVisible] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   const handleClick = () => {
     isVisible ? setIsVisible(false) : setIsVisible(true);
+  }
+
+  const handleClickOpenDelete = () => {
+    setIsOpenDelete(true)
+    document.body.classList.add('modal-show');
+  }
+
+  const handleClickCloseDelete = () => {
+    setIsOpenDelete(false)
+    document.body.classList.remove('modal-show');
   }
 
   const dispatch = useDispatch()
@@ -27,24 +39,26 @@ export default function PageControls(props) {
 
   return (
     <div className={classNames('flex', styles.pageControls)}>
-      <div className={classNames(styles.pageControlItem, styles.findBlock)}>
-        <input className={
-          isVisible
-            ? classNames(styles.searchInput, styles.searchVisible)
-            : styles.searchInput}
-          placeholder='Введите запрос'></input>
-        <button className={classNames(styles.searchBtn, styles.controlsBtn)} onClick={handleClick}>
-          <SearchIcon />
-        </button>
-      </div>
-      {
-        !props.withoutCash &&
-        <div className={classNames(styles.pageControlItem, styles.settingsBlock)}>
-          <button className={classNames(styles.settingsBtn, styles.controlsBtn)}>
-            <SettingsIcon />
+      <div className={classNames('flex', styles.svgBtnsBlock)}>
+        <div className={classNames(styles.pageControlItem, styles.findBlock)}>
+          <input className={
+            isVisible
+              ? classNames(styles.searchInput, styles.searchVisible)
+              : styles.searchInput}
+            placeholder='Введите запрос'></input>
+          <button className={classNames(styles.searchBtn, styles.controlsBtn)} onClick={handleClick}>
+            <SearchIcon />
           </button>
         </div>
-      }
+        {
+          !props.withoutCash &&
+          <div className={classNames(styles.pageControlItem, styles.settingsBlock)}>
+            <button className={classNames(styles.settingsBtn, styles.controlsBtn)}>
+              <SettingsIcon />
+            </button>
+          </div>
+        }
+      </div>
       {
         props.withInvoices &&
         <div className={classNames(styles.invoicesBtnBlock)}>
@@ -72,7 +86,7 @@ export default function PageControls(props) {
         <div className={classNames(styles.pageControlItem, styles.deleteBlock)}>
           <button
             className={classNames('btn', 'btnTransparent', styles.deleteBtn)}
-            onClick={props.onDelete}
+            onClick={handleClickOpenDelete}
           >
             Удалить
           </button>
@@ -89,7 +103,7 @@ export default function PageControls(props) {
           </button>
         </div>
       }
-
+      {isOpenDelete && <ConfirmDelete onDelete={props.onDelete} closeDelete={handleClickCloseDelete} />}
     </div>
   );
 }

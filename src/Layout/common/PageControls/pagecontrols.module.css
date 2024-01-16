@@ -1,3 +1,9 @@
+.pageControls {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
 .pageControlItem:not(:first-child) {
   margin-left: 25px;
 }
@@ -30,6 +36,7 @@
 .controlsBtn:hover svg path {
   stroke: var(--green63);
 }
+
 .controlsBtn:active svg path {
   stroke: var(--black05);
 }
@@ -38,8 +45,8 @@
   margin-left: 20px;
 }
 
-.invoicesBtn:not(:last-child) {
-  margin-right: 20px;
+.invoicesBtn:not(:first-child) {
+  margin-left: 20px;
 }
 
 .invoicesBtn {
@@ -47,4 +54,49 @@
   border: unset;
   border-bottom: 1px solid var(--black05);
   background-color: transparent;
+}
+
+@media (max-width: 1400px) {}
+
+@media (max-width: 1200px) {}
+
+@media (max-width: 992px) {}
+
+@media (max-width: 768px) {
+  .svgBtnsBlock {
+    width: 100%;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+
+  .settingsBlock {
+    page-break-before: always;
+  }
+
+}
+
+@media (max-width: 576px) {
+  .searchInput.searchVisible {
+    width: 200px;
+  }
+
+  .invoicesBtnBlock {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    margin-left: 0;
+  }
+
+  .invoicesBtn {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 380px) {
+  .deleteBlock {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }

@@ -1,7 +1,35 @@
 .content {
   min-height: calc(100vh - 98px);
   width: 100%;
-  padding: 0 34px;
+  padding: 0 34px 20px 34px;
   background-color: var(--greyF1);
+  overflow: visible;
 }
 
+@media (max-width: 1400px) {
+  .content {
+    padding: 0 20px 20px 10px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .content {
+    min-height: calc(100vh - 168px);
+  }
+}
+
+@media (max-width: 1200px) {
+  .content {
+    padding: 0 15px 20px 15px;
+  }
+}
+
+@media (max-width: 992px) {
+
+}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 576px) {
+
+}

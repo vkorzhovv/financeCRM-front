@@ -6,4 +6,30 @@
 .pageTitle {
   font-size: 28px;
   font-weight: 500;
+  min-width: max-content;
+}
+
+@media (max-width: 1400px) {}
+
+@media (max-width: 1200px) {}
+
+@media (max-width: 992px) {
+  .pageHeader {
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 22px 0 30px 0;
+  }
+
+  .pageTitle {
+    align-self: flex-start;
+    font-size: 26px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 576px) {
+
 }

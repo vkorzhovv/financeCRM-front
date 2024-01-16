@@ -6,10 +6,23 @@ import EditIcon from '../../../../../../svgIcons/edit';
 import CheckIcon from '../../../../../../svgIcons/check';
 import { useState } from 'react';
 import PaymentAddPopupContainer from '../../../Payment/PaymentAddPopup/PaymentAddPopupContainer';
+import ConfirmDelete from '../../../../../common/ConfirmDelete/ConfirmDelete';
 
 export default function InvoiceMoneyControls(props) {
 
   const [isOpenPopup, setIsOpenPopup] = useState(false);
+
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+
+  const handleClickOpenDelete = () => {
+    setIsOpenDelete(true)
+    document.body.classList.add('modal-show');
+  }
+
+  const handleClickCloseDelete = () => {
+    setIsOpenDelete(false)
+    document.body.classList.remove('modal-show');
+  }
 
   const handleClickOpen = () => {
     setIsOpenPopup(true)
@@ -23,7 +36,7 @@ export default function InvoiceMoneyControls(props) {
   return (
     <div className={classNames('flex', styles.moneyControls)}>
       <button
-        onClick={props.onDelete}
+        onClick={handleClickOpenDelete}
         className={classNames('flex', styles.controlBtn, styles.fillSVG, styles.deleteBtn)}>
         <DeleteIcon />
       </button>
@@ -48,6 +61,12 @@ export default function InvoiceMoneyControls(props) {
           popupHeader={`Платеж номер`}
           detail={'detail'}
           close={setIsOpenPopup}
+        />
+      }
+      {
+        isOpenDelete && <ConfirmDelete
+          onDelete={props.onDelete}
+          closeDelete={handleClickCloseDelete}
         />
       }
     </div>

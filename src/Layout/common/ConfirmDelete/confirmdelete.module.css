@@ -1,0 +1,10 @@
+.deletePopup {
+  background-color: rgba(225, 225, 225, .5);
+}
+.deleteHeader {
+  font-size: 26px;
+  margin-bottom: 25px;
+}
+.deleteBtn {
+  margin-right: 30px;
+}

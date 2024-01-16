@@ -6,10 +6,22 @@ import EditIcon from '../../../../../../../svgIcons/edit';
 import CashAddPopupContainer from '../../../CashAddPopup/CashAddPopupContainer';
 import { useDispatch } from 'react-redux';
 import { deleteItem, getItems } from '../../../../../../../redux/cashItemReducer';
+import ConfirmDelete from '../../../../../../common/ConfirmDelete/ConfirmDelete';
 
 export default function CashData(props) {
 
   const [isOpenPopup, setIsOpenPopup] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+
+  const handleClickOpenDelete = () => {
+    setIsOpenDelete(true)
+    document.body.classList.add('modal-show');
+  }
+
+  const handleClickCloseDelete = () => {
+    setIsOpenDelete(false)
+    document.body.classList.remove('modal-show');
+  }
   const dispatch = useDispatch();
 
   const handleClickOpen = () => {
@@ -24,7 +36,8 @@ export default function CashData(props) {
 
   const handleDelete = async () => {
     await dispatch(deleteItem(props.id))
-      .then(() => dispatch(getItems()));
+      .then(() => dispatch(getItems()))
+      .then(() => document.body.classList.remove('modal-show'))
   }
 
   return (
@@ -46,7 +59,7 @@ export default function CashData(props) {
       <div className={classNames('flex', styles.btnGroup)}>
         <button
           className={classNames('flex', styles.controlBtn, styles.fillSVG, styles.deleteBtn)}
-          onClick={handleDelete}
+          onClick={handleClickOpenDelete}
         >
           <DeleteIcon />
         </button>
@@ -56,6 +69,12 @@ export default function CashData(props) {
         >
           <EditIcon />
         </button>
+        {
+          isOpenDelete && <ConfirmDelete
+            closeDelete={handleClickCloseDelete}
+            onDelete={handleDelete}
+          />
+        }
       </div>
       {
         isOpenPopup && <CashAddPopupContainer

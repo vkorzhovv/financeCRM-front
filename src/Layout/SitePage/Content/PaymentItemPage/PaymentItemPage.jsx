@@ -25,7 +25,10 @@ export default function PaymentItemPage(props) {
 
   const onDelete = async () => {
     await dispatch(deletePayment(props.payment.id))
-      .then(navigate("/payment"))
+      .then(() => {
+        navigate("/payment");
+        document.body.classList.remove('modal-show');
+      })
   }
 
   return (

@@ -12,14 +12,14 @@ export default function InvoicesItem(props) {
   return (
     <tr className={styles.invoicesItem}>
       <td className={classNames(styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
-        Счет № {props.item.id + 10000}
+        Счет №&nbsp;{props.item.id + 10000}
       </td>
-      <td className={classNames(styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
+      <td className={classNames(styles.invoicesCell, styles.cellWidth, styles.centerCell, styles.projectName)}>
         {
           props.item.project ? props.item.project.name : 'Не выбран'
         }
       </td>
-      <td className={classNames(styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
+      <td className={classNames('nowrapString', styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
         {
           props.item.receiver
             ?
@@ -28,7 +28,7 @@ export default function InvoicesItem(props) {
             'Не выбран'
         }
       </td>
-      <td className={classNames(styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
+      <td className={classNames('nowrapString', styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
         {
           props.item.payer
             ?

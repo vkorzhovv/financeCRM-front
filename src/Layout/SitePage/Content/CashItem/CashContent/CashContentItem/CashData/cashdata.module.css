@@ -10,16 +10,16 @@
 }
 
 .type {
-  width: 20%;
-  margin-right: 10px;
+  min-width: 130px;
+  margin-right: 20px;
 }
 
 .name {
-  margin-right: auto;
+  margin-right: 10px;
 }
 
 .btnGroup {
-  margin-left: 10px;
+  margin-left: auto;
 }
 
 .controlBtn:not(:last-child) {
@@ -46,4 +46,10 @@
 .deleteBtn {
   position: relative;
   top: -1px;
+}
+
+@media (max-width: 576px) {
+  .cashData {
+    min-width: 480px;
+  }
 }

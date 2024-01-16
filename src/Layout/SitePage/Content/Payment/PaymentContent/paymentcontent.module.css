@@ -18,5 +18,19 @@
 }
 
 .titlesItem {
-  padding-bottom: 25px;
+  padding: 0 10px 25px 10px;
 }
+
+@media (max-width: 1400px) {}
+
+@media (max-width: 1200px) {
+  .paymentContent {
+    overflow-y: scroll;
+  }
+}
+
+@media (max-width: 992px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 576px) {}

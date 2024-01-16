@@ -8,7 +8,7 @@ export default function CashAddPopupContainer(props) {
     !props.isStatic
       ?
       createPortal((
-        <CashAddPopup
+        <CashAddPopup 
           id={props.id}
           name={props.name}
           type={props.type}

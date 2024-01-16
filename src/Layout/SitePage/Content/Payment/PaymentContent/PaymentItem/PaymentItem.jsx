@@ -10,17 +10,17 @@ export default function PaymentItem(props) {
   return (
     <tr className={styles.paymentItem}>
       <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell)}>
-        Платеж № {props.item.id + 10000}
+        Платеж №&nbsp;{props.item.id + 10000}
       </td>
       <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell)}>
-        Счет № {props.item.invoice.id + 10000}
+        Счет №&nbsp;{props.item.invoice.id + 10000}
       </td>
-      <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell)}>
+      <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell, styles.projectName)}>
         {
           props.item.invoice.project && props.item.invoice.project.name
         }
       </td>
-      <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell)}>
+      <td className={classNames('nowrapString', styles.paymentCell, styles.cellWidth, styles.centerCell)}>
         {
           props.item.invoice.receiver
             ?
@@ -29,7 +29,7 @@ export default function PaymentItem(props) {
             'Не выбран'
         }
       </td>
-      <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell)}>
+      <td className={classNames('nowrapString', styles.paymentCell, styles.cellWidth, styles.centerCell)}>
         {
           props.item.invoice.payer
             ?

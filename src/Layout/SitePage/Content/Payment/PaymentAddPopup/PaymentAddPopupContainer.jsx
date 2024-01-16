@@ -23,6 +23,7 @@ export default function PaymentAddPopupContainer(props) {
       createPortal((
         <PaymentAddPopup
           invoicesPage={props.invoicesPage}
+          invoice={props.invoice}
           payment={props.payment}
           invoicesList={invoicesList}
           handleClickClose={props.handleClickClose}

@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { addPayment, getPayments, getPaymentsInInvoice } from "../../../../../redux/paymentReducer";
 import { editPayment, getPaymentItem } from "../../../../../redux/paymentItemReducer";
+import { getInvoiceItem } from "../../../../../redux/invoiceItemReducer";
 
 
 export default function PaymentAddPopup(props) {
@@ -40,9 +41,6 @@ export default function PaymentAddPopup(props) {
       arrayFiles(data.scans)
     ))
       .then(() => {
-        console.log(
-          arrayFiles(data.scans)
-        )
         !props.invoicePage && dispatch(getPayments());
         !props.invoicePage && props.close(false);
         !props.invoicePage && document.body.classList.remove('modal-show');
@@ -57,10 +55,13 @@ export default function PaymentAddPopup(props) {
       data.summ_plus,
       Boolean(Number(data.status)),
       data.check,
+      data.description,
+      arrayFiles(data.scans)
     ))
       .then(() => {
-        props.invoicePage && dispatch(getPaymentsInInvoice(props.invoice.id));
-        !props.invoicePage && dispatch(getPaymentItem(props.payment.id))
+        props.invoicePage && dispatch(getPaymentItem(props.payment.id))
+        !props.invoicePage && dispatch(getPaymentsInInvoice(props.invoice.id));
+        !props.invoicePage && dispatch(getInvoiceItem(props.invoice.id))
         props.close(false);
         document.body.classList.remove('modal-show');
       })
@@ -69,9 +70,6 @@ export default function PaymentAddPopup(props) {
   const onSubmit = (data => {
     props.detail ? editPaymentLocal(data) : addPaymentLocal(data);
   })
-
-  console.log(props.invoicesList);
-  console.log(props.payment);
 
   return (
     <div className={classNames('flex', props.isStatic ? styles.paymentAddPopupStatic : 'popup')}>

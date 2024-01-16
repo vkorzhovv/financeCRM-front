@@ -1,5 +1,29 @@
+.logoContainer {
+  width: max-content;
+}
+
 .logo {
   position: relative;
   width: 231px;
   height: 56px;
+  z-index: 120;
 }
+
+@media (max-width: 1300px) {
+  .logoContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 1200px) {
+
+}
+
+@media (max-width: 992px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 576px) {}

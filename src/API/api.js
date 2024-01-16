@@ -433,6 +433,7 @@ export const paymentsAPI = {
     approved,
     invoice,
     comment,
+    scans,
   ) {
     return instance.patch(`/api/change_payment/${paymentId}/`,
       {
@@ -441,6 +442,7 @@ export const paymentsAPI = {
         approved: approved,
         invoice: invoice,
         comment: comment,
+        scans: scans
       },
       {
         headers: {

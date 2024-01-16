@@ -36,12 +36,6 @@ button {
   font-weight: 400;
 }
 
-.container {
-  max-width: 1200px;
-  padding: 0 10px;
-  margin: 0 auto;
-}
-
 .flex {
   display: flex;
   align-items: center;
@@ -218,4 +212,20 @@ button {
 
 .popupLabel {
   min-width: 185px;
+}
+
+.nowrapString {
+  white-space: nowrap;
+}
+
+@media (max-width: 1400px) {}
+
+@media (max-width: 1200px) {}
+
+@media (max-width: 992px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 576px) {
+
 }

@@ -9,10 +9,10 @@ export default function ProjectItem(props) {
 
   return (
     <tr className={styles.projectItem}>
-      <td className={classNames(styles.projectCell, styles.cellWidth)}>
+      <td className={classNames(styles.projectCell, styles.cellWidth, styles.projectName)}>
         {props.item.name}
       </td>
-      <td className={classNames(styles.projectCell, styles.cellWidth, styles.centerCell)}>
+      <td className={classNames('nowrapString', styles.projectCell, styles.cellWidth, styles.centerCell)}>
         {
           props.item.project_manager
             ?
@@ -21,7 +21,7 @@ export default function ProjectItem(props) {
             'Не выбран'
         }
       </td>
-      <td className={classNames(styles.projectCell, styles.cellWidth, styles.centerCell)}>
+      <td className={classNames('nowrapString', styles.projectCell, styles.cellWidth, styles.centerCell)}>
         {
           props.item.client
             ?
@@ -30,7 +30,7 @@ export default function ProjectItem(props) {
             'Не выбран'
         }
       </td>
-      <td className={classNames(styles.projectCell, styles.cellWidth, styles.centerCell)}>
+      <td className={classNames('nowrapString', styles.projectCell, styles.cellWidth, styles.centerCell)}>
         {
           props.item.foreman
             ?

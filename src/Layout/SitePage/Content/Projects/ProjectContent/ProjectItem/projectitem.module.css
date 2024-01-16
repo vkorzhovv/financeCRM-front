@@ -37,3 +37,7 @@
 .statusFalse {
   color: var(--redCF);
 }
+
+.projectName {
+  min-width: 200px;
+}

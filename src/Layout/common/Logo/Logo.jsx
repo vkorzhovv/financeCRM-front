@@ -6,9 +6,11 @@ import { NavLink } from 'react-router-dom';
 
 export default function Logo(props) {
   return (
-    <div className={classNames('imageBox', styles.logo)}>
-      <img src={logo} alt="logo" />
-      <NavLink to='' className="absoluteLink">ссылка</NavLink>
-    </div >
+    <div className={styles.logoContainer}>
+      <div className={classNames('imageBox', styles.logo)}>
+        <img src={logo} alt="logo" />
+        <NavLink to='' className="absoluteLink">ссылка</NavLink>
+      </div >
+    </div>
   );
 }

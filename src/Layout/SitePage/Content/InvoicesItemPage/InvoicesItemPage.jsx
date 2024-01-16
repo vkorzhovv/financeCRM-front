@@ -24,7 +24,10 @@ export default function InvoicesItemPage(props) {
 
   const onDelete = async () => {
     await dispatch(deleteInvoice(props.invoice.id))
-      .then(() => navigate("/invoices"))
+      .then(() => {
+        navigate("/invoices");
+        document.body.classList.remove('modal-show');
+      })
   }
 
   const remainder = (parseFloat(props.invoice.amount) - parseFloat(props.invoice.receipts)).toFixed(2);

@@ -1,7 +1,26 @@
 .header {
   justify-content: space-between;
+  flex-wrap: wrap;
   height: 98px;
   width: 100%;
   padding: 0 34px;
   background-color: var(--whiteF8);
 }
+
+@media (max-width: 1400px) {
+
+}
+
+@media (max-width: 1300px) {
+  .header {
+    height: max-content;
+    width: 100%;
+    padding: 20px 15px;
+  }
+}
+
+@media (max-width: 992px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 576px) {}

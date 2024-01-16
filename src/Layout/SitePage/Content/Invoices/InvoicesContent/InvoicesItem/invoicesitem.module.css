@@ -23,8 +23,8 @@
   z-index: 5;
 }
 
-.cellWidth {
-  max-width: 12%;
+.projectName {
+  max-width: 300px;
 }
 
 .centerCell {
@@ -37,3 +37,17 @@
 .statusFalse {
   color: var(--redCF);
 }
+
+@media (max-width: 1400px) {}
+
+@media (max-width: 1200px) {}
+
+@media (max-width: 992px) {
+  .projectName {
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 576px) {}

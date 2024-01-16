@@ -20,7 +20,7 @@ export default function ProjectContent(props) {
 
   return (
     <div className={styles.projectContent}>
-      <table className={classNames('table')}>
+      <table className={classNames('table', styles.projectTable)}>
         <thead className={styles.titles}>
           <tr>
             {projectTh.map(item =>

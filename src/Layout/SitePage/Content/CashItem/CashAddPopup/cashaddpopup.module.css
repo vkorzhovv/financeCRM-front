@@ -25,3 +25,14 @@
   font-size: 18px;
   font-weight: 400;
 }
+
+@media (max-width: 576px) {
+  .inputBoxStatic {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cashLabel {
+    margin-bottom: 10px;
+  }
+}
