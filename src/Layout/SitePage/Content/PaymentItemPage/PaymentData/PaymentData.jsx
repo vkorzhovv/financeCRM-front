@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './paymentdata.module.css';
 import classNames from 'classnames';
 import { editDate } from '../../../../../utils/dateEditor';
+import { editFileName } from '../../../../../utils/fileNameEditor';
 
 export default function PaymentData(props) {
 
@@ -96,7 +97,19 @@ export default function PaymentData(props) {
             <div className={classNames('flex', styles.attachmentField)}>
               <p className={styles.attachmentFieldName}>Скан/фото документа</p>
               <div className={classNames(styles.attachmentLinks)}>
-                <span className={styles.attachmentFieldDocument}>fail.jpg</span>
+                {props.payment.scans &&
+                  props.payment.scans.map((item, index) =>
+                    <a
+                      href={item.scan}
+                      key={item.id}
+                      download
+                      target="_blank"
+                      rel="noreferrer"
+                      className={styles.attachmentFieldDocument}>
+                      Файл {index + 1}{editFileName(item.scan)}
+                    </a>
+                  )
+                }
               </div>
             </div>
           </div>

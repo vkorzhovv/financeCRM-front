@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './cashcontentitem.module.css';
 import CashData from './CashData/CashData';
-// import classNames from 'classnames';
 
 export default function CashContentItem(props) {
   return (
@@ -15,6 +14,7 @@ export default function CashContentItem(props) {
             key={item.id}
             id={item.id}
             name={item.name}
+            type_name={item.item_type_name}
             type={item.item_type}
             isOpenPopup={props.isOpenPopup}
             handleClickClose={props.handleClickClose}

@@ -64,7 +64,7 @@ export default function ProjectData(props) {
                     {props.project.price}
                   </td>
                   <td>
-                    {props.project.remainder}
+                    {props.project.balance}
                   </td>
                 </tr>
               </tbody>
@@ -73,15 +73,19 @@ export default function ProjectData(props) {
         </div>
         <div className={styles.projectDataItem}>
           <ProjectMoneyBox
+            projectId={props.projectId}
+            receipts={true}
             title={"Поступления по проекту"}
-            cash={props.payments}
+            cash={props.projectInvoices}
           />
         </div>
       </div>
       <div className={styles.projectDataItem}>
         <ProjectMoneyBox
+          projectId={props.projectId}
+          expenses={true}
           title={"Расходы по проекту"}
-          cash={props.costs}
+          cash={props.projectExpenses}
         />
       </div>
     </div>

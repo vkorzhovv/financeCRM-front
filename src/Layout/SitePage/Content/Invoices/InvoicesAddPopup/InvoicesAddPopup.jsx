@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import styles from './invoicesaddpopup.module.css';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { addInvoice, getInvoices } from "../../../../../redux/invoicesReducer";
+import { addInvoice, getInvoices, getProjectInvoices } from "../../../../../redux/invoicesReducer";
 import { editInvoice, getInvoiceItem } from "../../../../../redux/invoiceItemReducer";
 
 export default function InvoicesAddPopup(props) {
@@ -32,12 +32,13 @@ export default function InvoicesAddPopup(props) {
       data.purpose,
       Number(data.payer),
       Number(data.receiver),
-      Number(data.project),
+      props.projectId || Number(data.project),
       data.summ,
       data.date,
     ))
       .then(() => {
         dispatch(getInvoices())
+        props.projectId && dispatch(getProjectInvoices(props.projectId))
         props.close(false)
         document.body.classList.remove('modal-show');
       })
@@ -52,12 +53,13 @@ export default function InvoicesAddPopup(props) {
       data.purpose,
       Number(data.payer),
       Number(data.receiver),
-      Number(data.project),
+      props.projectId || Number(data.project),
       data.summ,
       data.date,
     ))
       .then(() => {
         dispatch(getInvoiceItem(props.invoice.id))
+        props.projectId && dispatch(getProjectInvoices(props.projectId))
         props.close(false)
         document.body.classList.remove('modal-show');
       })
@@ -115,31 +117,34 @@ export default function InvoicesAddPopup(props) {
             </select>
             {errors.receiver && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.receiver.message}</div>}
           </div>
-          <div className={!errors.project
-            ? classNames('flex', 'popupInputBox', styles.inputBox)
-            : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel')} htmlFor="project">Проект</label>
-            <select {...register('project', {
-              required: 'Выберите проект',
-            })}
-              className={!errors.projects
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
-            >
-              <option value="">Выбрать</option>
-              {props.projectsList && props.projectsList.map(item =>
-                <option value={item.id} selected={props.detail && props.invoice.project.id && item.id === props.invoice.project.id}>{item.name}</option>
-              )}
-            </select>
-            {errors.project && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.project.message}</div>}
-          </div>
+          {
+            !props.projectId &&
+            <div className={!errors.project
+              ? classNames('flex', 'popupInputBox', styles.inputBox)
+              : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
+              <label className={classNames('popupLabel')} htmlFor="project">Проект</label>
+              <select {...register('project', {
+                required: 'Выберите проект',
+              })}
+                className={!errors.projects
+                  ? classNames('popupInput', styles.input)
+                  : classNames('popupInput', 'popupError', styles.input, styles.error)}
+              >
+                <option value="">Выбрать</option>
+                {props.projectsList && props.projectsList.map(item =>
+                  <option value={item.id} selected={props.detail && props.invoice.project.id && item.id === props.invoice.project.id}>{item.name}</option>
+                )}
+              </select>
+              {errors.project && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.project.message}</div>}
+            </div>
+          }
           <div className={!errors.type
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel')} htmlFor="type">Тип начисления</label>
             <select
               onChange={
-                props.setTypeId(watchType)
+                props.setType(watchType)
               }
               {...register('type', {
                 required: 'Выберите тип',
@@ -149,9 +154,12 @@ export default function InvoicesAddPopup(props) {
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
             >
               <option value="">Выбрать</option>
-              {props.typesList && props.typesList.map(item =>
-                <option value={item.id} selected={props.detail && props.invoice.payment_type && item.id === props.invoice.payment_type.id}>{item.name}</option>
-              )}
+              {props.typesList && props.createdTypes && props.typesList.filter(item =>
+                props.createdTypes.map(type => type.item_type).includes(item.type)
+              )
+                .map(item =>
+                  <option value={item.type} selected={props.detail && props.invoice.payment_type && item.name === props.invoice.payment_type}>{item.name}</option>
+                )}
             </select>
             {errors.type && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.type.message}</div>}
           </div>
@@ -170,7 +178,7 @@ export default function InvoicesAddPopup(props) {
             >
               <option value="">Выбрать</option>
               {props.subtypesList && props.subtypesList.map(item =>
-                <option value={item.id} selected={props.detail && props.invoice.subtype && item.id === props.invoice.subtype.id}>{item.name}</option>
+                <option value={item} selected={props.detail && props.invoice.subtype && item === props.invoice.subtype}>{item}</option>
               )}
             </select>
 

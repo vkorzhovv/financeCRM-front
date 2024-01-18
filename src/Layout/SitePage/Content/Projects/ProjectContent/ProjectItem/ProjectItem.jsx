@@ -49,7 +49,7 @@ export default function ProjectItem(props) {
         {props.item.price}
       </td>
       <td className={classNames(styles.projectCell, styles.centerCell)}>
-        {props.item.remainder}
+        {props.item.balance}
       </td>
       <td className={classNames(styles.projectCell, styles.centerCell)}>
         {props.item.expenses}

@@ -17,7 +17,6 @@ export default function PaymentListContainer(props) {
     paymentId && dispatch(getPaymentsInInvoice(paymentId))
   }, [dispatch, paymentId])
 
-
   return (
     <PaymentList
       paymentsList={paymentsList}

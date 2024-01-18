@@ -15,11 +15,15 @@ export default function StaffAddPopup(props) {
     clearErrors,
     // setError,
     register,
+    watch,
     handleSubmit,
     formState: { errors, isValid }
   } = useForm({
     mode: 'onChange',
   });
+
+
+  const watchType = watch('type', false)
 
   const addUserLocal = (data) => {
     dispatch(addUser(
@@ -30,7 +34,7 @@ export default function StaffAddPopup(props) {
       data.password,
       data.type,
       data.phone,
-      data.finance,
+      data.superuser || false,
       data.description
     ));
     props.close(false);
@@ -38,7 +42,7 @@ export default function StaffAddPopup(props) {
   }
 
   const editUserLocal = async (data) => {
-     await dispatch(editUser(
+    await dispatch(editUser(
       props.user.id,
       data.name,
       data.surname,
@@ -46,18 +50,18 @@ export default function StaffAddPopup(props) {
       data.login,
       data.type,
       data.phone,
-      data.finance,
+      data.superuser || false,
       data.description
     ))
-    .then (() => {
-      props.close(false);
-      document.body.classList.remove('modal-show');
-      props.getList(data.type);
-    })
+      .then(() => {
+        props.close(false);
+        document.body.classList.remove('modal-show');
+      })
   }
 
   const onSubmit = (data => {
-    props.detail ? editUserLocal(data) : addUserLocal(data)
+    props.detail ? editUserLocal(data) : addUserLocal(data);
+    console.log(data)
   })
 
   return createPortal((
@@ -186,9 +190,10 @@ export default function StaffAddPopup(props) {
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel', styles.staffLabel)} htmlFor="type">Тип пользователя</label>
-            <select {...register('type', {
-              required: 'Выберите клиента',
-            })}
+            <select
+              {...register('type', {
+                required: 'Выберите клиента',
+              })}
               className={!errors.type
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
@@ -248,18 +253,23 @@ export default function StaffAddPopup(props) {
             />
             {errors.phone && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.phone.message}</div>}
           </div>
-          <div className={classNames('flex', styles.inputBox)}>
-            <label className={classNames('popupLabel', styles.staffLabel)} htmlFor="type">Вести учет финансов</label>
-            <div className={styles.checkWrapper}>
-              <input
-                className={classNames(styles.inputCheck)}
-                type='checkbox'
-                name='finance'
-                defaultChecked={props.detail && props.user.financial_accounting}
-                {...register('finance')}
-              />
+
+          {
+            watchType && watchType === 's' &&
+            <div className={classNames('flex', styles.inputBox)}>
+              <label className={classNames('popupLabel', styles.staffLabel)} htmlFor="superuser">Доступ ко всему</label>
+              <div className={styles.checkWrapper}>
+                <input
+                  className={classNames(styles.inputCheck)}
+                  type='checkbox'
+                  name='superuser'
+                  defaultChecked={props.detail && props.user.is_superuser}
+                  {...register('superuser')}
+                />
+              </div>
             </div>
-          </div>
+          }
+
           <div className={classNames('popupBtnsWrapper', styles.btnsWrapper)}>
             <button
               className={classNames('btn', 'btnTransparent')}

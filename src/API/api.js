@@ -90,7 +90,7 @@ export const usersAPI = {
     password,
     type,
     phone,
-    finance,
+    superuser,
     descr
   ) {
     return instance.post('/api/auth/users/', {
@@ -101,7 +101,7 @@ export const usersAPI = {
       password: password,
       user_type: type,
       phone: phone,
-      financial_accounting: finance,
+      is_superuser: superuser,
       description: descr
     },
       {
@@ -111,7 +111,7 @@ export const usersAPI = {
       }
     )
   },
-  editUser(userId, name, surname, patronymic, login, type, phone, finance, descr) {
+  editUser(userId, name, surname, patronymic, login, type, phone, superuser, descr) {
     return instance.patch(`/api/auth/users/${userId}/`, {
       first_name: name,
       last_name: surname,
@@ -119,7 +119,7 @@ export const usersAPI = {
       username: login,
       user_type: type,
       phone: phone,
-      financial_accounting: finance,
+      is_superuser: superuser,
       description: descr
     },
       {
@@ -225,6 +225,72 @@ export const projectsAPI = {
   }
 }
 
+export const projectExpensesAPI = {
+  getProjectsExpenses(projectId) {
+    return instance.get(`/api/expenses_of_project/${projectId}/`, {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
+  addProjectExpenses(
+    payment_type,
+    subtype,
+    date,
+    amount,
+    payer,
+    project
+  ) {
+    return instance.post('/api/project_expenses/',
+      {
+        payment_type: payment_type,
+        subtype: subtype,
+        date: date,
+        amount: amount,
+        payer: payer,
+        project: project
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+  },
+  editProjectExpenses(
+    expenseId,
+    payment_type,
+    subtype,
+    date,
+    amount,
+    payer,
+    project
+  ) {
+    return instance.patch(`/api/project_expenses/${expenseId}/`,
+      {
+        payment_type: payment_type,
+        subtype: subtype,
+        date: date,
+        amount: amount,
+        payer: payer,
+        project: project
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+  },
+  deleteProjectExpense(expenseId) {
+    return instance.delete(`/api/project_expenses/${expenseId}/`,
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      }
+    )
+  }
+}
+
 export const cashItemAPI = {
   getItems() {
     return instance.get('/api/items/', {
@@ -265,6 +331,20 @@ export const cashItemAPI = {
         }
       }
     )
+  },
+  getPaymentTypes() {
+    return instance.get('/api/payment_types/', {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
+  getSubtypes(type) {
+    return instance.get(`/api/item/${type}`, {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
   }
 }
 
@@ -292,6 +372,13 @@ export const invoicesAPI = {
   },
   getUnapprovedInvoices() {
     return instance.get('/api/unapproved_invoices/', {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
+  getProjectInvoices(projectId) {
+    return instance.get(`/api/project_invoices/${projectId}`, {
       headers: {
         'Authorization': `Token ${localStorage.getItem('token')}`
       }
@@ -367,24 +454,6 @@ export const invoicesAPI = {
   },
   deleteInvoice(invoiceId) {
     return instance.delete(`/api/invoices/${invoiceId}/`,
-      {
-        headers: {
-          'Authorization': `Token ${localStorage.getItem('token')}`
-        }
-      }
-    )
-  },
-  getTypes() {
-    return instance.get(`/api/types/`,
-      {
-        headers: {
-          'Authorization': `Token ${localStorage.getItem('token')}`
-        }
-      }
-    )
-  },
-  getSubtypes(typeId) {
-    return instance.get(`/api/subtypes/${typeId}/`,
       {
         headers: {
           'Authorization': `Token ${localStorage.getItem('token')}`

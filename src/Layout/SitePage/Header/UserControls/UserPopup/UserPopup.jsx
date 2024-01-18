@@ -29,9 +29,6 @@ export default function UserPopup(props) {
   return (
     <div className={styles.userPopup} ref={refPopup}>
       <div className={classNames('flex', styles.userData)}>
-        <div className={classNames('imageBox', styles.avatarBox)}>
-          <img src={defaultAvatar} alt="f" />
-        </div>
         <div className={classNames('flex', styles.userInfo)}>
           <div className={classNames('flex', styles.userFullName)}>
             <p className={styles.name}>{props.firstName}</p>

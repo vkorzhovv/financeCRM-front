@@ -1,6 +1,6 @@
 .invoiceData {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 200px repeat(2, 1fr);
   gap: 20px;
 }
 
@@ -160,4 +160,19 @@
 }
 .approvedFalse {
   background-color: var(--redCF);
+}
+
+.invoicesList {
+  width: 100%;
+  height: max-content;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--whiteF8);
+}
+
+.invoicesListTitle {
+  text-align: center;
+  padding-bottom: 20px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--greyE1);
 }

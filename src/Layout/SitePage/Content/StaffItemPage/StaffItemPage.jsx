@@ -49,7 +49,6 @@ export default function StaffItemPage(props) {
           detail={'detail'}
           user={props.user}
           close={setIsOpenPopup}
-          getList={props.getList}
         />
       }
       <div className={styles.staffItemContent}>

@@ -28,42 +28,6 @@ export default function ProjectItemPage(props) {
     navigate("/projects");
   }
 
-  const payments = [
-    {
-      payer: 'Плательщик',
-      date: 'дд.мм.гггг',
-      summ: 'сумма',
-      purpose: 'Назначение'
-    },
-    {
-      payer: 'Плательщик',
-      date: 'дд.мм.гггг',
-      summ: 'сумма',
-      purpose: 'Назначение'
-    },
-  ]
-
-  const costs = [
-    {
-      payer: 'Плательщик',
-      date: 'дд.мм.гггг',
-      summ: 'сумма',
-      purpose: 'Назначение'
-    },
-    {
-      payer: 'Плательщик',
-      date: 'дд.мм.гггг',
-      summ: 'сумма',
-      purpose: 'Назначение'
-    },
-    {
-      payer: 'Плательщик',
-      date: 'дд.мм.гггг',
-      summ: 'сумма',
-      purpose: 'Назначение'
-    },
-  ]
-
   return (
     <div className={styles.projectItemPage}>
       <PageHeader
@@ -88,14 +52,15 @@ export default function ProjectItemPage(props) {
       <div className={styles.projectItemContent}>
         <div className={styles.projectsList}>
           <p className={styles.projectListTitle}>Название проекта</p>
-          {props.allProjects.map(item =>
+          {props.allProjects && props.allProjects.map(item =>
             <ProjectsList key={item.id} projectItem={item} />
           )}
         </div>
         <ProjectData
           project={props.project}
-          costs={costs}
-          payments={payments}
+          projectId={props.project.id}
+          projectInvoices={props.projectInvoices}
+          projectExpenses={props.projectExpenses}
         />
       </div>
 

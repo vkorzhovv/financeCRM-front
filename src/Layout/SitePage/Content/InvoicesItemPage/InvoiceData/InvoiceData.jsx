@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import InvoiceMoneyBox from '../InvoiceMoneyBox/InvoiceMoneyBox';
 import PaymentAddPopupContainer from '../../Payment/PaymentAddPopup/PaymentAddPopupContainer';
 import { editDate } from '../../../../../utils/dateEditor';
+import InvoicesListContainer from '../InvoicesList/InvoicesListContainer';
 
 export default function InvoiceData(props) {
 
@@ -16,6 +17,12 @@ export default function InvoiceData(props) {
 
   return (
     <div className={styles.invoiceData}>
+      <div className={styles.invoicesList}>
+        <p className={styles.invoicesListTitle}>Номер счета</p>
+        <InvoicesListContainer
+          invoice={props.invoice}
+        />
+      </div>
       <div className={styles.left}>
         <div className={classNames(styles.leftItem)}>
           <div className={classNames(styles.leftItem, styles.invoiceDataItem, styles.invoiceDataMain)}>
@@ -57,10 +64,10 @@ export default function InvoiceData(props) {
                   </p>
                 </div>
                 <div className={classNames('flex', styles.invoiceDataField)}>
-                  <p className={styles.invoiceDataTitle}>Тип начисления:</p><p>{props.invoice.payment_type && props.invoice.payment_type.name}</p>
+                  <p className={styles.invoiceDataTitle}>Тип начисления:</p><p>{props.invoice.payment_type}</p>
                 </div>
                 <div className={classNames('flex', styles.invoiceDataField)}>
-                  <p className={styles.invoiceDataTitle}>Назначение начисления:</p><p>{props.invoice.subtype && props.invoice.subtype.name}</p>
+                  <p className={styles.invoiceDataTitle}>Назначение начисления:</p><p>{props.invoice.subtype}</p>
                 </div>
               </div>
               <div className={styles.description}>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { getUserItem } from '../../../../redux/userItemReducer';
 import { selectUserItem } from '../../../../redux/userItemSelector';
-import { getClients, getContractors, getEmployees, getUsers } from '../../../../redux/usersReducer';
+import { getClients, getContractors, getEmployees} from '../../../../redux/usersReducer';
 import { selectClients, selectContractors, selectEmployees } from '../../../../redux/usersSelector';
 import StaffItemPage from './StaffItemPage';
 
@@ -15,14 +15,13 @@ export default function StaffItemPageContainer(props) {
 
   const user = useSelector(selectUserItem);
 
-  const getList = (type) => {
-    type === 'p' ? dispatch(getContractors()) : type === 'k' ? dispatch(getClients()) : dispatch(getEmployees());
-  }
-
   useEffect(() => {
+    const getList = (type) => {
+      type === 'p' ? dispatch(getContractors()) : type === 'k' ? dispatch(getClients()) : dispatch(getEmployees());
+    }
     dispatch(getUserItem(userId))
     getList(user.user_type);
-  }, [dispatch, userId])
+  }, [dispatch, userId, user.user_type])
 
   const clients = useSelector(selectClients);
   const contractors = useSelector(selectContractors);
@@ -35,7 +34,6 @@ export default function StaffItemPageContainer(props) {
     <StaffItemPage
       user={user}
       userList={userList}
-      getList = {getList}
       userListTitle={userListTitle}
     />
   );

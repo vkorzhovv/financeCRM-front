@@ -44,11 +44,11 @@ export const usersReducer = (state = initialState, action) => {
         clients: [...state.clients]
       }
     }
-    default: return {...state};
+    default: return { ...state };
   }
-} 
+}
 
-const setAddUser = (newUser) => ({type: ADD_USER, newUser})
+const setAddUser = (newUser) => ({ type: ADD_USER, newUser })
 const setUsers = (allUsers) => ({ type: SET_ALL_USERS, allUsers });
 const setClients = (clients) => ({ type: SET_CLIENTS, clients });
 const setEmployees = (employees) => ({ type: SET_EMPLOYEES, employees });
@@ -74,12 +74,30 @@ export const getContractors = () => async (dispatch) => {
   dispatch(setContractors(response.data));
 }
 
-export const addUser = (name, surname, patronymic, login, password, type, phone, finance, descr) => async (dispatch) => {
-  const response = await usersAPI.addUser(name, surname, patronymic, login, password, type, phone, finance, descr);
-  if (response.status < 300) {
-    dispatch(setAddUser(response.data))
+export const addUser = (
+  name,
+  surname,
+  patronymic,
+  login,
+  password,
+  type,
+  phone,
+  superuser,
+  descr) => async (dispatch) => {
+    const response = await usersAPI.addUser(
+      name,
+      surname,
+      patronymic,
+      login,
+      password,
+      type,
+      phone,
+      superuser,
+      descr);
+    if (response.status < 300) {
+      dispatch(setAddUser(response.data))
+    }
   }
-}
 
 export const deleteUser = (userId) => async () => {
   await usersAPI.deleteUser(userId);

@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React from "react";
-import styles from './cashaddpopup.module.css'; 
+import styles from './cashaddpopup.module.css';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from "react-redux";
 import { addItem, editItem, getItems } from "../../../../../redux/cashItemReducer";
@@ -22,6 +22,7 @@ export default function CashAddPopup(props) {
 
   const addCashItem = async (data) => {
     await dispatch(addItem(data.type, data.name))
+      .then(() => dispatch(getItems()))
       .then(reset())
   }
 
@@ -63,12 +64,9 @@ export default function CashAddPopup(props) {
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
             >
               <option value="">Выбрать</option>
-              <option value="p" selected={props.detail && props.type === 'p'}>Поступление</option>
-              <option value="o" selected={props.detail && props.type === 'o'}>Операционные</option>
-              <option value="s" selected={props.detail && props.type === 's'}>Стройматериалы</option>
-              <option value="n" selected={props.detail && props.type === 'n'}>Налоги</option>
-              <option value="z" selected={props.detail && props.type === 'z'}>Зарплата</option>
-              <option value="d" selected={props.detail && props.type === 'd'}>Другие</option>
+              {props.paymentsTypes && props.paymentsTypes.map(item =>
+                <option value={item.type} selected={props.detail && props.type === item.type}>{item.name}</option>
+              )}
             </select>
             {errors.type && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.type.message}</div>}
           </div>

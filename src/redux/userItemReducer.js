@@ -24,8 +24,8 @@ export const getUserItem = (userId) => async (dispatch) => {
   dispatch(setUserItem(response.data));
 }
 
-export const editUser = (userId, name, surname, patronymic, login, password, type, phone, finance, descr) => async (dispatch) => {
-  const response = await usersAPI.editUser(userId, name, surname, patronymic, login, password, type, phone, finance, descr);
+export const editUser = (userId, name, surname, patronymic, login, password, type, phone, superuser, descr) => async (dispatch) => {
+  const response = await usersAPI.editUser(userId, name, surname, patronymic, login, password, type, phone, superuser, descr);
   if (response.status < 300) {
     dispatch(setUserItem(response.data))
   }

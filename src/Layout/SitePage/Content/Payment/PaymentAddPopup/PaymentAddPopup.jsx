@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { addPayment, getPayments, getPaymentsInInvoice } from "../../../../../redux/paymentReducer";
 import { editPayment, getPaymentItem } from "../../../../../redux/paymentItemReducer";
 import { getInvoiceItem } from "../../../../../redux/invoiceItemReducer";
-
+import { editFileName } from "../../../../../utils/fileNameEditor";
 
 export default function PaymentAddPopup(props) {
 
@@ -59,9 +59,9 @@ export default function PaymentAddPopup(props) {
       arrayFiles(data.scans)
     ))
       .then(() => {
-        props.invoicePage && dispatch(getPaymentItem(props.payment.id))
-        !props.invoicePage && dispatch(getPaymentsInInvoice(props.invoice.id));
-        !props.invoicePage && dispatch(getInvoiceItem(props.invoice.id))
+        !props.invoicePage && dispatch(getPaymentItem(props.payment.id))
+        !props.invoicePage && props.invoice && dispatch(getPaymentsInInvoice(props.invoice.id));
+        !props.invoicePage && props.invoice && dispatch(getInvoiceItem(props.invoice.id))
         props.close(false);
         document.body.classList.remove('modal-show');
       })
@@ -124,28 +124,6 @@ export default function PaymentAddPopup(props) {
             />
             {errors.summ_plus && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.summ_plus.message}</div>}
           </div>
-          {/* {props.detail &&
-            <div className={!errors.summ_minus
-              ? classNames('flex', 'popupInputBox', styles.inputBox)
-              : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-              <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="summ_minus">Сумма оплачено</label>
-              <input
-                className={!errors.summ_minus
-                  ? classNames('popupInput', styles.inputHalf, styles.input)
-                  : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
-                type='text'
-                name='summ_minus'
-                // defaultValue={props.detail && props.project.price}
-                placeholder='0 р'
-                {...register('summ_minus',
-                  {
-                    required: 'Введите сумму',
-                  }
-                )}
-              />
-              {errors.summ_minus && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.summ_minus.message}</div>}
-            </div>
-          } */}
           <div className={!errors.date
             ? classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox')
             : classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox', 'popupBoxError', styles.boxError)}>
@@ -184,6 +162,24 @@ export default function PaymentAddPopup(props) {
               {errors.status && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.status.message}</div>}
             </div>
           }
+
+          {props.detail && (props.payment.scans && props.payment.scans.length) > 0 &&
+            <div className={classNames('flex', 'popupInputBox')}>
+              <p className={classNames('popupLabel', styles.projectLabel)}>Загруженные файлы:</p>
+              {props.payment.scans.map((item, index) =>
+                <a
+                  key={item.id}
+                  href={item.scan}
+                  download
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.attachmentFieldDocument}>
+                  Файл {index + 1}{editFileName(item.scan)}
+                </a>
+              )}
+            </div>
+          }
+
           <div className={!errors.scans
             ? classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox')
             : classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox', 'popupBoxError', styles.boxError)}>
@@ -194,13 +190,8 @@ export default function PaymentAddPopup(props) {
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
               type='file'
               multiple
-              // defaultValue={props.detail && props.project.start_date}
               name='scans'
-              {...register('scans',
-                {
-                  required: 'Выберите документ',
-                })
-              }
+              {...register('scans')}
             />
             {errors.scans && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.scans.message}</div>}
           </div>

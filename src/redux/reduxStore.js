@@ -6,6 +6,7 @@ import { invoiceItemReducer } from './invoiceItemReducer';
 import { invoicesReducer } from './invoicesReducer';
 import { paymentItemReducer } from './paymentItemReducer';
 import { paymentsReducer } from './paymentReducer';
+import { expensesReducer } from './projectExpensesReducer';
 import { projectItemReducer } from './projectItemReducer';
 import { projectsReducer } from './projectsReducer';
 import { userItemReducer } from './userItemReducer';
@@ -22,6 +23,7 @@ let reducers = combineReducers({
   invoiceItem: invoiceItemReducer,
   payments: paymentsReducer,
   paymentItem: paymentItemReducer,
+  projectExpenses: expensesReducer,
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

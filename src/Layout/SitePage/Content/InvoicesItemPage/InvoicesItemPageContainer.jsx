@@ -21,6 +21,9 @@ export default function InvoicesItemPageContainer(props) {
   }, [dispatch, invoicesId])
 
   return (
-    <InvoicesItemPage invoice={invoice} paymentsInInvoice={paymentsInInvoice}/>
+    <InvoicesItemPage
+      invoice={invoice}
+      paymentsInInvoice={paymentsInInvoice}
+    />
   );
 }

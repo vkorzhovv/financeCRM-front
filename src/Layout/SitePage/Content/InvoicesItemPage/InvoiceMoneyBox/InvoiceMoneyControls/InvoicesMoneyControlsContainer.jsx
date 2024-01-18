@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { getInvoiceItem } from '../../../../../../redux/invoiceItemReducer';
 import { editPayment } from '../../../../../../redux/paymentItemReducer';
-import { deletePayment, getPayments, getPaymentsInInvoice } from '../../../../../../redux/paymentReducer';
+import { deletePayment, getPaymentsInInvoice } from '../../../../../../redux/paymentReducer';
 import InvoiceMoneyControls from './InvoiceMoneyControls';
 
 export default function InvoiceMoneyControlsContainer(props) {
@@ -11,7 +11,6 @@ export default function InvoiceMoneyControlsContainer(props) {
 
   const onDelete = async () => {
     await dispatch(deletePayment(props.payment.id))
-      .then(() => dispatch(getPayments()))
       .then(() => dispatch(getPaymentsInInvoice(props.payment.invoice.id)))
       .then(() => dispatch(getInvoiceItem(props.invoice.id)))
       .then(() => document.body.classList.remove('modal-show'))

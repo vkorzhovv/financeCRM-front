@@ -42,18 +42,7 @@ export default function CashData(props) {
 
   return (
     <div className={classNames('flex', styles.cashData)}>
-      <p className={styles.type}>{
-        props.type === 'p' ?
-          "Поступление" :
-          props.type === 'o' ?
-            "Операционные" :
-            props.type === 's' ?
-              "Стройматериалы" :
-              props.type === 'n' ?
-                "Налоги" :
-                props.type === 'z' ?
-                  "Зарплата" : "Другие"
-      }
+      <p className={styles.type}>{props.type_name}
       </p>
       <p className={styles.name}>{props.name}</p>
       <div className={classNames('flex', styles.btnGroup)}>
@@ -81,7 +70,6 @@ export default function CashData(props) {
           id={props.id}
           name={props.name}
           type={props.type}
-
           handleClickClose={handleClickClose}
           submitText={'Готово'}
           popupHeader={'Редактировать статью'}

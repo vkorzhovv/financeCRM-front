@@ -40,18 +40,20 @@ export default function PageControls(props) {
   return (
     <div className={classNames('flex', styles.pageControls)}>
       <div className={classNames('flex', styles.svgBtnsBlock)}>
-        <div className={classNames(styles.pageControlItem, styles.findBlock)}>
-          <input className={
-            isVisible
-              ? classNames(styles.searchInput, styles.searchVisible)
-              : styles.searchInput}
-            placeholder='Введите запрос'></input>
-          <button className={classNames(styles.searchBtn, styles.controlsBtn)} onClick={handleClick}>
-            <SearchIcon />
-          </button>
-        </div>
+        {!props.detail &&
+          <div className={classNames(styles.pageControlItem, styles.findBlock)}>
+            <input className={
+              isVisible
+                ? classNames(styles.searchInput, styles.searchVisible)
+                : styles.searchInput}
+              placeholder='Введите запрос'></input>
+            <button className={classNames(styles.searchBtn, styles.controlsBtn)} onClick={handleClick}>
+              <SearchIcon />
+            </button>
+          </div>
+        }
         {
-          !props.withoutCash &&
+          (!props.withoutCash && !props.detail) &&
           <div className={classNames(styles.pageControlItem, styles.settingsBlock)}>
             <button className={classNames(styles.settingsBtn, styles.controlsBtn)}>
               <SettingsIcon />

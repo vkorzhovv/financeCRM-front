@@ -3,7 +3,6 @@ import styles from './usercontrols.module.css';
 import classNames from 'classnames';
 import { useState } from 'react';
 import UserPopup from './UserPopup/UserPopup';
-import Avatar from './Avatar/Avatar';
 
 export default function UserControls(props) {
 
@@ -15,7 +14,6 @@ export default function UserControls(props) {
 
   return (
     <div className={classNames('flex', styles.controls)}>
-      <Avatar />
       <button
         className={classNames('flex', styles.userBtn)}
         onClick={handleClickOpen}

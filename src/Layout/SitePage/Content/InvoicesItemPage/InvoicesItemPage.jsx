@@ -49,7 +49,6 @@ export default function InvoicesItemPage(props) {
           handleClickClose={handleClickClose}
           submitText={'Готово'}
           remainder={remainder}
-
           popupHeader={`Счет № ${props.invoice.id + 10000}`}
           detail={'detail'}
 
