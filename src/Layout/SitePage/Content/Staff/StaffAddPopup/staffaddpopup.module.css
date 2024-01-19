@@ -9,3 +9,10 @@
 .inputBox {
   position: relative;
 }
+
+@media (max-width: 576px) {
+  .group {
+    grid-template-columns: 100%;
+    gap: 20px;
+  }
+}

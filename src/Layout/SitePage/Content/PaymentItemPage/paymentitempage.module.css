@@ -18,3 +18,13 @@
   margin-bottom: 12px;
   border-bottom: 1px solid var(--greyE1);
 }
+
+@media (max-width: 768px) {
+  .paymentItemContent {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 576px) {}

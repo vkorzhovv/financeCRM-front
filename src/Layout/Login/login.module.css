@@ -53,7 +53,7 @@
 .inputBox.boxError::after {
   content: '!';
   position: absolute;
-  right: 20px;
+  right: 40px;
   top: 15px;
   display: flex;
   align-items: center;
@@ -93,10 +93,12 @@
 
 .passBtn  {
   position: absolute;
-  right: -25px;
+  right: 10px;
   top: 15px;
   width: 20px;
   height: 20px;
+  border: unset;
+  background: transparent;
 }
 
 .errorMessage {
@@ -114,4 +116,27 @@
 
 .btnSubmit:disabled {
   background-color: var(--grey78);
+}
+
+@media (max-width: 576px) {
+  .formBox {
+    padding: 15px;
+  }
+
+  .formWrapper {
+    width: 100%;
+    max-width: 460px;
+  }
+
+  .form {
+    width: 100%;
+  }
+
+  .inputBox {
+    width: 100%;
+  }
+
+  .input {
+    width: 100%;
+  }
 }

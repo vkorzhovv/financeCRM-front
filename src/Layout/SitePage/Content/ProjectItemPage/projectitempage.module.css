@@ -18,3 +18,19 @@
   margin-bottom: 12px;
   border-bottom: 1px solid var(--greyE1);
 }
+
+@media (max-width: 1400px) {}
+
+@media (max-width: 1200px) {}
+
+@media (max-width: 992px) {
+  .projectItemContent {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 576px) {}

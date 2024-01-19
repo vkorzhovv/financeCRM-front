@@ -223,7 +223,7 @@ export default function InvoicesAddPopup(props) {
             />
             {errors.date && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.date.message}</div>}
           </div>
-          {props.remainder === (0).toFixed(2) &&
+          {props.remainder <= (0).toFixed(2) &&
             <div className={!errors.status
               ? classNames('flex', 'popupInputBox', styles.inputBox)
               : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>

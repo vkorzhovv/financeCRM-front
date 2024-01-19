@@ -71,7 +71,7 @@ export default function ProjectData(props) {
             </table>
           </div>
         </div>
-        <div className={styles.projectDataItem}>
+        <div className={classNames(styles.projectDataItem, styles.dataItemMoney)}>
           <ProjectMoneyBox
             projectId={props.projectId}
             receipts={true}
@@ -80,7 +80,7 @@ export default function ProjectData(props) {
           />
         </div>
       </div>
-      <div className={styles.projectDataItem}>
+      <div className={classNames(styles.projectDataItem, styles.dataItemMoney)}>
         <ProjectMoneyBox
           projectId={props.projectId}
           expenses={true}

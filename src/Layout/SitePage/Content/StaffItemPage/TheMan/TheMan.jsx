@@ -29,7 +29,7 @@ export default function TheMan(props) {
           </div> */}
         </div>
         <div className={classNames('flex', styles.description)}>
-          <p className={styles.itemTitle}>Описание</p>
+          {/* <p className={styles.itemTitle}>Описание</p> */}
           <p className={styles.descriptionText}>{props.user.description}</p>
         </div>
       </div>

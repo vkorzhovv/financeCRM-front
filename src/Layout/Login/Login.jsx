@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
 import { login } from '../../redux/authReducer';
 import Logo from '../common/Logo/Logo';
+import hideImg from '../../assets/images/hidePass.png'
+import showImg from '../../assets/images/showPass.png'
 
 export default function Login(props) {
 
@@ -75,13 +77,13 @@ export default function Login(props) {
                   })}
               />
               <button
-            className={styles.passBtn}
-            type='button'
-            onClick={() => {
-              visible ? setVisible(false) : setVisible(true)
-            }}>
-            {/* <img src={visible ? hideImg : showImg} alt="icon" /> */}
-          </button>
+                className={classNames('imageBox', styles.passBtn)}
+                type='button'
+                onClick={() => {
+                  visible ? setVisible(false) : setVisible(true)
+                }}>
+                <img src={visible ? hideImg : showImg} alt="icon" />
+              </button>
               {errors.password && <div className={styles.errorMessage}>{errors.password.message}</div>}
             </div>
             <div>

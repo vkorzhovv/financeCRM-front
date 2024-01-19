@@ -47,3 +47,33 @@
   min-width: 60px;
   margin-right: 30px;
 }
+
+@media (max-width: 992px) {
+  .manInfo {
+    margin-right: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .manDatas {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .manInfo {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .theManHeader {
+    flex-direction: column-reverse;
+  }
+
+  .cash {
+    align-self: flex-end;
+    margin-bottom: 20px;
+  }
+}

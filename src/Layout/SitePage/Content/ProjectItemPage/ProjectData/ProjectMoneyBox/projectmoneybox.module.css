@@ -14,6 +14,10 @@
   margin-right: 20px;
 }
 
+.tableWrapper {
+  overflow-y: scroll;
+}
+
 .moneyTable {
   width: 100%;
 }
@@ -56,4 +60,33 @@
 
 .addPayBtn:active .line {
   background-color: var(--black05);
+}
+
+@media (max-width: 1400px) {}
+
+@media (max-width: 1200px) {}
+
+@media (max-width: 992px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 576px) {
+  .moneyHeader {
+    flex-direction: column;
+  }
+
+  .moneyHeaderText {
+    margin-bottom: 15px;
+  }
+
+  .moneyHeaderText.moneyHeaderSumm {
+    margin-bottom: 0;
+    margin-right: 0;
+  }
+
+  .moneyHeaderData {
+    height: max-content;
+    width: 100%;
+    justify-content: space-between;
+  }
 }

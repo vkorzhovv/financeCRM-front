@@ -13,8 +13,16 @@
   font-weight: 400;
 }
 
+.cashWrapper {
+
+  overflow-y: scroll;
+}
+
+.dataWrapper {
+  flex-direction: column;
+  width: max-content;
+}
+
 @media (max-width: 576px) {
-  .cashWrapper {
-    overflow-y: scroll;
-  }
+
 }

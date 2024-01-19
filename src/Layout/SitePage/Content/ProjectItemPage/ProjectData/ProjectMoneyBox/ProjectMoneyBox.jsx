@@ -23,7 +23,7 @@ export default function ProjectMoneyBox(props) {
     <div className={classNames(styles.projectMoney)}>
       <div className={classNames('flex', styles.moneyHeader)}>
         <h3 className={classNames(styles.moneyHeaderText)}>{props.title}</h3>
-        <div className={classNames('flex')}>
+        <div className={classNames('flex', styles.moneyHeaderData)}>
           <p className={classNames(styles.moneyHeaderText, styles.moneyHeaderSumm)}>
             {
               props.receipts ?
@@ -45,18 +45,20 @@ export default function ProjectMoneyBox(props) {
           </button>
         </div>
       </div>
-      <table className={styles.moneyTable}>
-        <tbody>
-          {props.cash.map(item =>
-            <ProjectMoney
-              projectId={props.projectId}
-              key={item.id}
-              receipts={props.receipts || false}
-              money={item}
-            />
-          )}
-        </tbody>
-      </table>
+      <div className={styles.tableWrapper}>
+        <table className={styles.moneyTable}>
+          <tbody>
+            {props.cash.map(item =>
+              <ProjectMoney
+                projectId={props.projectId}
+                key={item.id}
+                receipts={props.receipts || false}
+                money={item}
+              />
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {isOpenPopupExpenses &&
         <ProjectExpensesAddPopupContainer

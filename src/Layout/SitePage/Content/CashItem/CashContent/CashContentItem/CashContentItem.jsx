@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import styles from './cashcontentitem.module.css';
 import CashData from './CashData/CashData';
@@ -8,19 +9,21 @@ export default function CashContentItem(props) {
       <h2 className={styles.cashTitle}>
         {props.title}
       </h2>
-      <div className={styles.cashWrapper}>
-        {props.items.map(item =>
-          <CashData
-            key={item.id}
-            id={item.id}
-            name={item.name}
-            type_name={item.item_type_name}
-            type={item.item_type}
-            isOpenPopup={props.isOpenPopup}
-            handleClickClose={props.handleClickClose}
-            handleClickOpen={props.handleClickOpen}
-          />
-        )}
+      <div className={classNames(styles.cashWrapper)}>
+        <div className={classNames('flex', styles.dataWrapper)}>
+          {props.items.map(item =>
+            <CashData
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              type_name={item.item_type_name}
+              type={item.item_type}
+              isOpenPopup={props.isOpenPopup}
+              handleClickClose={props.handleClickClose}
+              handleClickOpen={props.handleClickOpen}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

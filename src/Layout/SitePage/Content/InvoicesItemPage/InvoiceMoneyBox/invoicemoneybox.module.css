@@ -57,3 +57,22 @@
 .addPayBtn:active .line {
   background-color: var(--black05);
 }
+
+.tableWrapper {
+  overflow-y: scroll;
+}
+
+@media (max-width: 576px) {
+  .moneyHeader {
+    flex-direction: column;
+  }
+
+  .moneyHeaderText {
+    margin-bottom: 15px;
+  }
+
+  .moneyHeaderText.moneyHeaderSumm {
+    margin-bottom: 0;
+    margin-right: 0;
+  }
+}

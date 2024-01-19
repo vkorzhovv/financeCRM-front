@@ -8,11 +8,7 @@
   justify-content: flex-start;
 }
 
-.leftItem {
-  margin-bottom: 20px;
-}
-
-.paymentDataItem:first-child {
+.right .paymentDataItem:first-child {
   margin-bottom: 20px;
 }
 
@@ -73,6 +69,10 @@
   align-self: start;
 }
 
+.tableWrapper {
+  overflow-y: scroll;
+}
+
 .paymentTable {
   width: 100%;
 }
@@ -86,11 +86,11 @@
 }
 
 .paymentTableTitles th {
-  padding-bottom: 20px;
+  padding: 0 5px 20px 5px;
 }
 
 .paymentTableItem td {
-  padding-top: 25px;
+  padding: 25px 5px 0 5px;
 }
 
 .paymentTableTitles::after {
@@ -128,4 +128,46 @@
   display: inline-block;
   margin-right: 10px;
   border-bottom: 1px solid var(--black05);
+}
+
+@media (max-width: 1400px) {}
+
+@media (max-width: 1200px) {
+  .paymentData {
+    grid-template-columns: 100%;
+  }
+}
+
+@media (max-width: 992px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 576px) {
+  .paymentHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .thepaymentTitle {
+    margin-bottom: 15px;
+  }
+
+  .paymentMainInfo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .paymentDataList {
+    margin-bottom: 20px;
+    margin-right: 0;
+  }
+
+  .attachmentField {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .attachmentFieldName {
+    margin-bottom: 20px;
+  }
 }

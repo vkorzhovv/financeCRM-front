@@ -18,6 +18,11 @@
   padding: 27px 30px 30px 30px;
   border-radius: 10px;
   background-color: var(--whiteF8);
+  overflow-y: scroll;
+}
+
+.projectDataItem.dataItemMoney {
+  overflow-y: unset;
 }
 
 .projectDataMain {
@@ -45,6 +50,7 @@
   color: var(--green76);
   font-size: 20px;
 }
+
 .statusFalse {
   color: var(--redCF);
   font-size: 20px;
@@ -84,11 +90,11 @@
 }
 
 .projectTableTitles th {
-  padding-bottom: 20px;
+  padding: 0 5px 20px 5px;
 }
 
 .projectTableItem td {
-  padding-top: 25px;
+  padding: 25px 5px 0 5px;
 }
 
 .projectTableTitles::after {
@@ -141,4 +147,69 @@
 
 .verLine {
   transform: rotate(90deg);
+}
+
+@media (max-width: 1400px) {
+  .projectMainInfo {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .projectPersonList {
+    min-width: 0;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+}
+
+@media (max-width: 1200px) {
+  .projectMainInfo {
+    align-items: flex-start;
+    flex-direction: row;
+  }
+
+  .projectPersonList {
+    min-width: 0;
+    margin-right: 50px;
+    margin-bottom: 0;
+  }
+
+  .projectData {
+    grid-template-columns: 100%;
+  }
+
+}
+
+@media (max-width: 992px) {
+  .projectMainInfo {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .projectPersonList {
+    min-width: 0;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 576px) {
+  .projectHeader {
+    flex-direction: column-reverse;
+  }
+
+  .status {
+    align-self: flex-end;
+    margin-bottom: 15px;
+  }
+
+  .projectDataItem {
+    padding: 27px 20px 25px 20px;
+  }
 }

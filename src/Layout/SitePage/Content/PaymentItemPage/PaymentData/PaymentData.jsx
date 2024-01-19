@@ -21,7 +21,7 @@ export default function PaymentData(props) {
             <div className={classNames('flex', styles.paymentHeader)}>
               <h2 className={styles.thepaymentTitle}>Платеж № {props.payment.id + 10000}</h2>
               <div className={styles.check}>
-                Счет № {props.payment.invoice.id + 10000}
+                Счет №&nbsp;{props.payment.invoice.id + 10000}
               </div>
             </div>
             <div className={classNames('flex', styles.paymentMainInfo)}>
@@ -61,43 +61,43 @@ export default function PaymentData(props) {
           </div>
         </div>
       </div>
-      <div>
-        <div className={classNames(styles.paymentDataItem)}>
-          <table className={styles.paymentTable}>
-            <thead className={styles.paymentTableTitles}>
-              <tr>
-                {paymentTh.map(item =>
-                  <th className={styles.titlesItem}>{item}</th>
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              <tr className={styles.paymentTableItem}>
-                <td>
-                  {editDate(props.payment.date)}
-                </td>
-                <td>
-                  {props.payment.invoice.amount}
-                </td>
-                <td>
-                  {props.payment.total}
-                </td>
-                <td>
-                  {props.payment.approved ? <span className={styles.statusTrue}>Оплачен</span> : <span className={styles.statusFalse}>Не оплачен</span>}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div className={styles.right}>
+        <div className={classNames(styles.paymentDataItem, styles.tableWrapper)}>
+            <table className={styles.paymentTable}>
+              <thead className={styles.paymentTableTitles}>
+                <tr>
+                  {paymentTh.map(item =>
+                    <th className={styles.titlesItem}>{item}</th>
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                <tr className={styles.paymentTableItem}>
+                  <td>
+                    {editDate(props.payment.date)}
+                  </td>
+                  <td>
+                    {props.payment.invoice.amount}
+                  </td>
+                  <td>
+                    {props.payment.total}
+                  </td>
+                  <td>
+                    {props.payment.approved ? <span className={styles.statusTrue}>Оплачен</span> : <span className={styles.statusFalse}>Не оплачен</span>}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
         </div>
-        <div className={classNames(styles.paymentDataItem)}>
-          <div className={classNames('flex', styles.attachmentHeader)}>
+        <div className={classNames(styles.paymentDataItem, styles.dataItemFiles)}>
+          <div className={classNames(styles.attachmentHeader)}>
             <h3 className={classNames(styles.attachmentHeaderText)}>Приложенные документы</h3>
           </div>
           <div className={styles.attachmentData}>
             <div className={classNames('flex', styles.attachmentField)}>
-              <p className={styles.attachmentFieldName}>Скан/фото документа</p>
+              <p className={styles.attachmentFieldName}>Скан/фото документа:</p>
               <div className={classNames(styles.attachmentLinks)}>
-                {props.payment.scans &&
+                {(props.payment.scans && props.payment.scans.length) ?
                   props.payment.scans.map((item, index) =>
                     <a
                       href={item.scan}
@@ -108,7 +108,10 @@ export default function PaymentData(props) {
                       className={styles.attachmentFieldDocument}>
                       Файл {index + 1}{editFileName(item.scan)}
                     </a>
+
                   )
+                  :
+                  "Приложенных документов нет"
                 }
               </div>
             </div>

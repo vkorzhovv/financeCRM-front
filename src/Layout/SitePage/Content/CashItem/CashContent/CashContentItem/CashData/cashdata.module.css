@@ -3,6 +3,8 @@
   padding: 20px 10px 20px 10px;
   border-radius: 5px;
   transition: .3s;
+  width: max-content;
+  align-self: stretch;
 }
 
 .cashData:hover {
@@ -15,7 +17,7 @@
 }
 
 .name {
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
 .btnGroup {
@@ -50,6 +52,6 @@
 
 @media (max-width: 576px) {
   .cashData {
-    min-width: 480px;
+    min-width: 100%;
   }
 }

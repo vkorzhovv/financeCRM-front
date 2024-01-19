@@ -222,10 +222,49 @@ button {
 
 @media (max-width: 1200px) {}
 
-@media (max-width: 992px) {}
+@media (max-width: 992px) {
+  .popup {
+    padding: 15px;
+  }
 
-@media (max-width: 768px) {}
+  .popupWindow {
+    width: 100%;
+    max-width: 812px;
+    max-height: 100%;
+  }
+
+  .popupInputBox {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .popupLabel {
+    min-width: 0;
+    margin-bottom: 10px;
+  }
+
+  .popupInputBox {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 
 @media (max-width: 576px) {
+  .popupWindow {
+    padding: 15px;
+  }
+}
 
+@media (max-width: 350px) {
+  .popupBtnsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-self: flex-end;
+  }
+
+  .popupBtnsWrapper .btnTransparent {
+    margin-right: 0;
+  }
 }

@@ -10,7 +10,7 @@ export default function InvoiceMoney(props) {
   return (
     <tr className={styles.invoiceItem}>
       <td className={classNames(styles.moneyCell)}>
-        Платеж № {props.money.id + 10000}
+        Платеж №&nbsp;{props.money.id + 10000}
       </td>
       <td className={classNames(styles.moneyCell)}>
         {editDate(props.money.date)}
@@ -19,7 +19,7 @@ export default function InvoiceMoney(props) {
         {props.money.total}
       </td>
       <td className={classNames(styles.moneyCell)}>
-        {props.money.approved ? <span className={styles.statusTrue}>Оплачено</span> : <span className={styles.statusFalse}>Не оплачено</span>}
+        {props.money.approved ? <span className={styles.statusTrue}>Оплачено</span> : <span className={styles.statusFalse}>Не&nbsp;оплачено</span>}
       </td>
       {!props.invoice.approved &&
         <td className={classNames(styles.moneyCell, styles.paymentControls)}>
