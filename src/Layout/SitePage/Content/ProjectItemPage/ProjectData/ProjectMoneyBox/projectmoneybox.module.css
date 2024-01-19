@@ -15,7 +15,7 @@
 }
 
 .tableWrapper {
-  overflow-y: scroll;
+  overflow-x: auto;
 }
 
 .moneyTable {

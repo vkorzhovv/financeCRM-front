@@ -14,13 +14,12 @@
 }
 
 .cashWrapper {
-
-  overflow-y: scroll;
+  overflow-x: auto;
 }
 
 .dataWrapper {
   flex-direction: column;
-  width: max-content;
+  width: 100%;
 }
 
 @media (max-width: 576px) {

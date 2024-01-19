@@ -18,7 +18,7 @@
   padding: 27px 30px 30px 30px;
   border-radius: 10px;
   background-color: var(--whiteF8);
-  overflow-y: scroll;
+  overflow-x: auto;
 }
 
 .invoiceDataMain {
@@ -151,7 +151,7 @@
 
 .invoiceDataItem.paymentsBox {
   margin-bottom: 20px;
-  overflow-y: unset;
+  overflow-x: unset;
 }
 
 .approved {

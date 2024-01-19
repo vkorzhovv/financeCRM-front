@@ -22,7 +22,7 @@
 
 @media (max-width: 1200px) {
   .staffTableWrapper {
-    overflow-y: scroll;
+    overflow-x: auto;
   }
   .staffTable {
     min-width: max-content;
