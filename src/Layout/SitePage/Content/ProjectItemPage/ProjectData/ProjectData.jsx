@@ -44,31 +44,35 @@ export default function ProjectData(props) {
             </div>
           </div>
           <div className={classNames(styles.projectDataItem)}>
-            <table className={styles.projectTable}>
-              <thead className={styles.projectTableTitles}>
-                <tr>
-                  {projectTh.map(item =>
-                    <th className={styles.titlesItem}>{item}</th>
+            <div className={classNames('table', styles.projectTable)}>
+              <div className={classNames('tableHeader', styles.projectTableTitles)}>
+                <div className={classNames('tableRow')}>
+                  {projectTh.map((item, index) =>
+                    <div
+                      key={item + index}
+                      className={classNames('tableCell', styles.titlesItem)}>
+                      {item}
+                    </div>
                   )}
-                </tr>
-              </thead>
-              <tbody>
-                <tr className={styles.projectTableItem}>
-                  <td>
+                </div>
+              </div>
+              <div className={classNames('tableBody')}>
+                <div className={classNames('tableRow', styles.projectTableItem)}>
+                  <div className={classNames('tableCell', styles.itemCell)}>
                     {editDate(props.project.start_date)}
-                  </td>
-                  <td>
+                  </div>
+                  <div className={classNames('tableCell', styles.itemCell)}>
                     {editDate(props.project.end_date)}
-                  </td>
-                  <td>
+                  </div>
+                  <div className={classNames('tableCell', styles.itemCell)}>
                     {props.project.price}
-                  </td>
-                  <td>
+                  </div>
+                  <div className={classNames('tableCell', styles.itemCell)}>
                     {props.project.balance}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className={classNames(styles.projectDataItem, styles.dataItemMoney)}>

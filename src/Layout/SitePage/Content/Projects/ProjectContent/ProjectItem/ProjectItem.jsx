@@ -8,11 +8,11 @@ import { editDate } from '../../../../../../utils/dateEditor';
 export default function ProjectItem(props) {
 
   return (
-    <tr className={styles.projectItem}>
-      <td className={classNames(styles.projectCell, styles.cellWidth, styles.projectName)}>
+    <div className={classNames('tableRow', styles.projectItem)}>
+      <div className={classNames('leftCell', 'tableCell', styles.projectCell, styles.projectName)}>
         {props.item.name}
-      </td>
-      <td className={classNames('nowrapString', styles.projectCell, styles.cellWidth, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', 'nowrapString', styles.projectCell)}>
         {
           props.item.project_manager
             ?
@@ -20,8 +20,8 @@ export default function ProjectItem(props) {
             :
             'Не выбран'
         }
-      </td>
-      <td className={classNames('nowrapString', styles.projectCell, styles.cellWidth, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', 'nowrapString', styles.projectCell)}>
         {
           props.item.client
             ?
@@ -29,8 +29,8 @@ export default function ProjectItem(props) {
             :
             'Не выбран'
         }
-      </td>
-      <td className={classNames('nowrapString', styles.projectCell, styles.cellWidth, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', 'nowrapString', styles.projectCell)}>
         {
           props.item.foreman
             ?
@@ -38,30 +38,30 @@ export default function ProjectItem(props) {
             :
             'Не выбран'
         }
-      </td>
-      <td className={classNames(styles.projectCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.projectCell)}>
         {editDate(props.item.start_date)}
-      </td>
-      <td className={classNames(styles.projectCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.projectCell)}>
         {editDate(props.item.end_date)}
-      </td>
-      <td className={classNames(styles.projectCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.projectCell)}>
         {props.item.price}
-      </td>
-      <td className={classNames(styles.projectCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.projectCell)}>
         {props.item.balance}
-      </td>
-      <td className={classNames(styles.projectCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.projectCell)}>
         {props.item.expenses}
-      </td>
-      <td className={classNames(styles.projectCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.projectCell)}>
         {props.item.active ? <span className={styles.statusTrue}>Активен</span> : <span className={styles.statusFalse}>Неактивен</span>}
-      </td>
+      </div>
       <NavLink
         to={`/projects/${props.item.id}`}
         className={'absoluteLink'}
       >
       </NavLink>
-    </tr>
+    </div>
   );
 }

@@ -27,10 +27,6 @@
   max-width: 300px;
 }
 
-.centerCell {
-  text-align: center;
-}
-
 .statusTrue {
   color: var(--green76);
 }

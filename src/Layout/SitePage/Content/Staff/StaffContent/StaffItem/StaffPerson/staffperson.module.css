@@ -1,8 +1,8 @@
 .staffPerson {
+  display: table-row;
   position: relative;
   background-color: transparent;
   transition: .3s;
-  cursor: pointer;
 }
 
 .staffPerson::after {
@@ -18,7 +18,7 @@
   background-color: var(--greenC8);
 }
 
-.staffPerson td {
+.tableCellStaff {
   position: relative;
   padding: 20px 10px 20px 10px;
   z-index: 5;
@@ -35,10 +35,8 @@
 @media (max-width: 992px) {}
 
 @media (max-width: 768px) {
-  .staffPerson td {
-    position: relative;
+  .tableCellStaff {
     padding: 20px 5px 20px 5px;
-    z-index: 5;
   }
 }
 

@@ -6,7 +6,9 @@ export default function PaymentList(props) {
 
   return (
     props.paymentsList.map((item) =>
-      <div >
+      <div
+        key={item.id}
+      >
         <NavLink
           to={`/payment/${item.id}`}
           className={styles.paymentLink}

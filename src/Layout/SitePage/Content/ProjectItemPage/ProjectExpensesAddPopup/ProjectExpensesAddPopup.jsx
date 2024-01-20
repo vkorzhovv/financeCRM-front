@@ -5,6 +5,7 @@ import styles from './projectexpensesaddpopup.module.css';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { addExpense, editExpense, getExpenses } from "../../../../../redux/projectExpensesReducer";
+// import { getProjects } from "../../../../../redux/projectsReducer";
 
 export default function ProjectExpensesAddPopup(props) {
 
@@ -34,6 +35,7 @@ export default function ProjectExpensesAddPopup(props) {
     ))
       .then(() => {
         dispatch(getExpenses(props.projectId))
+        // dispatch(getProjects())
         props.handleClickClose(false)
         document.body.classList.remove('modal-show');
       })
@@ -51,6 +53,7 @@ export default function ProjectExpensesAddPopup(props) {
     ))
       .then(() => {
         dispatch(getExpenses(props.projectId))
+        // dispatch(getProjects())
         props.handleClickClose(false)
         document.body.classList.remove('modal-show');
       })

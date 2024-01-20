@@ -59,8 +59,8 @@ export const login = (name, password, setError) => async (dispatch) => {
     }
   }
   catch (err) {
-    if (err.response.data.non_field_errors) {
-      setError('serverError', { type: 'response', message: err.response.data.non_field_errors[0] })
+    if (err.response.data) {
+      setError('serverError', { type: 'response', message: Object.values(err.response.data).map(item => item) })
     } else {
       console.log(err.message)
     }

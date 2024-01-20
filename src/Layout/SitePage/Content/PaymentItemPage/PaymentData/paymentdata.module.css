@@ -77,19 +77,15 @@
   width: 100%;
 }
 
-.paymentTable td {
-  text-align: center;
-}
-
 .paymentTableTitles {
   position: relative;
 }
 
-.paymentTableTitles th {
+.titlesItem {
   padding: 0 5px 20px 5px;
 }
 
-.paymentTableItem td {
+.itemCell {
   padding: 25px 5px 0 5px;
 }
 

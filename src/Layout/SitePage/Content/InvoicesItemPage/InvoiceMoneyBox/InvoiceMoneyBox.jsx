@@ -11,17 +11,15 @@ export default function InvoiceMoneyBox(props) {
         <p className={classNames(styles.moneyHeaderText, styles.moneyHeaderSumm)}>{props.invoice.receipts}</p>
       </div>
       <div className={styles.tableWrapper}>
-        <table className={styles.moneyTable}>
-          <tbody>
-            {props.paymentsInInvoice.map(item =>
-              <InvoiceMoney
-                key={item.id}
-                invoice={props.invoice}
-                money={item}
-              />
-            )}
-          </tbody>
-        </table>
+        <div className={classNames('table', styles.moneyTable)}>
+          {props.paymentsInInvoice.map(item =>
+            <InvoiceMoney
+              key={item.id}
+              invoice={props.invoice}
+              money={item}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

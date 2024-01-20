@@ -7,7 +7,9 @@ export default function InvoicesList(props) {
 
   return (
     props.invoicesList.map((item) =>
-      <div >
+      <div
+        key={item.id}
+      >
         <NavLink
           to={`/invoices/${item.id}`}
           className={styles.invoiceLink}

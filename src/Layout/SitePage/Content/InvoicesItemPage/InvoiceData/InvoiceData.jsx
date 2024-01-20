@@ -131,26 +131,30 @@ export default function InvoiceData(props) {
               </div>
             </div>
             <div className={classNames(styles.invoiceDataItem)}>
-              <table className={styles.invoiceTable}>
-                <thead className={styles.invoiceTableTitles}>
-                  <tr>
-                    {invoiceTh.map(item =>
-                      <th className={styles.titlesItem}>{item}</th>
+              <div className={classNames('table', styles.invoiceTable)}>
+                <div className={classNames('tableHeader', styles.invoiceTableTitles)}>
+                  <div className={classNames('tableRow')}>
+                    {invoiceTh.map((item, index) =>
+                      <div
+                        key={item + index}
+                        className={classNames('tableCell', styles.titlesItem)}>
+                        {item}
+                      </div>
                     )}
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className={styles.invoiceTableItem}>
-                    <td>
+                  </div>
+                </div>
+                <div className={classNames('tableBody')}>
+                  <div className={classNames('tableRow', styles.invoiceTableItem)}>
+                    <div className={classNames('tableCell', styles.cellItem)}>
                       {props.invoice.amount}
-                    </td>
-                    <td>
+                    </div>
+                    <div className={classNames('tableCell', styles.cellItem)}>
                       {props.invoice.receipts}
-                    </td>
-                    <td>
+                    </div>
+                    <div className={classNames('tableCell', styles.cellItem)}>
                       {props.remainder}
-                    </td>
-                    <td>
+                    </div>
+                    <div className={classNames('tableCell', styles.cellItem)}>
                       {
                         props.remainder === parseFloat(props.invoice.amount).toFixed(2) ?
                           <span className={styles.statusFalse}>Не оплачено</span> :
@@ -158,10 +162,10 @@ export default function InvoiceData(props) {
                             <span className={styles.statusFalse}>Частично оплачено</span> :
                             <span className={styles.statusTrue}>Оплачено</span>
                       }
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

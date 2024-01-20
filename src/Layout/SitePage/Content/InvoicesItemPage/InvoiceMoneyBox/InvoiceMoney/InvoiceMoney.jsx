@@ -8,32 +8,32 @@ import InvoiceMoneyControlsContainer from '../InvoiceMoneyControls/InvoicesMoney
 export default function InvoiceMoney(props) {
 
   return (
-    <tr className={styles.invoiceItem}>
-      <td className={classNames(styles.moneyCell)}>
+    <div className={classNames('tableRow', styles.invoiceItem)}>
+      <div className={classNames('tableCell',styles.moneyCell)}>
         Платеж №&nbsp;{props.money.id + 10000}
-      </td>
-      <td className={classNames(styles.moneyCell)}>
+      </div>
+      <div className={classNames('tableCell',styles.moneyCell)}>
         {editDate(props.money.date)}
-      </td>
-      <td className={classNames(styles.moneyCell)}>
+      </div>
+      <div className={classNames('tableCell',styles.moneyCell)}>
         {props.money.total}
-      </td>
-      <td className={classNames(styles.moneyCell)}>
+      </div>
+      <div className={classNames('tableCell',styles.moneyCell)}>
         {props.money.approved ? <span className={styles.statusTrue}>Оплачено</span> : <span className={styles.statusFalse}>Не&nbsp;оплачено</span>}
-      </td>
+      </div>
       {!props.invoice.approved &&
-        <td className={classNames(styles.moneyCell, styles.paymentControls)}>
+        <div className={classNames('tableCell', styles.moneyCell, styles.paymentControls)}>
           <InvoiceMoneyControlsContainer
             payment={props.money}
             invoice={props.invoice}
           />
-        </td>
+        </div>
       }
       <NavLink
         to={`/payment/${props.money.id}`}
         className={'absoluteLink'}
       >
       </NavLink>
-    </tr>
+    </div>
   );
 }

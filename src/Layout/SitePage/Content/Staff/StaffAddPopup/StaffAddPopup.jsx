@@ -4,12 +4,14 @@ import { createPortal } from "react-dom";
 import styles from './staffaddpopup.module.css';
 import { useForm } from 'react-hook-form';
 import { addUser } from "../../../../../redux/usersReducer";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { editUser } from "../../../../../redux/userItemReducer";
+import { selectIsFetchingAddUser } from "../../../../../redux/usersSelector";
 
 export default function StaffAddPopup(props) {
 
   const dispatch = useDispatch();
+  const isFetchingAdd = useSelector(selectIsFetchingAddUser);
 
   const {
     clearErrors,
@@ -22,11 +24,10 @@ export default function StaffAddPopup(props) {
     mode: 'onChange',
   });
 
-
   const watchType = watch('type', false)
 
-  const addUserLocal = (data) => {
-    dispatch(addUser(
+  const addUserLocal = async (data) => {
+    await dispatch(addUser(
       data.name,
       data.surname,
       data.patronymic,
@@ -35,10 +36,16 @@ export default function StaffAddPopup(props) {
       data.type,
       data.phone,
       data.superuser || false,
-      data.description
-    ));
-    props.close(false);
-    document.body.classList.remove('modal-show');
+      data.description,
+      // setError
+    ))
+      .then(() => {
+        // if (!isFetchingAdd) {
+          props.close(false);
+          document.body.classList.remove('modal-show');
+        // }
+      })
+      console.log(isFetchingAdd)
   }
 
   const editUserLocal = async (data) => {
@@ -51,12 +58,13 @@ export default function StaffAddPopup(props) {
       data.type,
       data.phone,
       data.superuser || false,
-      data.description
+      data.description,
+      // setError
     ))
-      .then(() => {
-        props.close(false);
-        document.body.classList.remove('modal-show');
-      })
+    .then(() => {
+      props.close(false);
+      document.body.classList.remove('modal-show');
+    })
   }
 
   const onSubmit = (data => {
@@ -286,6 +294,7 @@ export default function StaffAddPopup(props) {
             />
           </div>
         </form>
+        {errors.serverError && <div className={'errorForm'}>{errors.serverError.message}</div>}
       </div>
     </div>
   ), document.getElementById('modal_root'))

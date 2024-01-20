@@ -65,7 +65,7 @@ export default function CashAddPopup(props) {
             >
               <option value="">Выбрать</option>
               {props.paymentsTypes && props.paymentsTypes.map(item =>
-                <option value={item.type} selected={props.detail && props.type === item.type}>{item.name}</option>
+                <option value={item.type} key={item.type} selected={props.detail && props.type === item.type}>{item.name}</option>
               )}
             </select>
             {errors.type && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.type.message}</div>}

@@ -6,9 +6,13 @@ import EditIcon from '../../../../../../../svgIcons/edit';
 import ConfirmDelete from '../../../../../../common/ConfirmDelete/ConfirmDelete';
 import ProjectExpensesAddPopupContainer from '../../../ProjectExpensesAddPopup/ProjectExpensesAddPopupContainer';
 import InvoicesAddPopupContainer from '../../../../Invoices/InvoicesAddPopup/InvoicesAddPopupContainer';
+import { useDispatch } from 'react-redux';
+import { getProjects } from '../../../../../../../redux/projectsReducer';
 // import CheckIcon from '../../../../../../../svgIcons/check';
 
 export default function MoneyControls(props) {
+
+  const dispatch = useDispatch()
 
   const [isOpenPopupInvoices, setIsOpenPopupInvoices] = useState(false);
   const [isOpenPopupExpenses, setIsOpenPopupExpenses] = useState(false);
@@ -24,12 +28,17 @@ export default function MoneyControls(props) {
     document.body.classList.remove('modal-show');
   }
 
+  const closeExpenses = () => {
+    setIsOpenPopupExpenses(false)
+    dispatch(getProjects())
+  }
+
   const handleClickOpen = () => {
     props.receipts ? setIsOpenPopupInvoices(true) : setIsOpenPopupExpenses(true);
     document.body.classList.add('modal-show');
   }
   const handleClickClose = () => {
-    props.receipts ? setIsOpenPopupInvoices(false) : setIsOpenPopupExpenses(false);
+    props.receipts ? setIsOpenPopupInvoices(false) : closeExpenses();
     document.body.classList.remove('modal-show');
   }
 

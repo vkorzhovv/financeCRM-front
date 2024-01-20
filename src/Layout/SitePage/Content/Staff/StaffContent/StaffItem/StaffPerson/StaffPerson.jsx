@@ -6,23 +6,23 @@ import { NavLink } from 'react-router-dom';
 export default function StaffPerson(props) {
 
   return (
-    <tr className={classNames(styles.staffPerson)}>
-      <td>
+    <div className={classNames('tableRow', styles.staffPerson)}>
+      <div className={classNames('tableCell', 'leftCell', styles.tableCellStaff)}>
         <p>
           {props.surname} {props.name} {props.patronymic}
         </p>
-      </td>
-      <td>
+      </div>
+      <div className={classNames('tableCell', styles.tableCellStaff)}>
         <p className={styles.phone}>{props.phone}</p>
-      </td>
-      <td>
+      </div>
+      <div className={classNames('tableCell', styles.tableCellStaff)}>
         <p>{props.balance}</p>
-      </td>
+      </div>
       <NavLink
         to={`/staff/${props.id}`}
-        className={'absoluteLink'}
+        className={classNames('absoluteLink', styles.link)}
       >
       </NavLink>
-    </tr>
+    </div>
   );
 }

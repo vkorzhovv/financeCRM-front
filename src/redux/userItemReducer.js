@@ -24,9 +24,56 @@ export const getUserItem = (userId) => async (dispatch) => {
   dispatch(setUserItem(response.data));
 }
 
-export const editUser = (userId, name, surname, patronymic, login, password, type, phone, superuser, descr) => async (dispatch) => {
-  const response = await usersAPI.editUser(userId, name, surname, patronymic, login, password, type, phone, superuser, descr);
-  if (response.status < 300) {
-    dispatch(setUserItem(response.data))
+export const editUser = (
+  userId,
+  name,
+  surname,
+  patronymic,
+  login,
+  // password,
+  type,
+  phone,
+  superuser,
+  descr,
+  // setError
+  ) => async (dispatch) => {
+    let response;
+    // try {
+      response = await usersAPI.editUser(
+        userId,
+        name,
+        surname,
+        patronymic,
+        login,
+        // password,
+        type,
+        phone,
+        superuser,
+        descr);
+      if (response.status < 300) {
+        dispatch(setUserItem(response.data))
+      }
+    // }
+    // catch (err) {
+    //   if (err.response.data) {
+    //     setError('serverError', { type: 'response', message: Object.values(err.response.data).map(item => item) })
+    //   } else {
+    //     console.log(err.message)
+    //   }
+    // }
+
+    // const response = await usersAPI.editUser(
+    //   userId,
+    //   name,
+    //   surname,
+    //   patronymic,
+    //   login,
+    //   password,
+    //   type,
+    //   phone,
+    //   superuser,
+    //   descr);
+    // if (response.status < 300) {
+    //   dispatch(setUserItem(response.data))
+    // }
   }
-}

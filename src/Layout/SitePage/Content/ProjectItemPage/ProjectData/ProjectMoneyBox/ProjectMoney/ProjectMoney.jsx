@@ -14,26 +14,26 @@ export default function ProjectMoney(props) {
   const purpose = props.money.subtype
 
   return (
-    <tr className={styles.projectItem}>
-      <td className={classNames(styles.moneyCell)}>
+    <div className={classNames('tableRow', styles.projectItem)}>
+      <div className={classNames('tableCell', styles.moneyCell)}>
         {payer}
-      </td>
-      <td className={classNames(styles.moneyCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.moneyCell)}>
         {date}
-      </td>
-      <td className={classNames(styles.moneyCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.moneyCell)}>
         {summ}
-      </td>
-      <td className={classNames(styles.moneyCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.moneyCell)}>
         {purpose}
-      </td>
-      <td className={classNames(styles.moneyCell, styles.controls)}>
+      </div>
+      <div className={classNames('tableCell', styles.moneyCell, styles.controls)}>
         <MoneyControlsContainer
           money={props.money}
           receipts={props.receipts}
           projectId={props.projectId}
         />
-      </td>
+      </div>
       {props.receipts &&
         <NavLink
           to={`/invoices/${props.money.id}`}
@@ -41,6 +41,6 @@ export default function ProjectMoney(props) {
         >
         </NavLink>
       }
-    </tr>
+    </div>
   );
 }

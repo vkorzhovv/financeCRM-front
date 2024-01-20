@@ -75,19 +75,15 @@
   width: 100%;
 }
 
-.invoiceTable td {
-  text-align: center;
-}
-
 .invoiceTableTitles {
   position: relative;
 }
 
-.invoiceTableTitles th {
+.titlesItem {
   padding: 0 5px 20px 5px;
 }
 
-.invoiceTableItem td {
+.cellItem {
   padding-top: 25px;
 }
 

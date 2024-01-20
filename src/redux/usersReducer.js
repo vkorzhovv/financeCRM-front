@@ -5,12 +5,14 @@ const SET_CLIENTS = 'SET_CLIENTS';
 const SET_EMPLOYEES = 'SET_EMPLOYEES';
 const SET_CONTRACTORS = 'SET_CONTRACTORS';
 const ADD_USER = 'ADD_USER';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 
 let initialState = {
   allUsers: [],
   clients: [],
   employees: [],
   contractors: [],
+  isFetching: false
 };
 
 export const usersReducer = (state = initialState, action) => {
@@ -44,6 +46,12 @@ export const usersReducer = (state = initialState, action) => {
         clients: [...state.clients]
       }
     }
+    case TOGGLE_IS_FETCHING: {
+      return {
+        ...state,
+        isFetching: action.isFetching
+      }
+    }
     default: return { ...state };
   }
 }
@@ -53,6 +61,7 @@ const setUsers = (allUsers) => ({ type: SET_ALL_USERS, allUsers });
 const setClients = (clients) => ({ type: SET_CLIENTS, clients });
 const setEmployees = (employees) => ({ type: SET_EMPLOYEES, employees });
 const setContractors = (contractors) => ({ type: SET_CONTRACTORS, contractors });
+const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getUsers = () => async (dispatch) => {
   const response = await usersAPI.getAllUsers();
@@ -83,20 +92,49 @@ export const addUser = (
   type,
   phone,
   superuser,
-  descr) => async (dispatch) => {
-    const response = await usersAPI.addUser(
-      name,
-      surname,
-      patronymic,
-      login,
-      password,
-      type,
-      phone,
-      superuser,
-      descr);
-    if (response.status < 300) {
-      dispatch(setAddUser(response.data))
-    }
+  descr,
+  // setError
+  ) => async (dispatch) => {
+    dispatch(toggleIsFetching(true));
+
+    let response;
+    // try {
+      response = await usersAPI.addUser(
+        name,
+        surname,
+        patronymic,
+        login,
+        password,
+        type,
+        phone,
+        superuser,
+        descr);
+      if (response.status < 300) {
+        dispatch(setAddUser(response.data))
+        dispatch(toggleIsFetching(false));
+      }
+    // }
+    // catch (err) {
+    //   if (err.response.data) {
+    //     setError('serverError', { type: 'response', message: Object.values(err.response.data).map(item => item) })
+    //   } else {
+    //     console.log(err.message)
+    //   }
+    // }
+
+    // const response = await usersAPI.addUser(
+    //   name,
+    //   surname,
+    //   patronymic,
+    //   login,
+    //   password,
+    //   type,
+    //   phone,
+    //   superuser,
+    //   descr);
+    // if (response.status < 300) {
+    //   dispatch(setAddUser(response.data))
+    // }
   }
 
 export const deleteUser = (userId) => async () => {

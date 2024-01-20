@@ -8,19 +8,19 @@ import { editDate } from '../../../../../../utils/dateEditor';
 export default function PaymentItem(props) {
 
   return (
-    <tr className={styles.paymentItem}>
-      <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell)}>
+    <div className={classNames('tableRow', styles.paymentItem)}>
+      <div className={classNames('tableCell', styles.paymentCell)}>
         Платеж №&nbsp;{props.item.id + 10000}
-      </td>
-      <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.paymentCell)}>
         Счет №&nbsp;{props.item.invoice.id + 10000}
-      </td>
-      <td className={classNames(styles.paymentCell, styles.cellWidth, styles.centerCell, styles.projectName)}>
+      </div>
+      <div className={classNames('tableCell', styles.paymentCell)}>
         {
           props.item.invoice.project && props.item.invoice.project.name
         }
-      </td>
-      <td className={classNames('nowrapString', styles.paymentCell, styles.cellWidth, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', 'nowrapString', styles.paymentCell)}>
         {
           props.item.invoice.receiver
             ?
@@ -28,8 +28,8 @@ export default function PaymentItem(props) {
             :
             'Не выбран'
         }
-      </td>
-      <td className={classNames('nowrapString', styles.paymentCell, styles.cellWidth, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', 'nowrapString', styles.paymentCell)}>
         {
           props.item.invoice.payer
             ?
@@ -37,24 +37,24 @@ export default function PaymentItem(props) {
             :
             'Не выбран'
         }
-      </td>
-      <td className={classNames(styles.paymentCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.paymentCell)}>
         {editDate(props.item.date)}
-      </td>
-      <td className={classNames(styles.paymentCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.paymentCell)}>
         {props.item.approved ? <span className={styles.statusTrue}>Оплачен</span> : <span className={styles.statusFalse}>Не оплачен</span>}
-      </td>
-      <td className={classNames(styles.paymentCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.paymentCell)}>
         {props.item.invoice.amount}
-      </td>
-      <td className={classNames(styles.paymentCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.paymentCell)}>
         {props.item.total}
-      </td>
+      </div>
       <NavLink
         to={`/payment/${props.item.id}`}
         className={'absoluteLink'}
       >
       </NavLink>
-    </tr>
+    </div>
   );
 }

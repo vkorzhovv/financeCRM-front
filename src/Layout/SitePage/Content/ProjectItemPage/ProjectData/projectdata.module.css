@@ -81,19 +81,15 @@
   width: 100%;
 }
 
-.projectTable td {
-  text-align: center;
-}
-
 .projectTableTitles {
   position: relative;
 }
 
-.projectTableTitles th {
+.titlesItem {
   padding: 0 5px 20px 5px;
 }
 
-.projectTableItem td {
+.itemCell {
   padding: 25px 5px 0 5px;
 }
 

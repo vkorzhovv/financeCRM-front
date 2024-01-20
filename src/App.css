@@ -98,6 +98,33 @@ button {
   z-index: 15;
 }
 
+.table {
+  display: table;
+  width: 100%;
+}
+
+.tableRow {
+  display: table-row;
+}
+
+.tableCell {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.leftCell {
+  text-align: left;
+}
+
+.tableHeader {
+  display: table-header-group;
+}
+
+.tableBody {
+  display: table-row-group;
+}
+
 .imageBox {
   overflow: hidden;
 }
@@ -106,10 +133,6 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.table {
-  width: 100%;
 }
 
 .popup {
@@ -212,6 +235,11 @@ button {
 
 .popupLabel {
   min-width: 185px;
+}
+
+.errorForm {
+  color: var(--redCF);
+  margin-top: 10px;
 }
 
 .nowrapString {

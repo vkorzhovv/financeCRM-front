@@ -4,18 +4,26 @@ import classNames from 'classnames';
 import ProjectMoney from './ProjectMoney/ProjectMoney';
 import InvoicesAddPopupContainer from '../../../Invoices/InvoicesAddPopup/InvoicesAddPopupContainer';
 import ProjectExpensesAddPopupContainer from '../../ProjectExpensesAddPopup/ProjectExpensesAddPopupContainer';
+import { useDispatch } from 'react-redux';
+import { getProjects } from '../../../../../../redux/projectsReducer';
 
 export default function ProjectMoneyBox(props) {
+  const dispatch = useDispatch()
 
   const [isOpenPopupInvoices, setIsOpenPopupInvoices] = useState(false);
   const [isOpenPopupExpenses, setIsOpenPopupExpenses] = useState(false);
+
+  const closeExpenses = () => {
+    setIsOpenPopupExpenses(false)
+    dispatch(getProjects())
+  }
 
   const handleClickOpen = () => {
     props.receipts ? setIsOpenPopupInvoices(true) : setIsOpenPopupExpenses(true);
     document.body.classList.add('modal-show');
   }
   const handleClickClose = () => {
-    props.receipts ? setIsOpenPopupInvoices(false) : setIsOpenPopupExpenses(false);
+    props.receipts ? setIsOpenPopupInvoices(false) : closeExpenses();
     document.body.classList.remove('modal-show');
   }
 
@@ -46,18 +54,16 @@ export default function ProjectMoneyBox(props) {
         </div>
       </div>
       <div className={styles.tableWrapper}>
-        <table className={styles.moneyTable}>
-          <tbody>
-            {props.cash.map(item =>
-              <ProjectMoney
-                projectId={props.projectId}
-                key={item.id}
-                receipts={props.receipts || false}
-                money={item}
-              />
-            )}
-          </tbody>
-        </table>
+        <div className={classNames('table', styles.moneyTable)}>
+          {props.cash.map(item =>
+            <ProjectMoney
+              projectId={props.projectId}
+              key={item.id}
+              receipts={props.receipts || false}
+              money={item}
+            />
+          )}
+        </div>
       </div>
 
       {isOpenPopupExpenses &&

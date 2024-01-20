@@ -20,23 +20,27 @@ export default function ProjectContent(props) {
 
   return (
     <div className={styles.projectContent}>
-      <table className={classNames('table', styles.projectTable)}>
-        <thead className={styles.titles}>
-          <tr>
-            {projectTh.map(item =>
-              <th className={styles.titlesItem}>{item}</th>
+      <div className={classNames('table', styles.projectTable)}>
+        <div className={classNames('tableHeader', styles.titles)}>
+          <div className={classNames('tableRow')}>
+            {projectTh.map((item, index) =>
+              <div
+                key={item + index}
+                className={classNames('tableCell', styles.titlesItem)}>
+                {item}
+              </div>
             )}
-          </tr>
-        </thead>
-        <tbody>
+          </div>
+        </div>
+        <div className={classNames('tableBody')}>
           {props.projects && props.projects.map(item =>
             <ProjectItem
               key={item.id}
               item={item}
             />
           )}
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
   );
 }

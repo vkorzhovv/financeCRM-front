@@ -23,14 +23,6 @@
   z-index: 5;
 }
 
-.cellWidth {
-  max-width: 12%;
-}
-
-.centerCell {
-  text-align: center;
-}
-
 .statusTrue {
   color: var(--green76);
 }

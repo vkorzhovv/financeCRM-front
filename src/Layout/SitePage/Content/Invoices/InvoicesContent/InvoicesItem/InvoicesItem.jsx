@@ -10,16 +10,16 @@ export default function InvoicesItem(props) {
   const remainder = (parseFloat(props.item.amount) - parseFloat(props.item.receipts)).toFixed(2);
 
   return (
-    <tr className={styles.invoicesItem}>
-      <td className={classNames(styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
+    <div className={classNames('tableRow', styles.invoicesItem)}>
+      <div className={classNames('tableCell', styles.invoicesCell)}>
         Счет №&nbsp;{props.item.id + 10000}
-      </td>
-      <td className={classNames(styles.invoicesCell, styles.cellWidth, styles.centerCell, styles.projectName)}>
+      </div>
+      <div className={classNames('tableCell', styles.invoicesCell)}>
         {
           props.item.project ? props.item.project.name : 'Не выбран'
         }
-      </td>
-      <td className={classNames('nowrapString', styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', 'nowrapString', styles.invoicesCell)}>
         {
           props.item.receiver
             ?
@@ -27,8 +27,8 @@ export default function InvoicesItem(props) {
             :
             'Не выбран'
         }
-      </td>
-      <td className={classNames('nowrapString', styles.invoicesCell, styles.cellWidth, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', 'nowrapString', styles.invoicesCell)}>
         {
           props.item.payer
             ?
@@ -36,11 +36,11 @@ export default function InvoicesItem(props) {
             :
             'Не выбран'
         }
-      </td>
-      <td className={classNames(styles.invoicesCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.invoicesCell)}>
         {editDate(props.item.date)}
-      </td>
-      <td className={classNames(styles.invoicesCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.invoicesCell)}>
         {
           remainder === parseFloat(props.item.amount).toFixed(2) ?
             <span className={styles.statusFalse}>Не оплачено</span> :
@@ -48,18 +48,18 @@ export default function InvoicesItem(props) {
               <span className={styles.statusFalse}>Частично оплачено</span> :
               <span className={styles.statusTrue}>Оплачено</span>
         }
-      </td>
-      <td className={classNames(styles.invoicesCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.invoicesCell)}>
         {props.item.amount}
-      </td>
-      <td className={classNames(styles.invoicesCell, styles.centerCell)}>
+      </div>
+      <div className={classNames('tableCell', styles.invoicesCell)}>
         {props.item.receipts}
-      </td>
+      </div>
       <NavLink
         to={`/invoices/${props.item.id}`}
         className={'absoluteLink'}
       >
       </NavLink>
-    </tr>
+    </div>
   );
 }

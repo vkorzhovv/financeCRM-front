@@ -19,23 +19,27 @@ export default function PaymentContent(props) {
 
   return (
     <div className={styles.paymentContent}>
-      <table className={classNames('table')}>
-        <thead className={styles.titles}>
-          <tr>
-            {projectTh.map(item =>
-              <th className={styles.titlesItem}>{item}</th>
+      <div className={classNames('table')}>
+        <div className={classNames('tableHeader', styles.titles)}>
+          <div className={classNames('tableRow')}>
+            {projectTh.map((item, index) =>
+              <div
+                key={item + index}
+                className={classNames('tableCell', styles.titlesItem)}>
+                {item}
+              </div>
             )}
-          </tr>
-        </thead>
-        <tbody>
+          </div>
+        </div>
+        <div className={classNames('tableBody')}>
           {props.payments && props.payments.map(item =>
             <PaymentItem
               key={item.id}
               item={item}
             />
           )}
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
   );
 }

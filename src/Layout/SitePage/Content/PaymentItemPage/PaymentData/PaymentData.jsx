@@ -63,31 +63,33 @@ export default function PaymentData(props) {
       </div>
       <div className={styles.right}>
         <div className={classNames(styles.paymentDataItem, styles.tableWrapper)}>
-            <table className={styles.paymentTable}>
-              <thead className={styles.paymentTableTitles}>
-                <tr>
-                  {paymentTh.map(item =>
-                    <th className={styles.titlesItem}>{item}</th>
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                <tr className={styles.paymentTableItem}>
-                  <td>
-                    {editDate(props.payment.date)}
-                  </td>
-                  <td>
-                    {props.payment.invoice.amount}
-                  </td>
-                  <td>
-                    {props.payment.total}
-                  </td>
-                  <td>
-                    {props.payment.approved ? <span className={styles.statusTrue}>Оплачен</span> : <span className={styles.statusFalse}>Не оплачен</span>}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div className={classNames('table', styles.paymentTable)}>
+            <div className={classNames('tableHeader', styles.paymentTableTitles)}>
+              <div className={classNames('tableRow')}>
+                {paymentTh.map((item, index) =>
+                  <div
+                    key={item + index}
+                    className={classNames('tableCell', styles.titlesItem)}>{item}</div>
+                )}
+              </div>
+            </div>
+            <div className={classNames('tableBody')}>
+              <div className={classNames('tableRow', styles.paymentTableItem)}>
+                <div className={classNames('tableCell', styles.itemCell)}>
+                  {editDate(props.payment.date)}
+                </div>
+                <div className={classNames('tableCell', styles.itemCell)}>
+                  {props.payment.invoice.amount}
+                </div>
+                <div className={classNames('tableCell', styles.itemCell)}>
+                  {props.payment.total}
+                </div>
+                <div className={classNames('tableCell', styles.itemCell)}>
+                  {props.payment.approved ? <span className={styles.statusTrue}>Оплачен</span> : <span className={styles.statusFalse}>Не оплачен</span>}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div className={classNames(styles.paymentDataItem, styles.dataItemFiles)}>
           <div className={classNames(styles.attachmentHeader)}>
