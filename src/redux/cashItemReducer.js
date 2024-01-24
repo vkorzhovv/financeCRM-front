@@ -3,12 +3,14 @@ import { cashItemAPI } from "../API/api";
 const SET_ITEMS = 'SET_ITEMS';
 const SET_TYPES = 'SET_TYPES';
 const SET_SUBTYPES = 'SET_SUBTYPES';
-const ADD_ITEM = 'ADD_ITEM'
+const ADD_ITEM = 'ADD_ITEM';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
   items: [],
   types: [],
-  subtypes: []
+  subtypes: [],
+  isFetching: false
 }
 
 export const itemsReducer = (state = initialState, action) => {
@@ -34,6 +36,12 @@ export const itemsReducer = (state = initialState, action) => {
         items: [...state.items, action.newItem]
       }
     }
+    case TOGGLE_IS_FETCHING: {
+      return {
+        ...state,
+        isFetching: action.isFetching
+      }
+    }
     default: return { ...state };
   }
 }
@@ -42,6 +50,7 @@ const setItems = (items) => ({ type: SET_ITEMS, items });
 const setTypes = (types) => ({ type: SET_TYPES, types });
 const setSubtypes = (subtypes) => ({ type: SET_SUBTYPES, subtypes });
 const setAddItem = (newItem) => ({ type: ADD_ITEM, newItem })
+const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getItems = () => async (dispatch) => {
   const response = await cashItemAPI.getItems();
@@ -59,14 +68,32 @@ export const getSubtypes = (type) => async (dispatch) => {
 }
 
 export const addItem = (type, name) => async (dispatch) => {
-  const response = await cashItemAPI.addItem(type, name);
-  if (response.status < 300) {
-    dispatch(setAddItem(response.data))
-  }
+  dispatch(toggleIsFetching(true))
+
+  await cashItemAPI.addItem(type, name)
+    .then(response => {
+      dispatch(setAddItem(response.data))
+      dispatch(toggleIsFetching(false));
+      return response;
+    })
+    .catch((err) => {
+      dispatch(toggleIsFetching(false));
+      throw err;
+    })
 }
 
-export const editItem = (itemId, type, name) => async () => {
-  await cashItemAPI.editItem(itemId, type, name);
+export const editItem = (itemId, type, name) => async (dispatch) => {
+  dispatch(toggleIsFetching(true))
+
+  await cashItemAPI.editItem(itemId, type, name)
+    .then(response => {
+      dispatch(toggleIsFetching(false));
+      return response;
+    })
+    .catch((err) => {
+      dispatch(toggleIsFetching(false));
+      throw err;
+    })
 }
 
 export const deleteItem = (itemId) => async () => {

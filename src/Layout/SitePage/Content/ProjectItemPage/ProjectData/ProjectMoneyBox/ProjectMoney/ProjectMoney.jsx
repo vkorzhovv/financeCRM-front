@@ -29,6 +29,7 @@ export default function ProjectMoney(props) {
       </div>
       <div className={classNames('tableCell', styles.moneyCell, styles.controls)}>
         <MoneyControlsContainer
+          me={props.me}
           money={props.money}
           receipts={props.receipts}
           projectId={props.projectId}

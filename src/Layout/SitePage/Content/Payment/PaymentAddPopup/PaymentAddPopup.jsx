@@ -2,22 +2,28 @@ import classNames from "classnames";
 import React from "react";
 import styles from './paymentaddpopup.module.css';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addPayment, getPayments, getPaymentsInInvoice } from "../../../../../redux/paymentReducer";
 import { editPayment, getPaymentItem } from "../../../../../redux/paymentItemReducer";
 import { getInvoiceItem } from "../../../../../redux/invoiceItemReducer";
 import { editFileName } from "../../../../../utils/fileNameEditor";
+import { selectIsFetchingAddPayment } from "../../../../../redux/paymentSelector";
+import { selectIsFetchingEditPayment } from "../../../../../redux/paymentItemSelector";
+import { editDateForInput } from "../../../../../utils/dateEditor";
 
 export default function PaymentAddPopup(props) {
 
   const dispatch = useDispatch();
+  const isFetchingAdd = useSelector(selectIsFetchingAddPayment);
+  const isFetchingEdit = useSelector(selectIsFetchingEditPayment);
 
   const {
     clearErrors,
-    // setError,
+    setError,
     register,
     reset,
     handleSubmit,
+    getValues,
     formState: { errors, isValid }
   } = useForm({
     mode: 'onChange',
@@ -31,8 +37,10 @@ export default function PaymentAddPopup(props) {
     return arr.slice(0, -2);
   }
 
-  const addPaymentLocal = async (data) => {
-    await dispatch(addPayment(
+  console.log(arrayFiles(getValues('scans')))
+
+  const addPaymentLocal = (data) => {
+    dispatch(addPayment(
       data.date,
       data.summ_plus,
       false,
@@ -47,9 +55,16 @@ export default function PaymentAddPopup(props) {
         props.invoicePage && dispatch(getPaymentsInInvoice(props.invoice.id));
         props.invoicePage && reset();
       })
+      .catch(err => {
+        if (err.response.data) {
+          setError('serverError', { type: 'response', message: Object.values(err.response.data).map(item => item) })
+        } else {
+          console.log(err.message)
+        }
+      })
   }
-  const editPaymentLocal = async (data) => {
-    await dispatch(editPayment(
+  const editPaymentLocal = (data) => {
+    dispatch(editPayment(
       props.payment.id,
       data.date,
       data.summ_plus,
@@ -64,6 +79,13 @@ export default function PaymentAddPopup(props) {
         !props.invoicePage && props.invoice && dispatch(getInvoiceItem(props.invoice.id))
         props.close(false);
         document.body.classList.remove('modal-show');
+      })
+      .catch(err => {
+        if (err.response.data) {
+          setError('serverError', { type: 'response', message: Object.values(err.response.data).map(item => item) })
+        } else {
+          console.log(err.message)
+        }
       })
   }
 
@@ -91,13 +113,19 @@ export default function PaymentAddPopup(props) {
               <select {...register('check', {
                 required: 'Выберите счет',
               })}
+                id='check'
                 className={!errors.check
                   ? classNames('popupInput', styles.input)
                   : classNames('popupInput', 'popupError', styles.input, styles.error)}
+                defaultValue={props.detail && props.payment.invoice && props.payment.invoice.id}
               >
                 <option value="">Выбрать</option>
                 {props.invoicesList && props.invoicesList.map(item =>
-                  <option value={item.id} selected={props.detail && props.payment.invoice && item.id === props.payment.invoice.id}>Счет № {item.id + 10000}</option>
+                  <option
+                    key={item.id}
+                    value={item.id}>
+                    Счет № {item.id + 10000}
+                  </option>
                 )}
               </select>
               {errors.check && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.check.message}</div>}
@@ -105,10 +133,11 @@ export default function PaymentAddPopup(props) {
           }
 
           <div className={!errors.summ_plus
-            ? classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox')
-            : classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox', 'popupBoxError', styles.boxError)}>
+            ? classNames('flex', props.isStatic && styles.inputBoxStatic, 'popupInputBox')
+            : classNames('flex', props.isStatic && styles.inputBoxStatic, 'popupInputBox', 'popupBoxError', styles.boxError)}>
             <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="summ_plus">Сумма начислено</label>
             <input
+              id='summ_plus'
               className={!errors.summ_plus
                 ? classNames('popupInput', styles.inputHalf, styles.input)
                 : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
@@ -119,21 +148,26 @@ export default function PaymentAddPopup(props) {
               {...register('summ_plus',
                 {
                   required: 'Введите сумму',
+                  pattern: {
+                    value: /^[1-9]([0-9])*?[.]?([0-9]{0,2})$/,
+                    message: 'Минимум 1. В качестве разделителя "точка"'
+                  },
                 })
               }
             />
             {errors.summ_plus && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.summ_plus.message}</div>}
           </div>
           <div className={!errors.date
-            ? classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox')
-            : classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox', 'popupBoxError', styles.boxError)}>
-            <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="start">Дата начисления</label>
+            ? classNames('flex', props.isStatic && styles.inputBoxStatic, 'popupInputBox')
+            : classNames('flex', props.isStatic && styles.inputBoxStatic, 'popupInputBox', 'popupBoxError', styles.boxError)}>
+            <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="date">Дата начисления</label>
             <input
+              id='date'
               className={!errors.date
                 ? classNames('popupInput', styles.inputHalf, styles.input)
                 : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
               type='date'
-              defaultValue={props.detail && props.payment.date}
+              defaultValue={props.detail ? props.payment.date : editDateForInput(new Date())}
               name='date'
               {...register('date',
                 {
@@ -151,13 +185,15 @@ export default function PaymentAddPopup(props) {
               <select {...register('status', {
                 required: 'Выберите статус',
               })}
+                id='status'
                 className={!errors.status
                   ? classNames('popupInput', styles.input)
                   : classNames('popupInput', 'popupError', styles.input, styles.error)}
+                defaultValue={String(Number(props.detail && props.payment.approved))}
               >
                 <option value="">Выбрать</option>
-                <option value='1' selected={props.detail && props.payment.approved}>Оплачен</option>
-                <option value='0' selected={props.detail && !props.payment.approved}>Не оплачен</option>
+                <option value='1'>Оплачен</option>
+                <option value='0'>Не оплачен</option>
               </select>
               {errors.status && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.status.message}</div>}
             </div>
@@ -181,15 +217,36 @@ export default function PaymentAddPopup(props) {
           }
 
           <div className={!errors.scans
-            ? classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox')
-            : classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox', 'popupBoxError', styles.boxError)}>
-            <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="start">Скан/фото документа</label>
+            ? classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox', styles.scansBox)
+            : classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox', 'popupBoxError', styles.boxError, styles.scansBox)}>
+            <label
+              className={classNames('flex', styles.fileLabel)}
+              htmlFor="scans">
+              <p className={styles.labelText}>Скан/фото документа</p>
+              <div className={classNames('popupInput', styles.inputHalf, styles.inputFile)}>Добавить файл</div>
+
+              {arrayFiles(getValues('scans')).length ?
+                <span className={styles.fileName}>
+                  {
+                  arrayFiles(getValues('scans')).length === 1 ?
+                  arrayFiles(getValues('scans'))[0].name :
+                  `Загружено файлов: ${arrayFiles(getValues('scans')).length}`
+                }
+                </span>
+                :
+                <span className={styles.fileName}>
+
+                </span>
+              }
+            </label>
             <input
+              id='scans'
               className={!errors.scans
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
               type='file'
               multiple
+              accept=".pdf, .jpg, .jpeg, .png"
               name='scans'
               {...register('scans')}
             />
@@ -227,14 +284,16 @@ export default function PaymentAddPopup(props) {
                 Отменить
               </button>
             }
-            <input
-              className={classNames('btn')}
+            <button
+              className={(isFetchingAdd || isFetchingEdit) ? classNames('btn', 'progress') : 'btn'}
               type='submit'
-              value={props.submitText}
               disabled={!isValid}
-            />
+            >
+              {(isFetchingAdd || isFetchingEdit) ? 'Загрузка...' : props.submitText}
+            </button>
           </div>
         </form>
+        {errors.serverError && <div className={'errorForm'}>{errors.serverError.message}</div>}
       </div>
     </div>
   )

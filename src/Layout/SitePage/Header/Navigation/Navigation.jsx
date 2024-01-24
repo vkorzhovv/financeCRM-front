@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import styles from './navigation.module.css';
 import classNames from 'classnames';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectMe } from '../../../../redux/authSelectors';
 
 export default function Navigation(props) {
+
+  const me = useSelector(selectMe)
 
   const [isOpenNav, setIsOpenNav] = useState(window.innerWidth < 1025 ? false : true);
 
@@ -17,26 +21,31 @@ export default function Navigation(props) {
       key: 'staff',
       itemName: 'Сотрудники и\u00A0подрядчики',
       linkUrl: '/staff',
+      access: ['s']
     },
     {
       key: 'projects',
       itemName: 'Проекты',
       linkUrl: '/projects',
+      access: ['s', 'p', 'k']
     },
     {
       key: 'money',
       itemName: 'Статьи расходов\u00A0/\u00A0доходов',
       linkUrl: '/money',
+      access: ['s']
     },
     {
       key: 'invoices',
       itemName: 'Начисления',
       linkUrl: '/invoices',
+      access: ['s', 'p', 'k']
     },
     {
       key: 'payment',
       itemName: 'Платежи',
       linkUrl: '/payment',
+      access: ['s', 'p', 'k']
     },
   ]
 
@@ -55,7 +64,7 @@ export default function Navigation(props) {
 
       <div className={classNames('flex', styles.navigation, isOpenNav && styles.opened)}>
         {
-          navItems.map((item) =>
+          navItems.filter((nav) => nav.access.includes(me.user_type)).map((item) =>
             <NavLink
               onClick={window.innerWidth < 1025 && handleOpenNav}
               key={item.key}

@@ -7,3 +7,15 @@ export function editDate(key) {
 
   return `${day}.${month}.${year}`
 }
+
+
+export function editDateForInput(key) {
+
+  const date = new Date(key)
+
+  const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+  const month = date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+  const year = key.getFullYear();
+
+  return `${year}-${month}-${day}`
+}

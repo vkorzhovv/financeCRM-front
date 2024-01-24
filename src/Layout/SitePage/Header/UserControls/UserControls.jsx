@@ -3,6 +3,7 @@ import styles from './usercontrols.module.css';
 import classNames from 'classnames';
 import { useState } from 'react';
 import UserPopup from './UserPopup/UserPopup';
+import MoreIcon from '../../../../svgIcons/more';
 
 export default function UserControls(props) {
 
@@ -18,19 +19,18 @@ export default function UserControls(props) {
         className={classNames('flex', styles.userBtn)}
         onClick={handleClickOpen}
       >
-        <p className={styles.name}>{props.firstName}</p>
-        <p className={styles.name}>{props.lastName}</p>
+        <p className={styles.name}>{props.me.first_name}</p>
+        <p className={styles.name}>{props.me.last_name}</p>
+        <MoreIcon />
       </button>
-        {isOpenUser &&
-          <UserPopup
-            lastName={props.lastName}
-            firstName={props.firstName}
-            username={props.username}
-            closeUser={setIsOpenUser}
-            handleClick={props.handleClick}
-            isOpen={isOpenUser}
-          />
-        }
+      {isOpenUser &&
+        <UserPopup
+          me={props.me}
+          closeUser={setIsOpenUser}
+          handleClick={props.handleClick}
+          isOpen={isOpenUser}
+        />
+      }
     </div>
   );
 }

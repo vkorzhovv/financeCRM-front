@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { selectMe } from '../../../../redux/authSelectors';
 import { deleteInvoice } from '../../../../redux/invoicesReducer';
 import PageHeader from '../../../common/PageHeader/PageHeader';
 import InvoicesAddPopupContainer from '../Invoices/InvoicesAddPopup/InvoicesAddPopupContainer';
@@ -8,6 +9,8 @@ import InvoiceData from './InvoiceData/InvoiceData';
 import styles from './invoicesitempage.module.css';
 
 export default function InvoicesItemPage(props) {
+
+  const me = useSelector(selectMe);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -41,6 +44,8 @@ export default function InvoicesItemPage(props) {
         detail={'detail'}
         onDelete={onDelete}
         handleClickAdd={handleClickOpen}
+        access={me.user_type === 'k' || 's' || 'p'}
+        accessDelete={me.user_type === 's'}
       />
 
       {

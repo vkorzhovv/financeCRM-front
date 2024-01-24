@@ -1,4 +1,4 @@
-.paymentAddPopupStatic{
+.paymentAddPopupStatic {
   position: relative;
   width: 100%;
   height: max-content;
@@ -42,8 +42,42 @@
   border-bottom: 1px solid var(--black05);
 }
 
+.scansBox input {
+  visibility: hidden;
+  max-width: 0;
+}
+
+.fileLabel {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.labelText {
+  min-width: 185px;
+}
+
+.inputFile {
+  background-color: #fff;
+  margin-right: 10px;
+}
+
 @media (max-width: 768px) {
   .inputBoxStatic {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .labelText {
+    min-width: 0;
+    margin-bottom: 10px;
+  }
+
+  .inputFile {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .fileLabel {
     flex-direction: column;
     align-items: flex-start;
   }

@@ -3,9 +3,11 @@ import { projectExpensesAPI } from "../API/api";
 const SET_EXPENSES = 'SET_EXPENSES'
 const ADD_EXPENSES = 'ADD_EXPENSES';
 const EDIT_EXPENSE = 'EDIT_EXPENSE';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 
 let initialState = {
   expenses: [],
+  isFetching: false
 };
 
 export const expensesReducer = (state = initialState, action) => {
@@ -29,6 +31,12 @@ export const expensesReducer = (state = initialState, action) => {
             : item
         ))
       }
+    case TOGGLE_IS_FETCHING: {
+      return {
+        ...state,
+        isFetching: action.isFetching
+      }
+    }
     default: return { ...state };
   }
 }
@@ -36,6 +44,7 @@ export const expensesReducer = (state = initialState, action) => {
 const setExpenses = (expenses) => ({ type: SET_EXPENSES, expenses });
 const setAddExpense = (newExpense) => ({ type: ADD_EXPENSES, newExpense });
 const setEditExpense = (expense) => ({ type: EDIT_EXPENSE, expense });
+const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getExpenses = (projectId) => async (dispatch) => {
   const response = await projectExpensesAPI.getProjectsExpenses(projectId);
@@ -49,16 +58,25 @@ export const addExpense = (
   amount,
   payer,
   project) => async (dispatch) => {
-    const response = await projectExpensesAPI.addProjectExpenses(
+    dispatch(toggleIsFetching(true))
+
+    await projectExpensesAPI.addProjectExpenses(
       payment_type,
       subtype,
       date,
       amount,
       payer,
-      project);
-    if (response.status < 300) {
-      dispatch(setAddExpense(response.data))
-    }
+      project)
+      .then(response => {
+        dispatch(setAddExpense(response.data))
+        dispatch(toggleIsFetching(false));
+        return response;
+      })
+      .catch((err) => {
+        dispatch(toggleIsFetching(false));
+        throw err;
+      })
+
   }
 export const editExpense = (
   expenseId,
@@ -68,17 +86,25 @@ export const editExpense = (
   amount,
   payer,
   project) => async (dispatch) => {
-    const response = await projectExpensesAPI.editProjectExpenses(
+    dispatch(toggleIsFetching(true))
+
+    await projectExpensesAPI.editProjectExpenses(
       expenseId,
       payment_type,
       subtype,
       date,
       amount,
       payer,
-      project);
-    if (response.status < 300) {
-      dispatch(setEditExpense(response.data))
-    }
+      project)
+      .then(response => {
+        dispatch(setEditExpense(response.data))
+        dispatch(toggleIsFetching(false));
+        return response;
+      })
+      .catch((err) => {
+        dispatch(toggleIsFetching(false));
+        throw err;
+      })
   }
 
 export const deleteExpense = (expenseId) => async () => {

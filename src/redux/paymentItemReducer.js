@@ -1,10 +1,12 @@
 import { paymentsAPI } from "../API/api";
 
 const SET_PAYMENT_ITEM = 'SET_PAYMENT_ITEM';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
   payment: {
-    invoice: {}
+    invoice: {},
+    isFetching: false
   },
 }
 
@@ -15,11 +17,18 @@ export const paymentItemReducer = (state = initialState, action) => {
         ...state,
         payment: action.payment
       }
+    case TOGGLE_IS_FETCHING: {
+      return {
+        ...state,
+        isFetching: action.isFetching
+      }
+    }
     default: return state;
   }
 }
 
 const setPaymentItem = (payment) => ({ type: SET_PAYMENT_ITEM, payment });
+const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getPaymentItem = (paymentId) => async (dispatch) => {
   const response = await paymentsAPI.getPaymentItem(paymentId);
@@ -34,15 +43,23 @@ export const editPayment = (
   invoice,
   comment,
   scans) => async (dispatch) => {
-    const response = await paymentsAPI.editPayment(
+
+    dispatch(toggleIsFetching(true))
+    await paymentsAPI.editPayment(
       paymentId,
       date,
       total,
       approved,
       invoice,
       comment,
-      scans);
-    if (response.status < 300) {
-      dispatch(setPaymentItem(response.data))
-    }
+      scans)
+      .then(response => {
+        dispatch(setPaymentItem(response.data))
+        dispatch(toggleIsFetching(false));
+        return response;
+      })
+      .catch((err) => {
+        dispatch(toggleIsFetching(false));
+        throw err;
+      })
   }

@@ -4,10 +4,14 @@ import classNames from 'classnames';
 import ProjectMoney from './ProjectMoney/ProjectMoney';
 import InvoicesAddPopupContainer from '../../../Invoices/InvoicesAddPopup/InvoicesAddPopupContainer';
 import ProjectExpensesAddPopupContainer from '../../ProjectExpensesAddPopup/ProjectExpensesAddPopupContainer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getProjects } from '../../../../../../redux/projectsReducer';
+import { selectMe } from '../../../../../../redux/authSelectors';
 
 export default function ProjectMoneyBox(props) {
+
+  const me = useSelector(selectMe);
+
   const dispatch = useDispatch()
 
   const [isOpenPopupInvoices, setIsOpenPopupInvoices] = useState(false);
@@ -44,13 +48,15 @@ export default function ProjectMoneyBox(props) {
                 ).reduce((acc, number) => Number(acc) + Number(number), 0).toFixed(2)
             }
           </p>
-          <button
-            onClick={handleClickOpen}
-            className={classNames('flex', styles.addPayBtn)}
-          >
-            <span className={classNames(styles.horLine, styles.line)}></span>
-            <span className={classNames(styles.verLine, styles.line)}></span>
-          </button>
+          {me.user_type === 's' &&
+            <button
+              onClick={handleClickOpen}
+              className={classNames('flex', styles.addPayBtn)}
+            >
+              <span className={classNames(styles.horLine, styles.line)}></span>
+              <span className={classNames(styles.verLine, styles.line)}></span>
+            </button>
+          }
         </div>
       </div>
       <div className={styles.tableWrapper}>
@@ -61,6 +67,7 @@ export default function ProjectMoneyBox(props) {
               key={item.id}
               receipts={props.receipts || false}
               money={item}
+              me={me}
             />
           )}
         </div>
@@ -80,6 +87,8 @@ export default function ProjectMoneyBox(props) {
           projectId={props.projectId}
           handleClickClose={handleClickClose}
           close={handleClickClose}
+          submitText={"Добавить"}
+          popupHeader={"Добавить счет"}
         />
       }
     </div>

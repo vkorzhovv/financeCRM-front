@@ -1,6 +1,6 @@
 import { usersAPI } from "../API/api";
 
-const SET_ALL_USERS = 'SET_AUTH';
+const SET_ALL_USERS = 'SET_ALL_USERS';
 const SET_CLIENTS = 'SET_CLIENTS';
 const SET_EMPLOYEES = 'SET_EMPLOYEES';
 const SET_CONTRACTORS = 'SET_CONTRACTORS';
@@ -93,49 +93,30 @@ export const addUser = (
   phone,
   superuser,
   descr,
-  // setError
-  ) => async (dispatch) => {
-    dispatch(toggleIsFetching(true));
+) => async (dispatch) => {
 
-    let response;
-    // try {
-      response = await usersAPI.addUser(
-        name,
-        surname,
-        patronymic,
-        login,
-        password,
-        type,
-        phone,
-        superuser,
-        descr);
-      if (response.status < 300) {
-        dispatch(setAddUser(response.data))
-        dispatch(toggleIsFetching(false));
-      }
-    // }
-    // catch (err) {
-    //   if (err.response.data) {
-    //     setError('serverError', { type: 'response', message: Object.values(err.response.data).map(item => item) })
-    //   } else {
-    //     console.log(err.message)
-    //   }
-    // }
+  dispatch(toggleIsFetching(true))
 
-    // const response = await usersAPI.addUser(
-    //   name,
-    //   surname,
-    //   patronymic,
-    //   login,
-    //   password,
-    //   type,
-    //   phone,
-    //   superuser,
-    //   descr);
-    // if (response.status < 300) {
-    //   dispatch(setAddUser(response.data))
-    // }
-  }
+  await usersAPI.addUser(
+    name,
+    surname,
+    patronymic,
+    login,
+    password,
+    type,
+    phone,
+    superuser,
+    descr)
+    .then(response => {
+      dispatch(setAddUser(response.data))
+      dispatch(toggleIsFetching(false));
+      return response;
+    })
+    .catch((err) => {
+      dispatch(toggleIsFetching(false));
+      throw err;
+    })
+}
 
 export const deleteUser = (userId) => async () => {
   await usersAPI.deleteUser(userId);

@@ -1,9 +1,11 @@
 import { usersAPI } from "../API/api";
 
 const SET_USER_ITEM = 'SET_USER_ITEM';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 
 let initialState = {
   userItem: {},
+  isFetching: false
 }
 
 export const userItemReducer = (state = initialState, action) => {
@@ -13,11 +15,18 @@ export const userItemReducer = (state = initialState, action) => {
         ...state,
         userItem: action.userItem
       }
+    case TOGGLE_IS_FETCHING: {
+      return {
+        ...state,
+        isFetching: action.isFetching
+      }
+    }
     default: return state;
   }
 }
 
 const setUserItem = (userItem) => ({ type: SET_USER_ITEM, userItem });
+const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getUserItem = (userId) => async (dispatch) => {
   const response = await usersAPI.getUserItem(userId);
@@ -35,45 +44,27 @@ export const editUser = (
   phone,
   superuser,
   descr,
-  // setError
-  ) => async (dispatch) => {
-    let response;
-    // try {
-      response = await usersAPI.editUser(
-        userId,
-        name,
-        surname,
-        patronymic,
-        login,
-        // password,
-        type,
-        phone,
-        superuser,
-        descr);
-      if (response.status < 300) {
-        dispatch(setUserItem(response.data))
-      }
-    // }
-    // catch (err) {
-    //   if (err.response.data) {
-    //     setError('serverError', { type: 'response', message: Object.values(err.response.data).map(item => item) })
-    //   } else {
-    //     console.log(err.message)
-    //   }
-    // }
+) => async (dispatch) => {
+  dispatch(toggleIsFetching(true))
 
-    // const response = await usersAPI.editUser(
-    //   userId,
-    //   name,
-    //   surname,
-    //   patronymic,
-    //   login,
-    //   password,
-    //   type,
-    //   phone,
-    //   superuser,
-    //   descr);
-    // if (response.status < 300) {
-    //   dispatch(setUserItem(response.data))
-    // }
-  }
+  await usersAPI.editUser(
+    userId,
+    name,
+    surname,
+    patronymic,
+    login,
+    // password,
+    type,
+    phone,
+    superuser,
+    descr)
+    .then(response => {
+      dispatch(setUserItem(response.data))
+      dispatch(toggleIsFetching(false));
+      return response;
+    })
+    .catch((err) => {
+      dispatch(toggleIsFetching(false));
+      throw err;
+    })
+}

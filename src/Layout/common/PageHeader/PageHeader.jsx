@@ -11,6 +11,8 @@ export default function PageHeader(props) {
         {props.title}
       </h1>
       <PageControls
+        accessDelete={props.accessDelete}
+        access={props.access}
         isApprovedInvoiceForPayment={props.isApprovedInvoiceForPayment}
         approved={props.approved}
         addBtnText={props.addBtnText}

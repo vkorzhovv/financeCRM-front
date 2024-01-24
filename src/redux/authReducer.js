@@ -6,10 +6,10 @@ const SET_ME_DATA = 'SET_ME_DATA';
 let initialState = {
   userData: {
     userId: null,
-    firstName: null,
-    lastName: null,
-    username: null,
-    userType: null,
+    // firstName: null,
+    // lastName: null,
+    // username: null,
+    // userType: null,
   },
   isAuth: localStorage.getItem('isAuth') || false,
 };
@@ -36,16 +36,25 @@ const setAuth = (isAuth) => ({
   type: SET_AUTH, isAuth
 })
 
-const setMe = (userId, firstName, lastName, username, userType) => ({
-  type: SET_ME_DATA, userData: { userId, firstName, lastName, username, userType }
-})
+const setMe = (userData) => ({type: SET_ME_DATA, userData})
 
 export const getMe = () => async (dispatch) => {
   const response = await authAPI.me();
-  if (response.status === 200) {
+
+  try {
     const res = response.data;
-    dispatch(setMe(res.id, res.first_name, res.last_name, res.username, res.user_type_value))
+    dispatch(setMe(res))
   }
+  catch {
+    console.log(111)
+    localStorage.clear();
+  }
+  // if (response.status === 200) {
+  //   const res = response.data;
+  //   dispatch(setMe(res.id, res.first_name, res.last_name, res.username, res.user_type_value))
+  // } else if (response.status === 401) {
+  //   localStorage.clear();
+  // }
 }
 
 export const login = (name, password, setError) => async (dispatch) => {

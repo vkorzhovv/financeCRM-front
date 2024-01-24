@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteUser } from '../../../../redux/usersReducer';
 import PageHeader from '../../../common/PageHeader/PageHeader';
 import StaffAddPopup from '../Staff/StaffAddPopup/StaffAddPopup';
@@ -7,8 +7,11 @@ import StaffItem from '../Staff/StaffContent/StaffItem/StaffItem';
 import styles from './staffitempage.module.css';
 import TheMan from './TheMan/TheMan';
 import { useNavigate } from "react-router-dom";
+import { selectMe } from '../../../../redux/authSelectors';
 
 export default function StaffItemPage(props) {
+
+  const me = useSelector(selectMe);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -40,6 +43,8 @@ export default function StaffItemPage(props) {
         detail={'detail'}
         handleClickAdd={handleClickOpen}
         onDelete={onDelete}
+        access={me.user_type === 's'}
+        accessDelete={me.user_type === 's'}
       />
       {
         isOpenPopup && <StaffAddPopup
@@ -52,10 +57,12 @@ export default function StaffItemPage(props) {
         />
       }
       <div className={styles.staffItemContent}>
-        <StaffItem
-          title={props.userListTitle}
-          people={props.userList}
-        />
+        {me.user_type === 's' &&
+          < StaffItem
+            title={props.userListTitle}
+            people={props.userList}
+          />
+        }
         <TheMan user={props.user} />
       </div>
     </div>

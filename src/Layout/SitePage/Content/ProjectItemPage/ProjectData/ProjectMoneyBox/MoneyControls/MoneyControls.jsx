@@ -44,12 +44,14 @@ export default function MoneyControls(props) {
 
   return (
     <div className={classNames('flex', styles.moneyControls)}>
-      <button
-        onClick={handleClickOpenDelete}
-        className={classNames('flex', styles.controlBtn, styles.fillSVG, styles.deleteBtn)}
-      >
-        <DeleteIcon />
-      </button>
+      {props.me.user_type === 's' &&
+        <button
+          onClick={handleClickOpenDelete}
+          className={classNames('flex', styles.controlBtn, styles.fillSVG, styles.deleteBtn)}
+        >
+          <DeleteIcon />
+        </button>
+      }
       <button
         onClick={handleClickOpen}
         className={classNames('flex', styles.controlBtn, styles.strokeSVG)}
@@ -84,6 +86,7 @@ export default function MoneyControls(props) {
           handleClickClose={handleClickClose}
           close={handleClickClose}
           submitText={"Готово"}
+          popupHeader={`Редактировать счет № ${props.money.id}`}
           detail={"detail"}
         />
       }

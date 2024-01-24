@@ -84,7 +84,7 @@ export default function PageControls(props) {
           </button>
         </div>
       }
-      {props.detail && !props.isApprovedInvoiceForPayment &&
+      {props.detail && !props.approved && !props.isApprovedInvoiceForPayment && props.accessDelete &&
         <div className={classNames(styles.pageControlItem, styles.deleteBlock)}>
           <button
             className={classNames('btn', 'btnTransparent', styles.deleteBtn)}
@@ -95,7 +95,7 @@ export default function PageControls(props) {
         </div>
       }
       {
-        !props.withoutCash && !props.approved && !props.isApprovedInvoiceForPayment &&
+        !props.withoutCash && !props.approved && !props.isApprovedInvoiceForPayment && props.access &&
         <div className={classNames(styles.pageControlItem, styles.addBlock)}>
           <button
             className={classNames('btn', styles.addBtn)}

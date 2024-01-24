@@ -3,8 +3,12 @@ import { useState } from 'react';
 import PageHeader from '../../../../common/PageHeader/PageHeader';
 import InvoicesAddPopupContainer from '../InvoicesAddPopup/InvoicesAddPopupContainer';
 import styles from './invoicesheader.module.css';
+import { useSelector } from 'react-redux';
+import { selectMe } from '../../../../../redux/authSelectors';
 
 export default function InvoicesHeader(props) {
+
+  const me = useSelector(selectMe);
 
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const handleClickOpen = () => {
@@ -23,6 +27,7 @@ export default function InvoicesHeader(props) {
         addBtnText={'Добавить'}
         withInvoices={'withInvoices'}
         handleClickAdd={handleClickOpen}
+        access={me.user_type === 's'}
       />
       {
         isOpenPopup && <InvoicesAddPopupContainer

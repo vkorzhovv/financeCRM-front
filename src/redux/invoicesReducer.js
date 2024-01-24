@@ -3,12 +3,14 @@ import { invoicesAPI } from "../API/api";
 const SET_INVOICES = 'SET_INVOICES'
 const SET_UNAPPROVED_INVOICES = 'SET_UNAPPROVED_INVOICES'
 const SET_PROJECT_INVOICES = 'SET_PROJECT_INVOICES'
-const ADD_INVOICE = 'ADD_INVOICE'
+const ADD_INVOICE = 'ADD_INVOICE';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
   invoices: [],
   unapprovedInvoices: [],
-  projectInvoices: []
+  projectInvoices: [],
+  isFetching: false
 };
 
 export const invoicesReducer = (state = initialState, action) => {
@@ -33,6 +35,12 @@ export const invoicesReducer = (state = initialState, action) => {
         ...state,
         invoices: [...state.invoices, action.newInvoice]
       }
+    case TOGGLE_IS_FETCHING: {
+      return {
+        ...state,
+        isFetching: action.isFetching
+      }
+    }
     default: return { ...state };
   }
 }
@@ -41,6 +49,7 @@ const setInvoices = (invoices) => ({ type: SET_INVOICES, invoices });
 const setUnapprovedInvoices = (unapprovedInvoices) => ({ type: SET_UNAPPROVED_INVOICES, unapprovedInvoices });
 const setProjectInvoices = (projectInvoices) => ({ type: SET_PROJECT_INVOICES, projectInvoices });
 const setAddInvoices = (newInvoice) => ({ type: ADD_INVOICE, newInvoice });
+const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getInvoices = () => async (dispatch) => {
   const response = await invoicesAPI.getInvoices();
@@ -67,13 +76,15 @@ export const addInvoice = (
   comment,
   approved,
   type,
-  subtype,
+  subtype, 
   payer,
   receiver,
   project,
   amount,
   date) => async (dispatch) => {
-    const response = await invoicesAPI.addInvoice(comment,
+
+    dispatch(toggleIsFetching(true))
+    await invoicesAPI.addInvoice(comment,
       approved,
       type,
       subtype,
@@ -81,10 +92,16 @@ export const addInvoice = (
       receiver,
       project,
       amount,
-      date);
-    if (response.status < 300) {
-      dispatch(setAddInvoices(response.data))
-    }
+      date)
+      .then(response => {
+        dispatch(setAddInvoices(response.data))
+        dispatch(toggleIsFetching(false));
+        return response;
+      })
+      .catch((err) => {
+        dispatch(toggleIsFetching(false));
+        throw err;
+      })
   }
 
 export const deleteInvoice = (invoiceId) => async () => {

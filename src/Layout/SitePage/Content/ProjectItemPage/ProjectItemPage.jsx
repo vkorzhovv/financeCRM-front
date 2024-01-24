@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PageHeader from '../../../common/PageHeader/PageHeader';
 import ProjectData from './ProjectData/ProjectData';
 import styles from './projectitempage.module.css';
@@ -7,9 +7,11 @@ import ProjectsList from './ProjectsList/ProjectsList';
 import { useNavigate } from "react-router-dom";
 import { deleteProject } from '../../../../redux/projectsReducer';
 import ProjectAddPopupContainer from '../Projects/ProjectAddPopup/ProjectAddPopupContainer';
+import { selectMe } from '../../../../redux/authSelectors';
 
 export default function ProjectItemPage(props) {
 
+  const me = useSelector(selectMe);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -36,6 +38,8 @@ export default function ProjectItemPage(props) {
         detail={'detail'}
         onDelete={onDelete}
         handleClickAdd={handleClickOpen}
+        access={me.user_type === 's'}
+        accessDelete={me.user_type === 's'}
       />
 
       {

@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div className="App">
-      {isAuth ? <SitePage /> : <Login />}
+      {isAuth ? <SitePage />  : <Login />}
     </div>
   );
 }

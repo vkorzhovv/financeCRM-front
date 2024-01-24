@@ -2,11 +2,13 @@ import React from 'react';
 import { useState } from 'react';
 import PageHeader from '../../../../common/PageHeader/PageHeader';
 import styles from './projectheader.module.css';
-// import ProjectAddPopup from '../ProjectAddPopup/ProjectAddPopup';
 import ProjectAddPopupContainer from '../ProjectAddPopup/ProjectAddPopupContainer';
-// import classNames from 'classnames';
+import { useSelector } from 'react-redux';
+import { selectMe } from '../../../../../redux/authSelectors';
 
 export default function ProjectHeader(props) {
+
+  const me = useSelector(selectMe);
 
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const handleClickOpen = () => {
@@ -24,6 +26,7 @@ export default function ProjectHeader(props) {
       title={'Проекты'}
       addBtnText = {'Добавить проект'}
       handleClickAdd={handleClickOpen}
+      access={me.user_type === 's'}
       />
       {
         isOpenPopup && <ProjectAddPopupContainer

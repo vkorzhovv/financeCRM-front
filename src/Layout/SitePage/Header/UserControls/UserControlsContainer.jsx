@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import UserControls from './UserControls';
 import { getMe, logout } from '../../../../redux/authReducer';
-import { selectFirstNameMe, selectLastNameMe, selectUsernameMe, selectUserTypeMe } from '../../../../redux/authSelectors';
+import { selectMe } from '../../../../redux/authSelectors';
 
 export default function UserControlsContainer(props) {
 
@@ -16,18 +16,12 @@ export default function UserControlsContainer(props) {
     dispatch(getMe())
   }, [dispatch])
 
-  const firstName = useSelector(selectFirstNameMe);
-  const lastName = useSelector(selectLastNameMe);
-  const username = useSelector(selectUsernameMe);
-  const userType = useSelector(selectUserTypeMe);
+  const me = useSelector(selectMe)
 
   return (
     <UserControls
       handleClick={handleClick}
-      firstName={firstName}
-      lastName={lastName}
-      username={username}
-      userType={userType}
+      me={me}
     />
   );
 }

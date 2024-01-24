@@ -6,11 +6,13 @@ import PaymentAddPopupContainer from '../../Payment/PaymentAddPopup/PaymentAddPo
 import { editDate } from '../../../../../utils/dateEditor';
 import InvoicesListContainer from '../InvoicesList/InvoicesListContainer';
 import { editInvoice, getInvoiceItem } from '../../../../../redux/invoiceItemReducer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CheckIcon from '../../../../../svgIcons/check';
+import { selectMe } from '../../../../../redux/authSelectors';
 
 export default function InvoiceData(props) {
 
+  const me = useSelector(selectMe);
   const dispatch = useDispatch();
 
   const invoiceTh = [
@@ -80,7 +82,7 @@ export default function InvoiceData(props) {
                       <span className={classNames(styles.approved, styles.approvedFalse)}>Не подтвержден</span>
                   }
                   {
-                    remainder <= (0).toFixed(2) &&
+                    remainder <= (0).toFixed(2) && props.invoice.amount !== (0).toFixed(2) && me.is_superuser && me.user_type === 's' &&
                     <button
                       onClick={handleToApprove}
                       className={classNames('flex', styles.controlBtn, styles.fillSVG)}>
@@ -117,7 +119,7 @@ export default function InvoiceData(props) {
                     </p>
                   </div>
                   <div className={classNames('flex', styles.invoiceDataField)}>
-                    <p className={styles.invoiceDataTitle}>Тип начисления:</p><p>{props.invoice.payment_type}</p>
+                    <p className={styles.invoiceDataTitle}>Тип начисления:</p><p>{props.invoice.payment_type_name}</p>
                   </div>
                   <div className={classNames('flex', styles.invoiceDataField)}>
                     <p className={styles.invoiceDataTitle}>Назначение начисления:</p><p>{props.invoice.subtype}</p>
@@ -178,7 +180,7 @@ export default function InvoiceData(props) {
             />
           </div>
           {
-            !props.invoice.approved &&
+            !props.invoice.approved && me.user_type === 's' &&
             <PaymentAddPopupContainer
               invoicePage={'InvoicePage'}
               invoice={props.invoice}

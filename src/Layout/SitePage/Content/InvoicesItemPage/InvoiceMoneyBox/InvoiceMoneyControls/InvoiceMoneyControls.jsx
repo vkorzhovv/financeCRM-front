@@ -7,8 +7,12 @@ import CheckIcon from '../../../../../../svgIcons/check';
 import { useState } from 'react';
 import PaymentAddPopupContainer from '../../../Payment/PaymentAddPopup/PaymentAddPopupContainer';
 import ConfirmDelete from '../../../../../common/ConfirmDelete/ConfirmDelete';
+import { useSelector } from 'react-redux';
+import { selectMe } from '../../../../../../redux/authSelectors';
 
 export default function InvoiceMoneyControls(props) {
+
+  const me = useSelector(selectMe);
 
   const [isOpenPopup, setIsOpenPopup] = useState(false);
 
@@ -35,11 +39,13 @@ export default function InvoiceMoneyControls(props) {
 
   return (
     <div className={classNames('flex', styles.moneyControls)}>
-      <button
-        onClick={handleClickOpenDelete}
-        className={classNames('flex', styles.controlBtn, styles.fillSVG, styles.deleteBtn)}>
-        <DeleteIcon />
-      </button>
+      {me.user_type === 's' &&
+        <button
+          onClick={handleClickOpenDelete}
+          className={classNames('flex', styles.controlBtn, styles.fillSVG, styles.deleteBtn)}>
+          <DeleteIcon />
+        </button>
+      }
       <button
         onClick={handleClickOpen}
         className={classNames('flex', styles.controlBtn, styles.strokeSVG)}

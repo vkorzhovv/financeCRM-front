@@ -22,6 +22,7 @@ export default function MoneyControlsContainer(props) {
 
   return (
     <MoneyControls
+      me={props.me}
       receipts={props.receipts}
       projectId={props.projectId}
       onDelete={onDelete}

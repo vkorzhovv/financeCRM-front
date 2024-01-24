@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './userpopup.module.css';
 import classNames from 'classnames';
-import defaultAvatar from '../../../../../assets/images/defaultPhoto.png'
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import ExitIcon from '../../../../../svgIcons/exit';
 import ProfileIcon from '../../../../../svgIcons/profile';
+import { NavLink } from 'react-router-dom';
 
 export default function UserPopup(props) {
 
@@ -31,21 +31,23 @@ export default function UserPopup(props) {
       <div className={classNames('flex', styles.userData)}>
         <div className={classNames('flex', styles.userInfo)}>
           <div className={classNames('flex', styles.userFullName)}>
-            <p className={styles.name}>{props.firstName}</p>
-            <p className={styles.name}>{props.lastName}</p>
+            <p className={styles.name}>{props.me.first_name}</p>
+            <p className={styles.name}>{props.me.last_name}</p>
           </div>
           <p className={styles.email}>
-            {props.username}
+            {props.me.username}
           </p>
         </div>
       </div>
       <div className={classNames(styles.popupBtnBox, styles.cabinetBtnBox)}>
-        <button
-        className={classNames('flex', styles.popupBtn, styles.strokeSVG)}
+        <NavLink
+          className={classNames('flex', styles.popupBtn, styles.strokeSVG)}
+          to={`/staff/${props.me.id}`}
         >
+
           <ProfileIcon />
           <span>Личный кабинет</span>
-        </button>
+        </NavLink>
       </div>
       <div className={classNames(styles.popupBtnBox, styles.exitBtnBox)}>
         <button

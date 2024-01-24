@@ -7,6 +7,22 @@
   background-color: transparent;
 }
 
+.userBtn p {
+  transition: .3s;
+}
+
+.userBtn:hover svg path {
+  transition: .3s;
+}
+
+.userBtn:hover svg path {
+  stroke: var(--green76);
+}
+
+.userBtn:hover p {
+  color: var(--green76);
+}
+
 .name {
   margin-right: 10px;
   font-family: Roboto Condensed;

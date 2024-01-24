@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React from 'react';
 import styles from './staffitem.module.css';
 import StaffPerson from './StaffPerson/StaffPerson';
-// import classNames from 'classnames';
 
 export default function StaffItem(props) {
   return (
@@ -12,7 +11,7 @@ export default function StaffItem(props) {
       </h2>
       <div className={styles.staffTableWrapper}>
         <div className={classNames('table', styles.staffTable)}>
-          {props.people.length &&
+          {props.people.length ?
             props.people.map((item) =>
               <StaffPerson
                 key={item.id}
@@ -23,7 +22,10 @@ export default function StaffItem(props) {
                 phone={item.phone}
                 balance={item.balance}
               />
-            )}
+            )
+            :
+            "Пользователи отсутсвуют"
+          }
         </div>
       </div>
     </div>

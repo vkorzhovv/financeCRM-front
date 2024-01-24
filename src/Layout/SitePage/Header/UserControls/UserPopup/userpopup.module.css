@@ -48,6 +48,10 @@
   line-height: 21px;
 }
 
+.popupBtn {
+  justify-content: flex-start;
+}
+
 .popupBtnBox {
   border-top: 1px solid var(--greyE1);
 }

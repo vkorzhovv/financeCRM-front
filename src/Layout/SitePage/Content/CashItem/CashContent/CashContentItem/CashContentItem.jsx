@@ -11,9 +11,9 @@ export default function CashContentItem(props) {
       </h2>
       <div className={classNames(styles.cashWrapper)}>
         <div className={classNames('flex', styles.dataWrapper)}>
-          {props.items.map(item =>
+          {props.items.map((item, index) =>
             <CashData
-              key={item.id}
+              key={item.id ? item.id : item.type + index}
               id={item.id}
               name={item.name}
               type_name={item.item_type_name}

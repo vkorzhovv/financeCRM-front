@@ -3,17 +3,23 @@ import React from "react";
 import { createPortal } from "react-dom";
 import styles from './projectexpensesaddpopup.module.css';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addExpense, editExpense, getExpenses } from "../../../../../redux/projectExpensesReducer";
-// import { getProjects } from "../../../../../redux/projectsReducer";
+import { selectIsFetchingExpenses } from "../../../../../redux/projectExpensesSelector";
+import { editDateForInput } from "../../../../../utils/dateEditor";
+import { selectMe } from "../../../../../redux/authSelectors";
 
 export default function ProjectExpensesAddPopup(props) {
 
+  const me = useSelector(selectMe);
+
   const dispatch = useDispatch();
+
+  const isFetching = useSelector(selectIsFetchingExpenses);
 
   const {
     clearErrors,
-    // setError,
+    setError,
     register,
     watch,
     handleSubmit,
@@ -35,9 +41,15 @@ export default function ProjectExpensesAddPopup(props) {
     ))
       .then(() => {
         dispatch(getExpenses(props.projectId))
-        // dispatch(getProjects())
         props.handleClickClose(false)
         document.body.classList.remove('modal-show');
+      })
+      .catch(err => {
+        if (err.response.data) {
+          setError('serverError', { type: 'response', message: Object.values(err.response.data).map(item => item) })
+        } else {
+          console.log(err.message)
+        }
       })
   }
 
@@ -53,9 +65,15 @@ export default function ProjectExpensesAddPopup(props) {
     ))
       .then(() => {
         dispatch(getExpenses(props.projectId))
-        // dispatch(getProjects())
         props.handleClickClose(false)
         document.body.classList.remove('modal-show');
+      })
+      .catch(err => {
+        if (err.response.data) {
+          setError('serverError', { type: 'response', message: Object.values(err.response.data).map(item => item) })
+        } else {
+          console.log(err.message)
+        }
       })
   }
 
@@ -82,13 +100,19 @@ export default function ProjectExpensesAddPopup(props) {
             <select {...register('payer', {
               required: 'Выберите плательщика',
             })}
+              id='payer'
               className={!errors.payer
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
+                ? classNames('popupInput', styles.input, !me.is_superuser && 'nonTouch')
+                : classNames('popupInput', 'popupError', styles.input, styles.error, !me.is_superuser && 'nonTouch')}
+              defaultValue={props.detail ? (props.expense.payer && props.expense.payer.id) : me.id}
             >
               <option value="">Выбрать</option>
               {props.users && props.users.map(item =>
-                <option value={item.id} selected={props.detail && props.expense.payer.id && item.id === props.expense.payer.id}>{item.last_name} {item.first_name} {item.father_name}</option>
+                <option
+                  key={item.id}
+                  value={item.id}>
+                  {item.last_name} {item.first_name} {item.father_name}
+                </option>
               )}
             </select>
             {errors.payer && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.payer.message}</div>}
@@ -104,16 +128,22 @@ export default function ProjectExpensesAddPopup(props) {
               {...register('type', {
                 required: 'Выберите тип',
               })}
+              id='type'
               className={!errors.type
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
+              defaultValue={props.detail && props.expense.payment_type && props.expense.payment_type}
             >
               <option value="">Выбрать</option>
               {props.typesList && props.createdTypes && props.typesList.filter(item =>
                 props.createdTypes.map(type => type.item_type).includes(item.type)
               )
                 .map(item =>
-                  <option value={item.type} selected={props.detail && props.expense.payment_type && item.type === props.expense.payment_type}>{item.name}</option>
+                  <option
+                    key={item.type}
+                    value={item.type}>
+                    {item.name}
+                  </option>
                 )}
             </select>
             {errors.type && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.type.message}</div>}
@@ -127,13 +157,19 @@ export default function ProjectExpensesAddPopup(props) {
               {...register('purpose', {
                 required: 'Выберите назначение',
               })}
+              id='purpose'
               className={!errors.purpose
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
+              defaultValue={props.detail && props.expense.subtype && props.expense.subtype}
             >
               <option value="">Выбрать</option>
               {props.subtypesList && props.subtypesList.map(item =>
-                <option value={item} selected={props.detail && props.expense.subtype && item === props.expense.subtype}>{item}</option>
+                <option
+                  key={item}
+                  value={item}>
+                  {item}
+                </option>
               )}
             </select>
 
@@ -144,6 +180,7 @@ export default function ProjectExpensesAddPopup(props) {
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="summ">Сумма расходов</label>
             <input
+              id='summ'
               className={!errors.summ
                 ? classNames('popupInput', styles.inputHalf, styles.input)
                 : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
@@ -154,6 +191,10 @@ export default function ProjectExpensesAddPopup(props) {
               {...register('summ',
                 {
                   required: 'Введите сумму',
+                  pattern: {
+                    value: /^[1-9]([0-9])*?[.]?([0-9]{0,2})$/,
+                    message: 'Минимум 1. В качестве разделителя "точка"'
+                  },
                 })
               }
             />
@@ -162,13 +203,14 @@ export default function ProjectExpensesAddPopup(props) {
           <div className={!errors.date
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="start">Дата</label>
+            <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="date">Дата</label>
             <input
+              id='date'
               className={!errors.date
                 ? classNames('popupInput', styles.inputHalf, styles.input)
                 : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
               type='date'
-              defaultValue={props.detail && props.expense.date}
+              defaultValue={props.detail ? props.expense.date : editDateForInput(new Date())}
               name='date'
               {...register('date',
                 {
@@ -186,14 +228,16 @@ export default function ProjectExpensesAddPopup(props) {
             >
               Отменить
             </button>
-            <input
-              className={classNames('btn')}
+            <button
+              className={isFetching ? classNames('btn', 'progress') : 'btn'}
               type='submit'
-              value={props.submitText}
               disabled={!isValid}
-            />
+            >
+              {isFetching ? 'Загрузка...' : props.submitText}
+            </button>
           </div>
         </form>
+        {errors.serverError && <div className={'errorForm'}>{errors.serverError.message}</div>}
       </div>
     </div>
   ), document.getElementById('modal_root'))

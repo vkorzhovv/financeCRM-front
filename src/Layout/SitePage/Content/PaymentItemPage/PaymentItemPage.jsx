@@ -4,11 +4,14 @@ import PaymentData from './PaymentData/PaymentData';
 import styles from './paymentitempage.module.css';
 import PaymentAddPopupContainer from '../Payment/PaymentAddPopup/PaymentAddPopupContainer';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deletePayment } from '../../../../redux/paymentReducer';
 import PaymentListContainer from './PaymentList/PaymentListContainer';
+import { selectMe } from '../../../../redux/authSelectors';
 
 export default function PaymentItemPage(props) {
+
+  const me = useSelector(selectMe);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -40,6 +43,8 @@ export default function PaymentItemPage(props) {
         detail={'detail'}
         onDelete={onDelete}
         handleClickAdd={handleClickOpen}
+        access={me.user_type === 'k' || 's' || 'p'}
+        accessDelete={me.user_type === 's'}
       />
 
       {

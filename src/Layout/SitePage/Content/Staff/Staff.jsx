@@ -8,7 +8,7 @@ export default function Staff(props) {
   return (
     <div className={styles.staff}>
       <StaffHeader />
-      <StaffContentContainer users={props.users}/>
+      <StaffContentContainer />
     </div>
   );
 }
