@@ -22,14 +22,12 @@ export default function StaffAddPopup(props) {
     clearErrors,
     setError,
     register,
-    watch,
+    getValues,
     handleSubmit,
     formState: { errors, isValid }
   } = useForm({
     mode: 'onChange',
   });
-
-  const watchType = watch('type', false)
 
   const addUserLocal = (data) => {
     dispatch(addUser(
@@ -318,7 +316,7 @@ export default function StaffAddPopup(props) {
             {errors.phone && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.phone.message}</div>}
           </div>
           {
-            me.is_superuser && watchType && watchType === 's' &&
+            me.is_superuser && getValues('type') === 's' &&
             <div className={classNames('flex', styles.inputBox)}>
               <label className={classNames('popupLabel', styles.staffLabel)} htmlFor="superuser">Доступ ко всему</label>
               <div className={styles.checkWrapper}>

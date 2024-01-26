@@ -50,10 +50,10 @@ export default function InvoicesItem(props) {
         }
       </div>
       <div className={classNames('tableCell', styles.invoicesCell)}>
-        {props.item.amount}
+        {props.item.amount}&nbsp;&#8381;
       </div>
       <div className={classNames('tableCell', styles.invoicesCell)}>
-        {props.item.receipts}
+        {props.item.receipts}&nbsp;&#8381;
       </div>
       <NavLink
         to={`/invoices/${props.item.id}`}

@@ -276,7 +276,7 @@ export default function ProjectAddPopup(props) {
               type='text'
               name='summ'
               defaultValue={props.detail && props.project.price}
-              placeholder='0 р'
+              placeholder='0 &#8381;'
               {...register('summ',
                 {
                   required: 'Введите сумму',

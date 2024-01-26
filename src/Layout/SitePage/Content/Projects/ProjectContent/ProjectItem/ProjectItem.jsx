@@ -46,13 +46,13 @@ export default function ProjectItem(props) {
         {editDate(props.item.end_date)}
       </div>
       <div className={classNames('tableCell', styles.projectCell)}>
-        {props.item.price}
+        {props.item.price}&nbsp;&#8381;
       </div>
       <div className={classNames('tableCell', styles.projectCell)}>
-        {props.item.balance}
+        {props.item.balance}&nbsp;&#8381;
       </div>
       <div className={classNames('tableCell', styles.projectCell)}>
-        {props.item.expenses}
+        {props.item.expenses}&nbsp;&#8381;
       </div>
       <div className={classNames('tableCell', styles.projectCell)}>
         {props.item.active ? <span className={styles.statusTrue}>Активен</span> : <span className={styles.statusFalse}>Неактивен</span>}

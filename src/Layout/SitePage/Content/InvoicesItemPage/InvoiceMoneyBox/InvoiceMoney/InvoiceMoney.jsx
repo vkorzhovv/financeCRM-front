@@ -16,7 +16,7 @@ export default function InvoiceMoney(props) {
         {editDate(props.money.date)}
       </div>
       <div className={classNames('tableCell',styles.moneyCell)}>
-        {props.money.total}
+        {props.money.total}&nbsp;&#8381;
       </div>
       <div className={classNames('tableCell',styles.moneyCell)}>
         {props.money.approved ? <span className={styles.statusTrue}>Оплачено</span> : <span className={styles.statusFalse}>Не&nbsp;оплачено</span>}

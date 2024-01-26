@@ -114,6 +114,8 @@ button {
 .tableRow {
   position: relative;
   display: table-row;
+  width: max-content;
+  height: max-content;
 }
 
 /* .tableRow::after {

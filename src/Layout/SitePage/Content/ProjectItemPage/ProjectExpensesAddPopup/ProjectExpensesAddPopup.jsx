@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from './projectexpensesaddpopup.module.css';
 import { useForm } from 'react-hook-form';
@@ -8,27 +8,31 @@ import { addExpense, editExpense, getExpenses } from "../../../../../redux/proje
 import { selectIsFetchingExpenses } from "../../../../../redux/projectExpensesSelector";
 import { editDateForInput } from "../../../../../utils/dateEditor";
 import { selectMe } from "../../../../../redux/authSelectors";
+import { selectSubtypes } from "../../../../../redux/cashItemSelector";
+import { getSubtypes } from "../../../../../redux/cashItemReducer";
 
 export default function ProjectExpensesAddPopup(props) {
-
-  const me = useSelector(selectMe);
-
-  const dispatch = useDispatch();
-
-  const isFetching = useSelector(selectIsFetchingExpenses);
 
   const {
     clearErrors,
     setError,
     register,
-    watch,
+    getValues,
     handleSubmit,
     formState: { errors, isValid }
   } = useForm({
     mode: 'onChange',
   });
 
-  const watchType = watch('type', false)
+  const me = useSelector(selectMe);
+  const subtypesList = useSelector(selectSubtypes);
+  const isFetching = useSelector(selectIsFetchingExpenses);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getValues('type') && dispatch(getSubtypes(getValues('type')))
+  }, [dispatch, getValues('type')])
 
   const addExpenseLocal = async (data) => {
     await dispatch(addExpense(
@@ -122,9 +126,6 @@ export default function ProjectExpensesAddPopup(props) {
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel')} htmlFor="type">Тип расходов</label>
             <select
-              onChange={
-                props.setType(watchType)
-              }
               {...register('type', {
                 required: 'Выберите тип',
               })}
@@ -153,7 +154,7 @@ export default function ProjectExpensesAddPopup(props) {
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel')} htmlFor="purpose">Назначение расходов</label>
             <select
-              disabled={!watchType}
+              disabled={!getValues('type')}
               {...register('purpose', {
                 required: 'Выберите назначение',
               })}
@@ -164,7 +165,7 @@ export default function ProjectExpensesAddPopup(props) {
               defaultValue={props.detail && props.expense.subtype && props.expense.subtype}
             >
               <option value="">Выбрать</option>
-              {props.subtypesList && props.subtypesList.map(item =>
+              {subtypesList && subtypesList.map(item =>
                 <option
                   key={item}
                   value={item}>
@@ -187,7 +188,7 @@ export default function ProjectExpensesAddPopup(props) {
               type='text'
               name='summ'
               defaultValue={props.detail && props.expense.amount}
-              placeholder='0 р'
+              placeholder='0 &#8381;'
               {...register('summ',
                 {
                   required: 'Введите сумму',

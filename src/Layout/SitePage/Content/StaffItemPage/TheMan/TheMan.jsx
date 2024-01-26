@@ -10,7 +10,7 @@ export default function TheMan(props) {
           {props.user.last_name} {props.user.first_name} {props.user.father_name}
         </h2>
         <div className={styles.cash}>
-          {props.user.balance}
+          {props.user.balance}&nbsp;&#8381;
         </div>
       </div>
       <div className={classNames('flex', styles.manDatas)}>

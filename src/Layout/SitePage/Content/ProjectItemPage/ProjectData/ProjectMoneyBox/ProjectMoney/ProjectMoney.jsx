@@ -22,7 +22,7 @@ export default function ProjectMoney(props) {
         {date}
       </div>
       <div className={classNames('tableCell', styles.moneyCell)}>
-        {summ}
+        {summ}&nbsp;&#8381;
       </div>
       <div className={classNames('tableCell', styles.moneyCell)}>
         {purpose}

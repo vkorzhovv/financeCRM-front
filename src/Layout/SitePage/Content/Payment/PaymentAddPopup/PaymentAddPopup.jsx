@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useState } from "react";
 import styles from './paymentaddpopup.module.css';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,8 +10,11 @@ import { editFileName } from "../../../../../utils/fileNameEditor";
 import { selectIsFetchingAddPayment } from "../../../../../redux/paymentSelector";
 import { selectIsFetchingEditPayment } from "../../../../../redux/paymentItemSelector";
 import { editDateForInput } from "../../../../../utils/dateEditor";
+import LoadingIcon from "../../../../../svgIcons/loading";
 
 export default function PaymentAddPopup(props) {
+
+  const [filesList, setFilesList] = useState((props.detail && props.payment.scans) && props.payment.scans.slice() || []);
 
   const dispatch = useDispatch();
   const isFetchingAdd = useSelector(selectIsFetchingAddPayment);
@@ -37,7 +40,10 @@ export default function PaymentAddPopup(props) {
     return arr.slice(0, -2);
   }
 
-  console.log(arrayFiles(getValues('scans')))
+  const handleDeleteFile = (arr, item) => {
+    const filtered = arr.filter((el) => el.id !== item.id)
+    setFilesList(filtered);
+  }
 
   const addPaymentLocal = (data) => {
     dispatch(addPayment(
@@ -71,7 +77,7 @@ export default function PaymentAddPopup(props) {
       Boolean(Number(data.status)),
       data.check,
       data.description,
-      arrayFiles(data.scans)
+      arrayFiles(data.scans).concat(filesList)
     ))
       .then(() => {
         !props.invoicePage && dispatch(getPaymentItem(props.payment.id))
@@ -79,6 +85,7 @@ export default function PaymentAddPopup(props) {
         !props.invoicePage && props.invoice && dispatch(getInvoiceItem(props.invoice.id))
         props.close(false);
         document.body.classList.remove('modal-show');
+        console.log(arrayFiles(data.scans).concat(filesList));
       })
       .catch(err => {
         if (err.response.data) {
@@ -144,7 +151,7 @@ export default function PaymentAddPopup(props) {
               type='text'
               name='summ_plus'
               defaultValue={props.detail && props.payment.total}
-              placeholder='0 р'
+              placeholder='0 &#8381;'
               {...register('summ_plus',
                 {
                   required: 'Введите сумму',
@@ -199,20 +206,35 @@ export default function PaymentAddPopup(props) {
             </div>
           }
 
-          {props.detail && (props.payment.scans && props.payment.scans.length) > 0 &&
+          {props.detail && (filesList && filesList.length > 0) &&
             <div className={classNames('flex', 'popupInputBox')}>
               <p className={classNames('popupLabel', styles.projectLabel)}>Загруженные файлы:</p>
-              {props.payment.scans.map((item, index) =>
-                <a
-                  key={item.id}
-                  href={item.scan}
-                  download
-                  target="_blank"
-                  rel="noreferrer"
-                  className={styles.attachmentFieldDocument}>
-                  Файл {index + 1}{editFileName(item.scan)}
-                </a>
-              )}
+              <div className={classNames('flex', styles.filesContainer)}>
+                {filesList.map((item) =>
+                  <div
+                    key={item.id}
+                    className={classNames('flex', styles.fileBox)}
+                  >
+                    <a
+                      href={item.scan}
+                      download
+                      target="_blank"
+                      rel="noreferrer"
+                      className={styles.attachmentFieldDocument}>
+                      Файл&nbsp;{item.id}{editFileName(item.scan)}
+                    </a>
+
+                    <button
+                      onClick={() => handleDeleteFile(filesList, item)}
+                      type="button"
+                      className={classNames('flex', styles.deleteFileBtn)}
+                    >
+                      <span className={classNames(styles.horLine, styles.line)}></span>
+                      <span className={classNames(styles.verLine, styles.line)}></span>
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           }
 
@@ -223,15 +245,15 @@ export default function PaymentAddPopup(props) {
               className={classNames('flex', styles.fileLabel)}
               htmlFor="scans">
               <p className={styles.labelText}>Скан/фото документа</p>
-              <div className={classNames('popupInput', styles.inputHalf, styles.inputFile)}>Добавить файл</div>
+              <div className={classNames('flex', 'popupInput', styles.inputHalf, styles.inputFile)}>Добавить файл    <LoadingIcon/></div>
 
               {arrayFiles(getValues('scans')).length ?
                 <span className={styles.fileName}>
                   {
-                  arrayFiles(getValues('scans')).length === 1 ?
-                  arrayFiles(getValues('scans'))[0].name :
-                  `Загружено файлов: ${arrayFiles(getValues('scans')).length}`
-                }
+                    arrayFiles(getValues('scans')).length === 1 ?
+                      arrayFiles(getValues('scans'))[0].name :
+                      `Загружено файлов: ${arrayFiles(getValues('scans')).length}`
+                  }
                 </span>
                 :
                 <span className={styles.fileName}>

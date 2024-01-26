@@ -3,6 +3,7 @@ import styles from './projectdata.module.css';
 import classNames from 'classnames';
 import { editDate } from '../../../../../utils/dateEditor';
 import ProjectMoneyBox from './ProjectMoneyBox/ProjectMoneyBox';
+import { NavLink } from 'react-router-dom';
 
 export default function ProjectData(props) {
 
@@ -27,13 +28,34 @@ export default function ProjectData(props) {
             <div className={classNames('flex', styles.projectMainInfo)}>
               <div className={styles.projectPersonList}>
                 <div className={classNames('flex', styles.personItem)}>
-                  <p className={styles.personTitle}>Клиент:</p> <p>{props.project.client && `${props.project.client.last_name} ${props.project.client.first_name} ${props.project.client.father_name}`}</p>
+                  <p className={styles.personTitle}>Клиент:</p>
+                  {props.project.client ?
+                    <NavLink to={`/staff/${props.project.client.id}`}>
+                      {props.project.client.last_name} {props.project.client.first_name} {props.project.client.father_name}
+                    </NavLink>
+                    :
+                    <p>Не выбран</p>
+                  } 
                 </div>
                 <div className={classNames('flex', styles.personItem)}>
-                  <p className={styles.personTitle}>Менеджер:</p><p>{props.project.project_manager && `${props.project.project_manager.last_name} ${props.project.project_manager.first_name} ${props.project.project_manager.father_name}`}</p>
+                  <p className={styles.personTitle}>Менеджер:</p>
+                  {props.project.project_manager ?
+                    <NavLink to={`/staff/${props.project.project_manager.id}`}>
+                      {props.project.project_manager.last_name} {props.project.project_manager.first_name} {props.project.project_manager.father_name}
+                    </NavLink>
+                    :
+                    <p>Не выбран</p>
+                  }
                 </div>
                 <div className={classNames('flex', styles.personItem)}>
-                  <p className={styles.personTitle}>Прораб:</p><p>{props.project.foreman && `${props.project.foreman.last_name} ${props.project.foreman.first_name} ${props.project.foreman.father_name}`}</p>
+                  <p className={styles.personTitle}>Прораб:</p>
+                  {props.project.foreman ?
+                    <NavLink to={`/staff/${props.project.foreman.id}`}>
+                      {props.project.foreman.last_name} {props.project.foreman.first_name} {props.project.foreman.father_name}
+                    </NavLink>
+                    :
+                    <p>Не выбран</p>
+                  }
                 </div>
               </div>
               <div className={styles.description}>
@@ -65,10 +87,10 @@ export default function ProjectData(props) {
                     {editDate(props.project.end_date)}
                   </div>
                   <div className={classNames('tableCell', styles.itemCell)}>
-                    {props.project.price}
+                    {props.project.price}&nbsp;&#8381;
                   </div>
                   <div className={classNames('tableCell', styles.itemCell)}>
-                    {props.project.balance}
+                    {props.project.balance}&nbsp;&#8381;
                   </div>
                 </div>
               </div>

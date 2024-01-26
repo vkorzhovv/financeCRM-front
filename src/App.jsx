@@ -1,17 +1,25 @@
-import { useSelector } from 'react-redux';
 import './App.css';
 import Login from './Layout/Login/Login';
 import SitePage from './Layout/SitePage/SitePage';
-import { selectIsAuth } from './redux/authSelectors';
-// import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import PrivateRoute from './utils/privateRoute';
+import LoginContainer from './Layout/Login/LoginContainer';
+
 
 function App() {
 
-  const isAuth = useSelector(selectIsAuth);
-
   return (
     <div className="App">
-      {isAuth ? <SitePage />  : <Login />}
+      <Routes>
+        <Route path='/*'
+          element={
+            <PrivateRoute>
+              <SitePage />
+            </PrivateRoute>
+          }
+        />
+        <Route path='/login' element={<LoginContainer />} />
+      </Routes>
     </div>
   );
 }

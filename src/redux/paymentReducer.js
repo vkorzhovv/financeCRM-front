@@ -48,6 +48,11 @@ export const getPayments = () => async (dispatch) => {
   dispatch(setPayments(response.data));
 }
 
+export const getUserPayments = (userId) => async (dispatch) => {
+  const response = await paymentsAPI.getUserPayments(userId);
+  dispatch(setPayments(response.data));
+}
+
 export const getPaymentsInInvoice = (invoiceId) => async (dispatch) => {
   const response = await paymentsAPI.getPaymentsInInvoice(invoiceId);
   dispatch(setPaymentsInInvoice(response.data));

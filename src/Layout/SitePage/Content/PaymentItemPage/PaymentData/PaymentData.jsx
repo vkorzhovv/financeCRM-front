@@ -3,6 +3,7 @@ import styles from './paymentdata.module.css';
 import classNames from 'classnames';
 import { editDate } from '../../../../../utils/dateEditor';
 import { editFileName } from '../../../../../utils/fileNameEditor';
+import { NavLink } from 'react-router-dom';
 
 export default function PaymentData(props) {
 
@@ -27,29 +28,34 @@ export default function PaymentData(props) {
             <div className={classNames('flex', styles.paymentMainInfo)}>
               <div className={styles.paymentDataList}>
                 <div className={classNames('flex', styles.paymentDataField)}>
-                  <p className={styles.paymentDataTitle}>Проект:</p> <p>{props.payment.invoice.project && props.payment.invoice.project.name}</p>
+                  <p className={styles.paymentDataTitle}>Проект:</p>
+                  {props.payment.invoice.project ?
+                    <NavLink to={`/projects/${props.payment.invoice.project.id}`}>
+                      {props.payment.invoice.project.name}
+                    </NavLink>
+                    :
+                    <p>Не выбран</p>
+                  }
                 </div>
                 <div className={classNames('flex', styles.paymentDataField)}>
-                  <p className={styles.paymentDataTitle}>Получатель:</p><p>
-                    {
-                      props.payment.invoice.receiver
-                        ?
-                        `${props.payment.invoice.receiver.last_name} ${props.payment.invoice.receiver.first_name}`
-                        :
-                        'Не выбран'
-                    }
-                  </p>
+                  <p className={styles.paymentDataTitle}>Получатель:</p>
+                  {props.payment.invoice.receiver ?
+                    <NavLink to={`/staff/${props.payment.invoice.receiver.id}`}>
+                      {props.payment.invoice.receiver.last_name} {props.payment.invoice.receiver.first_name}
+                    </NavLink>
+                    :
+                    <p>Не выбран</p>
+                  }
                 </div>
                 <div className={classNames('flex', styles.paymentDataField)}>
-                  <p className={styles.paymentDataTitle}>Плательщик:</p><p>
-                    {
-                      props.payment.invoice.payer
-                        ?
-                        `${props.payment.invoice.payer.last_name} ${props.payment.invoice.payer.first_name}`
-                        :
-                        'Не выбран'
-                    }
-                  </p>
+                  <p className={styles.paymentDataTitle}>Плательщик:</p>
+                  {props.payment.invoice.payer ?
+                    <NavLink to={`/staff/${props.payment.invoice.payer.id}`}>
+                      {props.payment.invoice.payer.last_name} {props.payment.invoice.payer.first_name}
+                    </NavLink>
+                    :
+                    <p>Не выбран</p>
+                  }
                 </div>
               </div>
               <div className={styles.description}>
@@ -79,10 +85,10 @@ export default function PaymentData(props) {
                   {editDate(props.payment.date)}
                 </div>
                 <div className={classNames('tableCell', styles.itemCell)}>
-                  {props.payment.invoice.amount}
+                  {props.payment.invoice.amount}&nbsp;&#8381;
                 </div>
                 <div className={classNames('tableCell', styles.itemCell)}>
-                  {props.payment.total}
+                  {props.payment.total}&nbsp;&#8381;
                 </div>
                 <div className={classNames('tableCell', styles.itemCell)}>
                   {props.payment.approved ? <span className={styles.statusTrue}>Оплачен</span> : <span className={styles.statusFalse}>Не оплачен</span>}
@@ -108,7 +114,7 @@ export default function PaymentData(props) {
                       target="_blank"
                       rel="noreferrer"
                       className={styles.attachmentFieldDocument}>
-                      Файл {index + 1}{editFileName(item.scan)}
+                      Файл {item.id}{editFileName(item.scan)}
                     </a>
 
                   )

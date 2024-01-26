@@ -8,7 +8,7 @@ export default function InvoiceMoneyBox(props) {
     <div className={classNames(styles.invoiceMoney)}>
       <div className={classNames('flex', styles.moneyHeader)}>
         <h3 className={classNames(styles.moneyHeaderText)}>{props.title}</h3>
-        <p className={classNames(styles.moneyHeaderText, styles.moneyHeaderSumm)}>{props.invoice.receipts}</p>
+        <p className={classNames(styles.moneyHeaderText, styles.moneyHeaderSumm)}>{props.invoice.receipts}&nbsp;&#8381;</p>
       </div>
       <div className={styles.tableWrapper}>
         <div className={classNames('table', styles.moneyTable)}>

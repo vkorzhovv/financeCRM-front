@@ -148,6 +148,13 @@ export const projectsAPI = {
       }
     })
   },
+  getUserProjects(userId) {
+    return instance.get(`api/user_projects/${userId}/`, {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
   addProject(
     name,
     description,
@@ -356,6 +363,13 @@ export const invoicesAPI = {
       }
     })
   },
+  getUserInvoices(userId) {
+    return instance.get(`api/user_invoices/${userId}/`, {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
   getUnpaidInvoices() {
     return instance.get('/api/unpaid_invoices/', {
       headers: {
@@ -363,8 +377,22 @@ export const invoicesAPI = {
       }
     })
   },
+  getUserUnpaidInvoices(userId) {
+    return instance.get(`api/user_unpaid_invoices/${userId}/`, {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
   getDebInvoices() {
     return instance.get('/api/deb_invoices/', {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
+  getUserDebInvoices(userId) {
+    return instance.get(`api/user_deb_invoices/${userId}/`, {
       headers: {
         'Authorization': `Token ${localStorage.getItem('token')}`
       }
@@ -471,6 +499,13 @@ export const paymentsAPI = {
       }
     })
   },
+  getUserPayments(userId) {
+    return instance.get(`api/user_payments/${userId}/`, {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
   addPayment(
     date,
     total,
@@ -546,3 +581,17 @@ export const paymentsAPI = {
     })
   }
 }
+
+// import store from '../redux/reduxStore.js';
+
+// axios.interceptors.response.use(function (response) {
+
+//     return response;
+// }, function (error) {
+//     // Do something with response error
+//     store.dispatch({
+//         type: 'API_ERROR',
+//         payload: error,
+//     })
+//     return Promise.reject(error);
+// });

@@ -4,13 +4,7 @@ const SET_AUTH = 'SET_AUTH';
 const SET_ME_DATA = 'SET_ME_DATA';
 
 let initialState = {
-  userData: {
-    userId: null,
-    // firstName: null,
-    // lastName: null,
-    // username: null,
-    // userType: null,
-  },
+  userData: {},
   isAuth: localStorage.getItem('isAuth') || false,
 };
 
@@ -32,29 +26,21 @@ export const authReducer = (state = initialState, action) => {
   }
 }
 
-const setAuth = (isAuth) => ({
+export const setAuth = (isAuth) => ({
   type: SET_AUTH, isAuth
 })
 
-const setMe = (userData) => ({type: SET_ME_DATA, userData})
+const setMe = (userData) => ({ type: SET_ME_DATA, userData })
 
 export const getMe = () => async (dispatch) => {
-  const response = await authAPI.me();
-
-  try {
-    const res = response.data;
-    dispatch(setMe(res))
-  }
-  catch {
-    console.log(111)
-    localStorage.clear();
-  }
-  // if (response.status === 200) {
-  //   const res = response.data;
-  //   dispatch(setMe(res.id, res.first_name, res.last_name, res.username, res.user_type_value))
-  // } else if (response.status === 401) {
-  //   localStorage.clear();
-  // }
+  await authAPI.me()
+    .then(response => {
+      dispatch(setMe(response.data))
+    })
+    .catch(err => {
+      localStorage.clear();
+      dispatch(setAuth(false));
+    })
 }
 
 export const login = (name, password, setError) => async (dispatch) => {

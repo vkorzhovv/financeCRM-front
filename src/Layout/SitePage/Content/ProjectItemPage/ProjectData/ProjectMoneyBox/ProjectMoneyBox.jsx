@@ -46,7 +46,7 @@ export default function ProjectMoneyBox(props) {
                 props.cash.map(item =>
                   item.amount
                 ).reduce((acc, number) => Number(acc) + Number(number), 0).toFixed(2)
-            }
+            }&nbsp;&#8381;
           </p>
           {me.user_type === 's' &&
             <button

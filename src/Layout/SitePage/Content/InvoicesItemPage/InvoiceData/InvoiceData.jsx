@@ -9,6 +9,7 @@ import { editInvoice, getInvoiceItem } from '../../../../../redux/invoiceItemRed
 import { useDispatch, useSelector } from 'react-redux';
 import CheckIcon from '../../../../../svgIcons/check';
 import { selectMe } from '../../../../../redux/authSelectors';
+import { NavLink } from 'react-router-dom';
 
 export default function InvoiceData(props) {
 
@@ -94,29 +95,34 @@ export default function InvoiceData(props) {
               <div className={classNames('flex', styles.invoiceMainInfo)}>
                 <div className={styles.invoiceDataList}>
                   <div className={classNames('flex', styles.invoiceDataField)}>
-                    <p className={styles.invoiceDataTitle}>Проект:</p> <p>{props.invoice.project ? props.invoice.project.name : 'Не выбран'}</p>
+                    <p className={styles.invoiceDataTitle}>Проект:</p>
+                    {props.invoice.project ?
+                      <NavLink to={`/projects/${props.invoice.project.id}`}>
+                        {props.invoice.project.name}
+                      </NavLink>
+                      :
+                      <p>Не выбран</p>
+                    }
                   </div>
                   <div className={classNames('flex', styles.invoiceDataField)}>
-                    <p className={styles.invoiceDataTitle}>Получатель:</p><p>
-                      {
-                        props.invoice.receiver
-                          ?
-                          `${props.invoice.receiver.last_name} ${props.invoice.receiver.first_name}`
-                          :
-                          'Не выбран'
-                      }
-                    </p>
+                    <p className={styles.invoiceDataTitle}>Получатель:</p>
+                    {props.invoice.receiver ?
+                      <NavLink to={`/staff/${props.invoice.receiver.id}`}>
+                        {props.invoice.receiver.last_name} {props.invoice.receiver.first_name}
+                      </NavLink>
+                      :
+                      <p>Не выбран</p>
+                    }
                   </div>
                   <div className={classNames('flex', styles.invoiceDataField)}>
-                    <p className={styles.invoiceDataTitle}>Плательщик:</p><p>
-                      {
-                        props.invoice.payer
-                          ?
-                          `${props.invoice.payer.last_name} ${props.invoice.payer.first_name}`
-                          :
-                          'Не выбран'
-                      }
-                    </p>
+                    <p className={styles.invoiceDataTitle}>Плательщик:</p>
+                    {props.invoice.payer ?
+                      <NavLink to={`/staff/${props.invoice.payer.id}`}>
+                        {props.invoice.payer.last_name} {props.invoice.payer.first_name}
+                      </NavLink>
+                      :
+                      <p>Не выбран</p>
+                    }
                   </div>
                   <div className={classNames('flex', styles.invoiceDataField)}>
                     <p className={styles.invoiceDataTitle}>Тип начисления:</p><p>{props.invoice.payment_type_name}</p>
@@ -148,13 +154,13 @@ export default function InvoiceData(props) {
                 <div className={classNames('tableBody')}>
                   <div className={classNames('tableRow', styles.invoiceTableItem)}>
                     <div className={classNames('tableCell', styles.cellItem)}>
-                      {props.invoice.amount}
+                      {props.invoice.amount}&nbsp;&#8381;
                     </div>
                     <div className={classNames('tableCell', styles.cellItem)}>
-                      {props.invoice.receipts}
+                      {props.invoice.receipts}&nbsp;&#8381;
                     </div>
                     <div className={classNames('tableCell', styles.cellItem)}>
-                      {props.remainder}
+                      {props.remainder}&nbsp;&#8381;
                     </div>
                     <div className={classNames('tableCell', styles.cellItem)}>
                       {

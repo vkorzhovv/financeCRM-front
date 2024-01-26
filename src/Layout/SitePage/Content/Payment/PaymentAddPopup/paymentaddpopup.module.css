@@ -48,6 +48,7 @@
 }
 
 .fileLabel {
+  max-width: max-content;
   width: 100%;
   justify-content: flex-start;
 }
@@ -59,6 +60,61 @@
 .inputFile {
   background-color: #fff;
   margin-right: 10px;
+  padding: 10px 0 10px 0;
+  cursor: pointer;
+}
+
+.fileBox {
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  padding: 5px 0 5px 0;
+  margin-right: 15px;
+}
+
+.filesContainer {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.deleteFileBtn {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  background-color: transparent;
+  border-radius: 50%;
+  padding: 5px;
+  border: 1px solid var(--black05);
+  transform: rotate(45deg);
+  transition: .3s;
+}
+
+.line {
+  position: absolute;
+  inset: 5px;
+  top: calc(50% - 1px);
+  display: block;
+  height: 1px;
+  background-color: var(--black05);
+  transition: .3s;
+}
+
+.verLine {
+  transform: rotate(90deg);
+}
+
+.deleteFileBtn:hover {
+  border: 1px solid var(--redCF);
+}
+
+.deleteFileBtn:hover .line {
+  background-color: var(--redCF);
+}
+.deleteFileBtn:active {
+  border: 1px solid var(--black05);
+}
+
+.deleteFileBtn:active .line {
+  background-color: var(--black05);
 }
 
 @media (max-width: 768px) {

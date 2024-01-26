@@ -45,10 +45,10 @@ export default function PaymentItem(props) {
         {props.item.approved ? <span className={styles.statusTrue}>Оплачен</span> : <span className={styles.statusFalse}>Не оплачен</span>}
       </div>
       <div className={classNames('tableCell', styles.paymentCell)}>
-        {props.item.invoice.amount}
+        {props.item.invoice.amount}&nbsp;&#8381;
       </div>
       <div className={classNames('tableCell', styles.paymentCell)}>
-        {props.item.total}
+        {props.item.total}&nbsp;&#8381;
       </div>
       <NavLink
         to={`/payment/${props.item.id}`}

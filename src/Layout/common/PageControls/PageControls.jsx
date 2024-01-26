@@ -3,11 +3,14 @@ import styles from './pagecontrols.module.css';
 import classNames from 'classnames';
 import SettingsIcon from '../../../svgIcons/settings';
 import SearchIcon from '../../../svgIcons/search';
-import { useDispatch } from 'react-redux';
-import { getDebInvoices, getInvoices, getUnpaidInvoices } from '../../../redux/invoicesReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDebInvoices, getInvoices, getUnpaidInvoices, getUserDebInvoices, getUserInvoices, getUserUnpaidInvoices } from '../../../redux/invoicesReducer';
 import ConfirmDelete from '../ConfirmDelete/ConfirmDelete';
+import { selectMe } from '../../../redux/authSelectors';
 
 export default function PageControls(props) {
+
+  const me = useSelector(selectMe);
 
   const [isVisible, setIsVisible] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
@@ -28,13 +31,13 @@ export default function PageControls(props) {
 
   const dispatch = useDispatch()
   const handleDebInvoices = () => {
-    dispatch(getDebInvoices());
+    me.user_type === 's' ? dispatch(getDebInvoices()) : dispatch(getUserDebInvoices(me.id));
   }
   const handleUnpaidInvoices = () => {
-    dispatch(getUnpaidInvoices());
+    me.user_type === 's' ? dispatch(getUnpaidInvoices()) : dispatch(getUserUnpaidInvoices(me.id));
   }
   const handleAllInvoices = () => {
-    dispatch(getInvoices());
+    me.user_type === 's' ? dispatch(getInvoices()) : dispatch(getUserInvoices(me.id));
   }
 
   return (

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from './invoicesaddpopup.module.css';
 import { useForm } from 'react-hook-form';
@@ -10,27 +10,32 @@ import { selectIsFetchingAddInvoice } from "../../../../../redux/invoicesSelecto
 import { selectIsFetchingEditInvoice } from "../../../../../redux/invoiceItemSelector";
 import { editDateForInput } from "../../../../../utils/dateEditor";
 import { selectMe } from "../../../../../redux/authSelectors";
+import { selectSubtypes } from "../../../../../redux/cashItemSelector";
+import { getSubtypes } from "../../../../../redux/cashItemReducer";
 
 export default function InvoicesAddPopup(props) {
-
-  const me = useSelector(selectMe);
-
-  const dispatch = useDispatch();
-  const isFetchingAdd = useSelector(selectIsFetchingAddInvoice);
-  const isFetchingEdit = useSelector(selectIsFetchingEditInvoice);
 
   const {
     clearErrors,
     setError,
     register,
-    watch,
+    getValues,
     handleSubmit,
     formState: { errors, isValid }
   } = useForm({
     mode: 'onChange',
   });
 
-  const watchType = watch('type', false)
+  const me = useSelector(selectMe);
+  const isFetchingAdd = useSelector(selectIsFetchingAddInvoice);
+  const isFetchingEdit = useSelector(selectIsFetchingEditInvoice);
+  const subtypesList = useSelector(selectSubtypes);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getValues('type') && dispatch(getSubtypes(getValues('type')))
+  }, [dispatch, getValues('type')])
 
   const addInvoiceLocal = (data) => {
     dispatch(addInvoice(
@@ -183,9 +188,6 @@ export default function InvoicesAddPopup(props) {
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel')} htmlFor="type">Тип начисления</label>
             <select
-              onChange={
-                props.setPaymentType(watchType)
-              }
               {...register('type', {
                 required: 'Выберите тип',
               })}
@@ -214,7 +216,7 @@ export default function InvoicesAddPopup(props) {
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel')} htmlFor="purpose">Назначение начисления</label>
             <select
-              disabled={!watchType}
+              disabled={!getValues('type')}
               {...register('purpose', {
                 required: 'Выберите назначение',
               })}
@@ -225,7 +227,7 @@ export default function InvoicesAddPopup(props) {
               defaultValue={props.detail && props.invoice.subtype && props.invoice.subtype}
             >
               <option value="">Выбрать</option>
-              {props.subtypesList && props.subtypesList.map(item =>
+              {subtypesList && subtypesList.map(item =>
                 <option
                   value={item}
                   key={item}>
@@ -248,7 +250,7 @@ export default function InvoicesAddPopup(props) {
               type='text'
               name='summ'
               defaultValue={props.detail && props.invoice.amount}
-              placeholder='0 р'
+              placeholder='0 &#8381;'
               {...register('summ',
                 {
                   required: 'Введите сумму',

@@ -1,6 +1,7 @@
 import { projectsAPI } from "../API/api";
 
 const SET_PROJECTS = 'SET_PROJECTS';
+const SET_USER_PROJECTS = 'SET_USER_PROJECTS';
 const ADD_PROJECTS = 'ADD_PROJECTS';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 
@@ -12,6 +13,11 @@ let initialState = {
 export const projectsReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_PROJECTS:
+      return {
+        ...state,
+        projects: action.projects
+      }
+    case SET_USER_PROJECTS:
       return {
         ...state,
         projects: action.projects
@@ -32,12 +38,18 @@ export const projectsReducer = (state = initialState, action) => {
 }
 
 const setProjects = (projects) => ({ type: SET_PROJECTS, projects });
+const setUserProjects = (projects) => ({ type: SET_USER_PROJECTS, projects });
 const setAddProjects = (newProject) => ({ type: ADD_PROJECTS, newProject });
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getProjects = () => async (dispatch) => {
   const response = await projectsAPI.getProjects();
   dispatch(setProjects(response.data));
+}
+
+export const getUserProjects = (userId) => async (dispatch) => {
+  const response = await projectsAPI.getUserProjects(userId);
+  dispatch(setUserProjects(response.data));
 }
 
 export const addProject = (

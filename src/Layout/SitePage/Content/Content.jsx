@@ -16,16 +16,16 @@ export default function Content(props) {
   return (
     <main className={styles.content}>
         <Routes>
-          <Route path={''} element={<StaffContainer />} />
-          <Route path='/staff' element={<StaffContainer />} />
-          <Route path='/staff/:userId?' element={<StaffItemPageContainer />} />
-          <Route path='/projects' element={<Projects />} />
-          <Route path='/projects/:projectId?' element={<ProjectItemPageContainer />} />
-          <Route path='/money' element={<CashItemContainer />} />
-          <Route path='/invoices' element={<InvoicesContainer />} />
-          <Route path='/invoices/:invoicesId?' element={<InvoicesItemPageContainer />} />
-          <Route path='/payment' element={<PaymentContainer />} />
-          <Route path='/payment/:paymentId?' element={<PaymentItemPageContainer />} />
+          <Route path={''} element={<Projects />} />
+          <Route path='staff' element={<StaffContainer />} />
+          <Route path='staff/:userId?' element={<StaffItemPageContainer />} />
+          <Route path='projects' element={<Projects />} />
+          <Route path='projects/:projectId?' element={<ProjectItemPageContainer />} />
+          <Route path='money' element={<CashItemContainer />} />
+          <Route path='invoices' element={<InvoicesContainer />} />
+          <Route path='invoices/:invoicesId?' element={<InvoicesItemPageContainer />} />
+          <Route path='payment' element={<PaymentContainer />} />
+          <Route path='payment/:paymentId?' element={<PaymentItemPageContainer />} />
         </Routes>
     </main>
   );
