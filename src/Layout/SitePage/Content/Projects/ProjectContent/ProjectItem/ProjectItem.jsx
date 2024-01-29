@@ -8,7 +8,10 @@ import { editDate } from '../../../../../../utils/dateEditor';
 export default function ProjectItem(props) {
 
   return (
-    <div className={classNames('tableRow', styles.projectItem)}>
+    <NavLink
+      to={`/projects/${props.item.id}`}
+      className={classNames('tableRow','tableRowHov', styles.projectItem)}
+    >
       <div className={classNames('leftCell', 'tableCell', styles.projectCell, styles.projectName)}>
         {props.item.name}
       </div>
@@ -57,11 +60,6 @@ export default function ProjectItem(props) {
       <div className={classNames('tableCell', styles.projectCell)}>
         {props.item.active ? <span className={styles.statusTrue}>Активен</span> : <span className={styles.statusFalse}>Неактивен</span>}
       </div>
-      <NavLink
-        to={`/projects/${props.item.id}`}
-        className={'absoluteLink'}
-      >
-      </NavLink>
-    </div>
+    </NavLink>
   );
 }

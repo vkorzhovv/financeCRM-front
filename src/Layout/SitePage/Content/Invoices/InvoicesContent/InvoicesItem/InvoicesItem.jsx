@@ -10,7 +10,10 @@ export default function InvoicesItem(props) {
   const remainder = (parseFloat(props.item.amount) - parseFloat(props.item.receipts)).toFixed(2);
 
   return (
-    <div className={classNames('tableRow', styles.invoicesItem)}>
+    <NavLink
+      to={`/invoices/${props.item.id}`}
+      className={classNames('tableRow', 'tableRowHov', styles.invoicesItem)}
+    >
       <div className={classNames('tableCell', styles.invoicesCell)}>
         Счет №&nbsp;{props.item.id + 10000}
       </div>
@@ -55,11 +58,6 @@ export default function InvoicesItem(props) {
       <div className={classNames('tableCell', styles.invoicesCell)}>
         {props.item.receipts}&nbsp;&#8381;
       </div>
-      <NavLink
-        to={`/invoices/${props.item.id}`}
-        className={'absoluteLink'}
-      >
-      </NavLink>
-    </div>
+    </NavLink>
   );
 }

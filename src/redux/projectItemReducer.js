@@ -29,8 +29,9 @@ const setProjectItem = (projectItem) => ({ type: SET_PROJECT_ITEM, projectItem }
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getProjectItem = (projectId) => async (dispatch) => {
-  const response = await projectsAPI.getProjectItem(projectId);
-  dispatch(setProjectItem(response.data));
+  await projectsAPI.getProjectItem(projectId)
+  .then(response => dispatch(setProjectItem(response.data)))
+  .catch(err => console.log(err))
 }
 
 export const editProject = (

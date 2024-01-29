@@ -109,32 +109,34 @@ button {
 .table {
   display: table;
   width: 100%;
+  border-collapse: collapse;
 }
 
 .tableRow {
   position: relative;
-  display: table-row;
-  width: max-content;
-  height: max-content;
-}
-
-/* .tableRow::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 5px;
-  transition: .3s;
   z-index: 1;
+  display: table-row;
 }
 
-.tableRow:hover::after {
+.tableRowHov {
+  transition: .3s;
+}
+
+.tableRowHov:hover  {
   background-color: var(--greenC8);
-} */
+}
 
 .tableCell {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
+}
+
+.tableCell:first-child {
+  border-radius: 5px 0 0 5px;
+}
+.tableCell:last-child {
+  border-radius: 0 5px 5px 0;
 }
 
 .leftCell {

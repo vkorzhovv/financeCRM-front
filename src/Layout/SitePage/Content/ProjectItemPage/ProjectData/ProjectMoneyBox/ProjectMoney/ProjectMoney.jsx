@@ -14,34 +14,59 @@ export default function ProjectMoney(props) {
   const purpose = props.money.subtype
 
   return (
-    <div className={classNames('tableRow', styles.projectItem)}>
-      <div className={classNames('tableCell', styles.moneyCell)}>
-        {payer}
-      </div>
-      <div className={classNames('tableCell', styles.moneyCell)}>
-        {date}
-      </div>
-      <div className={classNames('tableCell', styles.moneyCell)}>
-        {summ}&nbsp;&#8381;
-      </div>
-      <div className={classNames('tableCell', styles.moneyCell)}>
-        {purpose}
-      </div>
-      <div className={classNames('tableCell', styles.moneyCell, styles.controls)}>
-        <MoneyControlsContainer
-          me={props.me}
-          money={props.money}
-          receipts={props.receipts}
-          projectId={props.projectId}
-        />
-      </div>
-      {props.receipts &&
-        <NavLink
-          to={`/invoices/${props.money.id}`}
-          className={'absoluteLink'}
+    props.receipts ?
+      <NavLink
+        to={`/invoices/${props.money.id}`}
+        className={classNames('tableRow', 'tableRowHov', styles.projectItem)}
+      >
+        <div className={classNames('tableCell', styles.moneyCell)}>
+          {payer}
+        </div>
+        <div className={classNames('tableCell', styles.moneyCell)}>
+          {date}
+        </div>
+        <div className={classNames('tableCell', styles.moneyCell)}>
+          {summ}&nbsp;&#8381;
+        </div>
+        <div className={classNames('tableCell', styles.moneyCell)}>
+          {purpose}
+        </div>
+        <div
+          onClick={e => {
+            e.preventDefault();
+          }}
+          className={classNames('tableCell', styles.moneyCell, styles.controls)}
         >
-        </NavLink>
-      }
-    </div>
+          <MoneyControlsContainer
+            me={props.me}
+            money={props.money}
+            receipts={props.receipts}
+            projectId={props.projectId}
+          />
+        </div>
+      </NavLink>
+      :
+      <div className={classNames('tableRow', styles.projectItem)}>
+        <div className={classNames('tableCell', styles.moneyCell)}>
+          {payer}
+        </div>
+        <div className={classNames('tableCell', styles.moneyCell)}>
+          {date}
+        </div>
+        <div className={classNames('tableCell', styles.moneyCell)}>
+          {summ}&nbsp;&#8381;
+        </div>
+        <div className={classNames('tableCell', styles.moneyCell)}>
+          {purpose}
+        </div>
+        <div className={classNames('tableCell', styles.moneyCell, styles.controls)}>
+          <MoneyControlsContainer
+            me={props.me}
+            money={props.money}
+            receipts={props.receipts}
+            projectId={props.projectId}
+          />
+        </div>
+      </div>
   );
 }

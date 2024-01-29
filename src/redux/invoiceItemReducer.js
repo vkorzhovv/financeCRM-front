@@ -29,8 +29,9 @@ const setInvoiceItem = (invoice) => ({ type: SET_INVOICE_ITEM, invoice });
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getInvoiceItem = (invoiceId) => async (dispatch) => {
-  const response = await invoicesAPI.getInvoiceItem(invoiceId);
-  dispatch(setInvoiceItem(response.data));
+  await invoicesAPI.getInvoiceItem(invoiceId)
+  .then(response => dispatch(setInvoiceItem(response.data)))
+  .catch(err => console.log(err))
 }
 
 export const editInvoice = (

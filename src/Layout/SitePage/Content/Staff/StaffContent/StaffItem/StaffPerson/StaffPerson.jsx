@@ -6,8 +6,10 @@ import { NavLink } from 'react-router-dom';
 export default function StaffPerson(props) {
 
   return (
-
-    <div className={classNames('tableRow', styles.staffPerson)}>
+    <NavLink
+      to={`/staff/${props.id}`}
+      className={classNames('tableRow', 'tableRowHov', styles.staffPerson)}
+    >
       <div className={classNames('tableCell', 'leftCell', styles.tableCellStaff)}>
         <p>
           {props.surname} {props.name} {props.patronymic}
@@ -19,13 +21,6 @@ export default function StaffPerson(props) {
       <div className={classNames('tableCell', styles.tableCellStaff)}>
         <p>{props.balance}&nbsp;&#8381;</p>
       </div>
-
-      <NavLink
-        to={`/staff/${props.id}`}
-        className={classNames('absoluteLink', styles.link)}
-      >
-      </NavLink>
-    </div>
-
+    </NavLink>
   );
 }

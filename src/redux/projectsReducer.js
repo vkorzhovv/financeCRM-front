@@ -43,13 +43,15 @@ const setAddProjects = (newProject) => ({ type: ADD_PROJECTS, newProject });
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getProjects = () => async (dispatch) => {
-  const response = await projectsAPI.getProjects();
-  dispatch(setProjects(response.data));
+  await projectsAPI.getProjects()
+    .then(response => dispatch(setProjects(response.data)))
+    .catch(err => console.log(err))
 }
 
 export const getUserProjects = (userId) => async (dispatch) => {
-  const response = await projectsAPI.getUserProjects(userId);
-  dispatch(setUserProjects(response.data));
+  await projectsAPI.getUserProjects(userId)
+    .then(response => dispatch(setUserProjects(response.data)))
+    .catch(err => console.log(err))
 }
 
 export const addProject = (

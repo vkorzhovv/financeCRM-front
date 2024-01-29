@@ -6,8 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import { store } from './redux/reduxStore';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+// import { setupInterceptor } from './API/api';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+// setupInterceptor(store);
+
 root.render(
   <BrowserRouter>
     <Provider store={store}>

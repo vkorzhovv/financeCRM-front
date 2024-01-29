@@ -85,7 +85,6 @@ export default function PaymentAddPopup(props) {
         !props.invoicePage && props.invoice && dispatch(getInvoiceItem(props.invoice.id))
         props.close(false);
         document.body.classList.remove('modal-show');
-        console.log(arrayFiles(data.scans).concat(filesList));
       })
       .catch(err => {
         if (err.response.data) {

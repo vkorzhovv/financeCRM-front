@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { setAuth } from '../redux/authReducer';
 
 const objectAxios = {
   baseURL: 'http://127.0.0.1:8000/',
@@ -582,16 +583,19 @@ export const paymentsAPI = {
   }
 }
 
-// import store from '../redux/reduxStore.js';
+export function setupInterceptor(store) {
+  instance.interceptors.response.use(function (response) {
 
-// axios.interceptors.response.use(function (response) {
+    return response;
+  }, function (error) {
 
-//     return response;
-// }, function (error) {
-//     // Do something with response error
-//     store.dispatch({
-//         type: 'API_ERROR',
-//         payload: error,
-//     })
-//     return Promise.reject(error);
-// });
+    if (error.response.status === 401) {
+      alert('Вы не авторизованы!');
+      store.dispatch(setAuth(false));
+      localStorage.clear();
+      return;
+    }
+
+    return Promise.reject(error);
+  });
+}

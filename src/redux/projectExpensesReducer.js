@@ -47,8 +47,9 @@ const setEditExpense = (expense) => ({ type: EDIT_EXPENSE, expense });
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getExpenses = (projectId) => async (dispatch) => {
-  const response = await projectExpensesAPI.getProjectsExpenses(projectId);
-  dispatch(setExpenses(response.data));
+  await projectExpensesAPI.getProjectsExpenses(projectId)
+  .then(response => dispatch(setExpenses(response.data)))
+  .catch(err => console.log(err))
 }
 
 export const addExpense = (

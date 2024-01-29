@@ -8,10 +8,6 @@
   align-self: stretch;
 }
 
-.cashData:hover {
-  background-color: var(--greenC8);
-}
-
 .type {
   min-width: 130px;
   margin-right: 20px;

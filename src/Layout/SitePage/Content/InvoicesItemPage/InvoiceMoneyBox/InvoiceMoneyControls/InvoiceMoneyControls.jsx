@@ -38,7 +38,9 @@ export default function InvoiceMoneyControls(props) {
   }
 
   return (
-    <div className={classNames('flex', styles.moneyControls)}>
+    <div
+      className={classNames('flex', styles.moneyControls)}
+    >
       {me.user_type === 's' &&
         <button
           onClick={handleClickOpenDelete}
@@ -58,22 +60,36 @@ export default function InvoiceMoneyControls(props) {
         <CheckIcon />
       </button>
       {
-        isOpenPopup && <PaymentAddPopupContainer
-          invoicePage={'invoicePage'}
-          invoice={props.invoice}
-          payment={props.payment}
-          handleClickClose={handleClickClose}
-          submitText={'Готово'}
-          popupHeader={`Платеж номер`}
-          detail={'detail'}
-          close={setIsOpenPopup}
-        />
+        isOpenPopup &&
+        <div
+          onClick={e => {
+            e.stopPropagation();
+          }}
+        >
+          <PaymentAddPopupContainer
+            invoicePage={'invoicePage'}
+            invoice={props.invoice}
+            payment={props.payment}
+            handleClickClose={handleClickClose}
+            submitText={'Готово'}
+            popupHeader={`Платеж номер`}
+            detail={'detail'}
+            close={setIsOpenPopup}
+          />
+        </div>
       }
       {
-        isOpenDelete && <ConfirmDelete
-          onDelete={props.onDelete}
-          closeDelete={handleClickCloseDelete}
-        />
+        isOpenDelete &&
+        <div
+          onClick={e => {
+            e.stopPropagation();
+          }}
+        >
+          <ConfirmDelete
+            onDelete={props.onDelete}
+            closeDelete={handleClickCloseDelete}
+          />
+        </div>
       }
     </div>
   );

@@ -63,7 +63,10 @@ export default function StaffItemPage(props) {
             people={props.userList}
           />
         }
-        <TheMan user={props.user} />
+        <TheMan
+          user={props.user}
+          userPayments={props.userPayments}
+        />
       </div>
     </div>
   );

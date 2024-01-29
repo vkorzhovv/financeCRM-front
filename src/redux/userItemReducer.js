@@ -29,8 +29,9 @@ const setUserItem = (userItem) => ({ type: SET_USER_ITEM, userItem });
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getUserItem = (userId) => async (dispatch) => {
-  const response = await usersAPI.getUserItem(userId);
-  dispatch(setUserItem(response.data));
+  await usersAPI.getUserItem(userId)
+  .then(response => dispatch(setUserItem(response.data)))
+  .catch(err => console.log(err))
 }
 
 export const editUser = (

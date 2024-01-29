@@ -53,18 +53,21 @@ const setAddItem = (newItem) => ({ type: ADD_ITEM, newItem })
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getItems = () => async (dispatch) => {
-  const response = await cashItemAPI.getItems();
-  dispatch(setItems(response.data));
+  await cashItemAPI.getItems()
+  .then(response => dispatch(setItems(response.data)))
+  .catch(err => console.log(err))
 }
 
 export const getPaymentTypes = () => async (dispatch) => {
-  const response = await cashItemAPI.getPaymentTypes();
-  dispatch(setTypes(response.data));
+  await cashItemAPI.getPaymentTypes()
+  .then(response => dispatch(setTypes(response.data)))
+  .catch(err => console.log(err))
 }
 
 export const getSubtypes = (type) => async (dispatch) => {
-  const response = await cashItemAPI.getSubtypes(type);
-  dispatch(setSubtypes(response.data));
+  await cashItemAPI.getSubtypes(type)
+  .then(response => dispatch(setSubtypes(response.data)))
+  .catch(err => console.log(err))
 }
 
 export const addItem = (type, name) => async (dispatch) => {

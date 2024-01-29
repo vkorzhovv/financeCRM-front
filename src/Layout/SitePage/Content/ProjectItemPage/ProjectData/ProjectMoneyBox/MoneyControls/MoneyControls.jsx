@@ -8,7 +8,6 @@ import ProjectExpensesAddPopupContainer from '../../../ProjectExpensesAddPopup/P
 import InvoicesAddPopupContainer from '../../../../Invoices/InvoicesAddPopup/InvoicesAddPopupContainer';
 import { useDispatch } from 'react-redux';
 import { getProjects } from '../../../../../../../redux/projectsReducer';
-// import CheckIcon from '../../../../../../../svgIcons/check';
 
 export default function MoneyControls(props) {
 
@@ -18,7 +17,7 @@ export default function MoneyControls(props) {
   const [isOpenPopupExpenses, setIsOpenPopupExpenses] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
 
-  const handleClickOpenDelete = () => {
+  const handleClickOpenDelete = (e) => {
     setIsOpenDelete(true)
     document.body.classList.add('modal-show');
   }
@@ -33,7 +32,7 @@ export default function MoneyControls(props) {
     dispatch(getProjects())
   }
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (e) => {
     props.receipts ? setIsOpenPopupInvoices(true) : setIsOpenPopupExpenses(true);
     document.body.classList.add('modal-show');
   }
@@ -58,37 +57,53 @@ export default function MoneyControls(props) {
       >
         <EditIcon />
       </button>
-      {/* <button className={classNames('flex', styles.controlBtn, styles.fillSVG)}>
-        <CheckIcon />
-      </button> */}
 
       {
-        isOpenDelete && <ConfirmDelete
-          onDelete={props.onDelete}
-          closeDelete={handleClickCloseDelete}
-        />
+        isOpenDelete &&
+        <div
+          onClick={e => {
+            e.stopPropagation();
+          }}>
+          <ConfirmDelete
+            onDelete={props.onDelete}
+            closeDelete={handleClickCloseDelete}
+          />
+        </div>
       }
 
       {isOpenPopupExpenses &&
-        <ProjectExpensesAddPopupContainer
-          projectId={props.projectId}
-          handleClickClose={handleClickClose}
-          expense={props.money}
-          submitText={"Готово"}
-          popupHeader={"Редактировать расход"}
-          detail={"detail"}
-        />
+        <div
+          onClick={e => {
+            e.stopPropagation();
+          }}
+        >
+          <ProjectExpensesAddPopupContainer
+            projectId={props.projectId}
+            handleClickClose={handleClickClose}
+            expense={props.money}
+            submitText={"Готово"}
+            popupHeader={"Редактировать расход"}
+            detail={"detail"}
+          />
+        </div>
       }
       {isOpenPopupInvoices &&
-        <InvoicesAddPopupContainer
-          invoice={props.money}
-          projectId={props.projectId}
-          handleClickClose={handleClickClose}
-          close={handleClickClose}
-          submitText={"Готово"}
-          popupHeader={`Редактировать счет № ${props.money.id}`}
-          detail={"detail"}
-        />
+        <div
+          onClick={e => {
+            e.stopPropagation();
+          }}
+        >
+          <InvoicesAddPopupContainer
+
+            invoice={props.money}
+            projectId={props.projectId}
+            handleClickClose={handleClickClose}
+            close={handleClickClose}
+            submitText={"Готово"}
+            popupHeader={`Редактировать счет № ${props.money.id}`}
+            detail={"detail"}
+          />
+        </div>
       }
     </div>
   );

@@ -3,6 +3,7 @@
 }
 
 .controlBtn {
+  position: relative;
   border: unset;
   background-color: transparent;
 }

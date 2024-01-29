@@ -1,8 +1,18 @@
+.userPayments {
+  width: 100%;
+  height: max-content;
+  padding: 27px 30px 30px 30px;
+  border-radius: 10px;
+  background-color: var(--whiteF8);
+  overflow-x: auto;
+}
+
 .theMan {
   padding: 0 30px 40px 30px;
   border-radius: 10px;
   background-color: var(--whiteF8);
   height: max-content;
+  margin-bottom: 20px;
 }
 
 .theManHeader {

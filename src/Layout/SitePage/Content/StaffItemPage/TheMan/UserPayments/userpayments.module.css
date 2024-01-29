@@ -1,0 +1,78 @@
+.moneyHeader {
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 0 10px 20px 10px;
+  border-bottom: 1px solid var(--greyE1);
+}
+
+.moneyHeaderText {
+  font-size: 18px;
+}
+
+.moneyHeaderSumm {
+  margin-right: 20px;
+}
+
+.moneyTable {
+  width: 100%;
+}
+
+.addPayBtn {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border-radius: 50%;
+  padding: 5px;
+  border: 1px solid var(--black05);
+  transition: .3s;
+}
+
+.line {
+  position: absolute;
+  inset: 5px;
+  top: calc(50% - 1px);
+  display: block;
+  height: 1px;
+  background-color: var(--black05);
+  transition: .3s;
+}
+
+.verLine {
+  transform: rotate(90deg);
+}
+
+.addPayBtn:hover {
+  border: 1px solid var(--green63);
+}
+
+.addPayBtn:hover .line {
+  background-color: var(--green63);
+}
+.addPayBtn:active {
+  border: 1px solid var(--black05);
+}
+
+.addPayBtn:active .line {
+  background-color: var(--black05);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+@media (max-width: 576px) {
+  .moneyHeader {
+    flex-direction: column;
+  }
+
+  .moneyHeaderText {
+    margin-bottom: 15px;
+  }
+
+  .moneyHeaderText.moneyHeaderSumm {
+    margin-bottom: 0;
+    margin-right: 0;
+  }
+}

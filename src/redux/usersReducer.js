@@ -64,23 +64,27 @@ const setContractors = (contractors) => ({ type: SET_CONTRACTORS, contractors })
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getUsers = () => async (dispatch) => {
-  const response = await usersAPI.getAllUsers();
-  dispatch(setUsers(response.data));
+  await usersAPI.getAllUsers()
+    .then(response => dispatch(setUsers(response.data)))
+    .catch(err => console.log(err))
 }
 
 export const getClients = () => async (dispatch) => {
-  const response = await usersAPI.getClients();
-  dispatch(setClients(response.data));
+  await usersAPI.getClients()
+    .then(response => dispatch(setClients(response.data)))
+    .catch(err => console.log(err))
 }
 
 export const getEmployees = () => async (dispatch) => {
-  const response = await usersAPI.getEmployees();
-  dispatch(setEmployees(response.data));
+  await usersAPI.getEmployees()
+    .then(response => dispatch(setEmployees(response.data)))
+    .catch(err => console.log(err))
 }
 
 export const getContractors = () => async (dispatch) => {
-  const response = await usersAPI.getContractors();
-  dispatch(setContractors(response.data));
+  await usersAPI.getContractors()
+    .then(response => dispatch(setContractors(response.data)))
+    .catch(err => console.log(err))
 }
 
 export const addUser = (

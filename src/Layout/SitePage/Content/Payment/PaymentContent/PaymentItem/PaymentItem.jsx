@@ -8,7 +8,10 @@ import { editDate } from '../../../../../../utils/dateEditor';
 export default function PaymentItem(props) {
 
   return (
-    <div className={classNames('tableRow', styles.paymentItem)}>
+    <NavLink
+      to={`/payment/${props.item.id}`}
+      className={classNames('tableRow','tableRowHov', styles.paymentItem)}
+    >
       <div className={classNames('tableCell', styles.paymentCell)}>
         Платеж №&nbsp;{props.item.id + 10000}
       </div>
@@ -50,11 +53,6 @@ export default function PaymentItem(props) {
       <div className={classNames('tableCell', styles.paymentCell)}>
         {props.item.total}&nbsp;&#8381;
       </div>
-      <NavLink
-        to={`/payment/${props.item.id}`}
-        className={'absoluteLink'}
-      >
-      </NavLink>
-    </div>
+    </NavLink>
   );
 }

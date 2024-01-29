@@ -1,33 +1,34 @@
 import React from 'react';
-import styles from './invoicemoney.module.css';
+import styles from './userpaymentitem.module.css';
 import classNames from 'classnames';
-import { editDate } from '../../../../../../utils/dateEditor';
+import { editDate } from '../../../../../../../utils/dateEditor';
 import { NavLink } from 'react-router-dom';
-import InvoiceMoneyControlsContainer from '../InvoiceMoneyControls/InvoicesMoneyControlsContainer';
 
-export default function InvoiceMoney(props) {
-
+export default function UserPaymentItem(props) {
   return (
     <NavLink
-      to={`/payment/${props.money.id}`}
+      to={`/payment/${props.item.id}`}
       className={classNames('tableRow', 'tableRowHov', styles.invoiceItem)}
     >
       <div className={classNames('tableCell', styles.moneyCell)}>
-        Платеж №&nbsp;{props.money.id + 10000}
+        Платеж №&nbsp;{props.item.id + 10000}
       </div>
       <div className={classNames('tableCell', styles.moneyCell)}>
-        {editDate(props.money.date)}
+        Счет №&nbsp;{props.item.invoice.id + 10000}
       </div>
       <div className={classNames('tableCell', styles.moneyCell)}>
-        {props.money.total}&nbsp;&#8381;
+        {editDate(props.item.date)}
       </div>
       <div className={classNames('tableCell', styles.moneyCell)}>
-        {props.money.approved ? <span className={styles.statusTrue}>Оплачено</span> : <span className={styles.statusFalse}>Не&nbsp;оплачено</span>}
+        {props.item.total}&nbsp;&#8381;
       </div>
-      {!props.invoice.approved &&
+      <div className={classNames('tableCell', styles.moneyCell)}>
+        {props.item.approved ? <span className={styles.statusTrue}>Оплачено</span> : <span className={styles.statusFalse}>Не&nbsp;оплачено</span>}
+      </div>
+      {/* {!props.invoice.approved &&
         <div
           onClick={e => {
-            e.preventDefault();
+            e.preventDefault()
           }}
           className={classNames('tableCell', styles.moneyCell, styles.paymentControls)}
         >
@@ -36,7 +37,7 @@ export default function InvoiceMoney(props) {
             invoice={props.invoice}
           />
         </div>
-      }
+      } */}
     </NavLink>
   );
 }

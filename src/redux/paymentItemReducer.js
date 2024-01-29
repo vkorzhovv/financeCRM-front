@@ -31,8 +31,9 @@ const setPaymentItem = (payment) => ({ type: SET_PAYMENT_ITEM, payment });
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getPaymentItem = (paymentId) => async (dispatch) => {
-  const response = await paymentsAPI.getPaymentItem(paymentId);
-  dispatch(setPaymentItem(response.data));
+  await paymentsAPI.getPaymentItem(paymentId)
+  .then(response => dispatch(setPaymentItem(response.data)))
+  .catch(err => console.log(err))
 }
 
 export const editPayment = (

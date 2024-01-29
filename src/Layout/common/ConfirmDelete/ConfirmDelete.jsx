@@ -5,8 +5,6 @@ import classNames from "classnames";
 
 export default function ConfirmDelete(props) {
 
-
-
   return (
     createPortal((
       <div className={classNames('flex', 'popup', styles.deletePopup)}>

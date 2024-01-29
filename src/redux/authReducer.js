@@ -26,21 +26,13 @@ export const authReducer = (state = initialState, action) => {
   }
 }
 
-export const setAuth = (isAuth) => ({
-  type: SET_AUTH, isAuth
-})
-
+export const setAuth = (isAuth) => ({ type: SET_AUTH, isAuth })
 const setMe = (userData) => ({ type: SET_ME_DATA, userData })
 
 export const getMe = () => async (dispatch) => {
   await authAPI.me()
-    .then(response => {
-      dispatch(setMe(response.data))
-    })
-    .catch(err => {
-      localStorage.clear();
-      dispatch(setAuth(false));
-    })
+    .then(response => dispatch(setMe(response.data)))
+    .catch(err => console.log(err))
 }
 
 export const login = (name, password, setError) => async (dispatch) => {

@@ -60,36 +60,44 @@ const setAddInvoices = (newInvoice) => ({ type: ADD_INVOICE, newInvoice });
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getInvoices = () => async (dispatch) => {
-  const response = await invoicesAPI.getInvoices();
-  dispatch(setInvoices(response.data));
+  await invoicesAPI.getInvoices()
+    .then(response => dispatch(setInvoices(response.data)))
+    .catch(err => console.log(err))
 }
 export const getUserInvoices = (userId) => async (dispatch) => {
-  const response = await invoicesAPI.getUserInvoices(userId);
-  dispatch(setUserInvoices(response.data));
+  await invoicesAPI.getUserInvoices(userId)
+    .then(response => dispatch(setUserInvoices(response.data)))
+    .catch(err => console.log(err))
 }
 export const getUnapprovedInvoices = () => async (dispatch) => {
-  const response = await invoicesAPI.getUnapprovedInvoices();
-  dispatch(setUnapprovedInvoices(response.data));
+  await invoicesAPI.getUnapprovedInvoices()
+    .then(response => dispatch(setUnapprovedInvoices(response.data)))
+    .catch(err => console.log(err))
 }
 export const getProjectInvoices = (projectId) => async (dispatch) => {
-  const response = await invoicesAPI.getProjectInvoices(projectId);
-  dispatch(setProjectInvoices(response.data));
+  await invoicesAPI.getProjectInvoices(projectId)
+    .then(response => dispatch(setProjectInvoices(response.data)))
+    .catch(err => console.log(err))
 }
 export const getUnpaidInvoices = () => async (dispatch) => {
-  const response = await invoicesAPI.getUnpaidInvoices();
-  dispatch(setInvoices(response.data));
+  await invoicesAPI.getUnpaidInvoices()
+    .then(response => dispatch(setInvoices(response.data)))
+    .catch(err => console.log(err))
 }
 export const getUserUnpaidInvoices = (userId) => async (dispatch) => {
-  const response = await invoicesAPI.getUserUnpaidInvoices(userId);
-  dispatch(setUserInvoices(response.data));
+  await invoicesAPI.getUserUnpaidInvoices(userId)
+  .then(response => dispatch(setUserInvoices(response.data)))
+  .catch(err => console.log(err))
 }
 export const getDebInvoices = () => async (dispatch) => {
-  const response = await invoicesAPI.getDebInvoices();
-  dispatch(setInvoices(response.data));
+  await invoicesAPI.getDebInvoices()
+  .then(response => dispatch(setInvoices(response.data)))
+  .catch(err => console.log(err))
 }
 export const getUserDebInvoices = (userId) => async (dispatch) => {
-  const response = await invoicesAPI.getUserDebInvoices(userId);
-  dispatch(setUserInvoices(response.data));
+  await invoicesAPI.getUserDebInvoices(userId)
+    .then(response => dispatch(setUserInvoices(response.data)))
+    .catch(err => console.log(err))
 }
 
 export const addInvoice = (
