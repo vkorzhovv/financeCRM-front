@@ -8,11 +8,22 @@ import { NavLink } from 'react-router-dom';
 export default function ProjectData(props) {
 
   const projectTh = [
-    'Дата начала',
-    'Дата окончания',
     'Сумма договора',
     'Текущий баланс',
+    'Прибыль по проекту',
+    'Текущее сальдо',
   ]
+
+  const receipts = props.projectInvoices ? props.projectInvoices.map(item =>
+    item.receipts
+  ).reduce((acc, number) => Number(acc) + Number(number), 0).toFixed(2) : (0).toFixed(2);
+  const expenses = props.projectExpenses ? props.projectExpenses.map(item =>
+    item.amount
+  ).reduce((acc, number) => Number(acc) + Number(number), 0).toFixed(2) : (0).toFixed(2);
+
+  const balance = (props.project.price - receipts).toFixed(2);
+  const profit = (props.project.price - expenses).toFixed(2);
+  const saldo = (receipts - expenses).toFixed(2);
 
   return (
     <div className={styles.projectData}>
@@ -35,7 +46,7 @@ export default function ProjectData(props) {
                     </NavLink>
                     :
                     <p>Не выбран</p>
-                  } 
+                  }
                 </div>
                 <div className={classNames('flex', styles.personItem)}>
                   <p className={styles.personTitle}>Менеджер:</p>
@@ -56,6 +67,14 @@ export default function ProjectData(props) {
                     :
                     <p>Не выбран</p>
                   }
+                </div>
+                <div className={classNames('flex', styles.personItem)}>
+                  <p className={styles.personTitle}>Дата начала:</p>
+                  <p>{editDate(props.project.start_date)}</p>
+                </div>
+                <div className={classNames('flex', styles.personItem)}>
+                  <p className={styles.personTitle}>Дата окончания:</p>
+                  <p>{editDate(props.project.end_date)}</p>
                 </div>
               </div>
               <div className={styles.description}>
@@ -81,16 +100,16 @@ export default function ProjectData(props) {
               <div className={classNames('tableBody')}>
                 <div className={classNames('tableRow', styles.projectTableItem)}>
                   <div className={classNames('tableCell', styles.itemCell)}>
-                    {editDate(props.project.start_date)}
-                  </div>
-                  <div className={classNames('tableCell', styles.itemCell)}>
-                    {editDate(props.project.end_date)}
-                  </div>
-                  <div className={classNames('tableCell', styles.itemCell)}>
                     {props.project.price}&nbsp;&#8381;
                   </div>
                   <div className={classNames('tableCell', styles.itemCell)}>
-                    {props.project.balance}&nbsp;&#8381;
+                    {balance}&nbsp;&#8381;
+                  </div>
+                  <div className={classNames('tableCell', styles.itemCell)}>
+                    {profit}&nbsp;&#8381;
+                  </div>
+                  <div className={classNames('tableCell', styles.itemCell)}>
+                    {saldo}&nbsp;&#8381;
                   </div>
                 </div>
               </div>

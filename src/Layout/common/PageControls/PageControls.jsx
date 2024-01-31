@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getDebInvoices, getInvoices, getUnpaidInvoices, getUserDebInvoices, getUserInvoices, getUserUnpaidInvoices } from '../../../redux/invoicesReducer';
 import ConfirmDelete from '../ConfirmDelete/ConfirmDelete';
 import { selectMe } from '../../../redux/authSelectors';
+import SearchBlock from '../PageHeader/SearchBlock/SearchBlock';
 
 export default function PageControls(props) {
 
@@ -44,12 +45,18 @@ export default function PageControls(props) {
     <div className={classNames('flex', styles.pageControls)}>
       <div className={classNames('flex', styles.svgBtnsBlock)}>
         {!props.detail &&
-          <div className={classNames(styles.pageControlItem, styles.findBlock)}>
-            <input className={
+          <div className={classNames('flex', styles.pageControlItem, styles.findBlock)}>
+            <div className={
               isVisible
-                ? classNames(styles.searchInput, styles.searchVisible)
-                : styles.searchInput}
-              placeholder='Введите запрос'></input>
+                ? classNames(styles.searchBlock, styles.searchVisible)
+                : styles.searchBlock}>
+              <SearchBlock
+                cashSearch={props.cashSearch}
+                usersSearch={props.usersSearch}
+                projectSearch={props.projectSearch}
+                searchPlaceholder={props.searchPlaceholder}
+              />
+            </div>
             <button className={classNames(styles.searchBtn, styles.controlsBtn)} onClick={handleClick}>
               <SearchIcon />
             </button>

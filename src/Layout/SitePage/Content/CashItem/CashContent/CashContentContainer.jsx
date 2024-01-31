@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { getItems } from '../../../../../redux/cashItemReducer';
-import { selectAllItems } from '../../../../../redux/cashItemSelector';
+import { selectFilteredItems } from '../../../../../redux/cashItemSelector';
 import { useDispatch, useSelector } from 'react-redux';
 import CashContent from './CashContent';
 
 export default function CashContentContainer(props) {
 
   const dispatch = useDispatch()
-  const items = useSelector(selectAllItems)
+  const items = useSelector(selectFilteredItems)
 
   useEffect(() => {
     dispatch(getItems())

@@ -10,6 +10,9 @@ export default function CashHeader(props) {
         title={'Статьи расходов/доходов'}
         addBtnText={'Добавить'}
         withoutCash={'without'}
+
+        cashSearch={true}
+        searchPlaceholder={'Тип, Название'}
       />
     </div>
   );

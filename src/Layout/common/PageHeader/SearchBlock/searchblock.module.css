@@ -1,0 +1,11 @@
+.search {
+  width: 100%;
+}
+
+.search input {
+  width: 100%;
+  border: unset;
+  border-bottom: 1px solid var(--black05);
+  outline: unset;
+  background-color: transparent;
+}

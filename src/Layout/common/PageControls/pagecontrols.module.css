@@ -8,20 +8,13 @@
   margin-left: 25px;
 }
 
-.searchInput {
-  border: unset;
-  border-bottom: 1px solid var(--black05);
+.searchBlock {
   width: 0;
   transition: .3s;
-  background-color: transparent;
 }
 
-.searchInput.searchVisible {
+.searchBlock.searchVisible {
   width: 300px;
-}
-
-.searchInput:focus {
-  outline: unset;
 }
 
 .controlsBtn {
@@ -76,7 +69,7 @@
 }
 
 @media (max-width: 576px) {
-  .searchInput.searchVisible {
+  .searchBlock.searchVisible {
     width: 200px;
   }
 

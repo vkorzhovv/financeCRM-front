@@ -11,14 +11,17 @@ import { selectIsFetchingAddPayment } from "../../../../../redux/paymentSelector
 import { selectIsFetchingEditPayment } from "../../../../../redux/paymentItemSelector";
 import { editDateForInput } from "../../../../../utils/dateEditor";
 import LoadingIcon from "../../../../../svgIcons/loading";
+import { selectInvoiceItem } from "../../../../../redux/invoiceItemSelector";
+import { useEffect } from "react";
 
 export default function PaymentAddPopup(props) {
 
-  const [filesList, setFilesList] = useState((props.detail && props.payment.scans) && props.payment.scans.slice() || []);
+  const [filesList, setFilesList] = useState(((props.detail && props.payment.scans) && props.payment.scans.slice()) || []);
 
   const dispatch = useDispatch();
   const isFetchingAdd = useSelector(selectIsFetchingAddPayment);
   const isFetchingEdit = useSelector(selectIsFetchingEditPayment);
+  const invoice = useSelector(selectInvoiceItem);
 
   const {
     clearErrors,
@@ -31,6 +34,10 @@ export default function PaymentAddPopup(props) {
   } = useForm({
     mode: 'onChange',
   });
+
+  useEffect(() => {
+    getValues('check') && dispatch(getInvoiceItem(getValues('check')));
+  }, [dispatch, getValues('check')])
 
   function arrayFiles(list) {
     const arr = [];
@@ -138,6 +145,15 @@ export default function PaymentAddPopup(props) {
             </div>
           }
 
+          {!props.isStatic && getValues('check') &&
+            <div className={classNames('flex', 'popupInputBox')}>
+              <p className={classNames('popupLabel', styles.projectLabel)}>Остаток по счету:</p>
+              <div className={classNames('flex', styles.filesContainer)}>
+                {(invoice.amount - invoice.receipts).toFixed(2)}&nbsp;&#8381;
+              </div>
+            </div>
+          }
+
           <div className={!errors.summ_plus
             ? classNames('flex', props.isStatic && styles.inputBoxStatic, 'popupInputBox')
             : classNames('flex', props.isStatic && styles.inputBoxStatic, 'popupInputBox', 'popupBoxError', styles.boxError)}>
@@ -241,10 +257,14 @@ export default function PaymentAddPopup(props) {
             ? classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox', styles.scansBox)
             : classNames('flex', props.isStatic ? styles.inputBoxStatic : 'popupInputBox', 'popupBoxError', styles.boxError, styles.scansBox)}>
             <label
+              onClick={(e) => {
+                console.log('label');
+                e.stopPropagation()
+              }}
               className={classNames('flex', styles.fileLabel)}
               htmlFor="scans">
               <p className={styles.labelText}>Скан/фото документа</p>
-              <div className={classNames('flex', 'popupInput', styles.inputHalf, styles.inputFile)}>Добавить файл    <LoadingIcon/></div>
+              <div className={classNames('flex', 'popupInput', styles.inputHalf, styles.inputFile)}>Добавить файл    <LoadingIcon /></div>
 
               {arrayFiles(getValues('scans')).length ?
                 <span className={styles.fileName}>

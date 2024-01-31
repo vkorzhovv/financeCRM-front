@@ -5,6 +5,7 @@ const SET_CLIENTS = 'SET_CLIENTS';
 const SET_EMPLOYEES = 'SET_EMPLOYEES';
 const SET_CONTRACTORS = 'SET_CONTRACTORS';
 const ADD_USER = 'ADD_USER';
+const SEARCH_USER = 'SEARCH_USER';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 
 let initialState = {
@@ -12,6 +13,10 @@ let initialState = {
   clients: [],
   employees: [],
   contractors: [],
+  searchUser: '',
+  filteredClients: [],
+  filteredEmployees: [],
+  filteredContractors: [],
   isFetching: false
 };
 
@@ -46,6 +51,24 @@ export const usersReducer = (state = initialState, action) => {
         clients: [...state.clients]
       }
     }
+    case SEARCH_USER: {
+      return {
+        ...state,
+        searchUser: action.searchUser,
+        filteredContractors: state.contractors.length
+          ? [...state.contractors]
+            .filter(item => (`${item.last_name} ${item.first_name} ${item.father_name}`.toLowerCase()).includes(action.searchUser))
+          : [],
+        filteredEmployees: state.employees.length
+          ? [...state.employees]
+            .filter(item => (`${item.last_name} ${item.first_name} ${item.father_name}`.toLowerCase()).includes(action.searchUser))
+          : [],
+        filteredClients: state.clients.length
+          ? [...state.clients]
+            .filter(item => (`${item.last_name} ${item.first_name} ${item.father_name}`.toLowerCase()).includes(action.searchUser))
+          : [],
+      }
+    }
     case TOGGLE_IS_FETCHING: {
       return {
         ...state,
@@ -61,6 +84,7 @@ const setUsers = (allUsers) => ({ type: SET_ALL_USERS, allUsers });
 const setClients = (clients) => ({ type: SET_CLIENTS, clients });
 const setEmployees = (employees) => ({ type: SET_EMPLOYEES, employees });
 const setContractors = (contractors) => ({ type: SET_CONTRACTORS, contractors });
+const setSearchUser = (searchUser) => ({ type: SEARCH_USER, searchUser });
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 
 export const getUsers = () => async (dispatch) => {
@@ -73,18 +97,24 @@ export const getClients = () => async (dispatch) => {
   await usersAPI.getClients()
     .then(response => dispatch(setClients(response.data)))
     .catch(err => console.log(err))
+
+  dispatch(setSearchUser(''));
 }
 
 export const getEmployees = () => async (dispatch) => {
   await usersAPI.getEmployees()
     .then(response => dispatch(setEmployees(response.data)))
     .catch(err => console.log(err))
+
+  dispatch(setSearchUser(''));
 }
 
 export const getContractors = () => async (dispatch) => {
   await usersAPI.getContractors()
     .then(response => dispatch(setContractors(response.data)))
     .catch(err => console.log(err))
+
+  dispatch(setSearchUser(''));
 }
 
 export const addUser = (
@@ -120,6 +150,12 @@ export const addUser = (
       dispatch(toggleIsFetching(false));
       throw err;
     })
+}
+
+export const searchUser = (searchText) => (dispatch) => {
+  let text = searchText.toLowerCase()
+
+  setTimeout(() => dispatch(setSearchUser(text)), 300)
 }
 
 export const deleteUser = (userId) => async () => {

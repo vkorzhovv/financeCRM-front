@@ -25,9 +25,12 @@ export default function ProjectItemPage(props) {
     document.body.classList.remove('modal-show');
   }
 
-  const onDelete = () => {
-    dispatch(deleteProject(props.project.id));
-    navigate("/projects");
+  const onDelete = async () => {
+    await dispatch(deleteProject(props.project.id))
+    .then(() => {
+      navigate("/projects");
+      document.body.classList.remove('modal-show')
+    })
   }
 
   return (

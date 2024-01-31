@@ -5,7 +5,6 @@ import { selectMe } from '../../../../../redux/authSelectors';
 import PageHeader from '../../../../common/PageHeader/PageHeader';
 import StaffAddPopup from '../StaffAddPopup/StaffAddPopup';
 import styles from './staffheader.module.css';
-// import classNames from 'classnames';
 
 export default function StaffHeader(props) {
 
@@ -28,6 +27,9 @@ export default function StaffHeader(props) {
         addBtnText={'Добавить'}
         handleClickAdd={handleClickOpen}
         access={me.user_type === 's'}
+
+        usersSearch={true}
+        searchPlaceholder="Ф.И.О."
       />
       {
         isOpenPopup && <StaffAddPopup

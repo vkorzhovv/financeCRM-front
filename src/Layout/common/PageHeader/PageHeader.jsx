@@ -21,6 +21,11 @@ export default function PageHeader(props) {
         onDelete={props.onDelete}
         withoutCash={props.withoutCash}
         withInvoices={props.withInvoices}
+
+        cashSearch={props.cashSearch}
+        usersSearch={props.usersSearch}
+        projectSearch={props.projectSearch}
+        searchPlaceholder={props.searchPlaceholder}
       />
     </div>
   );

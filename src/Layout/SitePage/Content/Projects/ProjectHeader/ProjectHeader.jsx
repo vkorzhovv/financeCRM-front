@@ -27,6 +27,9 @@ export default function ProjectHeader(props) {
       addBtnText = {'Добавить проект'}
       handleClickAdd={handleClickOpen}
       access={me.user_type === 's'}
+
+      projectSearch={true}
+      searchPlaceholder={'Название, Описание, Ф.И.О'}
       />
       {
         isOpenPopup && <ProjectAddPopupContainer

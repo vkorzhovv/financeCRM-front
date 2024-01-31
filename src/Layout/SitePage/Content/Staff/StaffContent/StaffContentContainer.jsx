@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getClients, getContractors, getEmployees } from '../../../../../redux/usersReducer';
-import { selectClients, selectContractors, selectEmployees } from '../../../../../redux/usersSelector';
+import { selectClients, selectContractors, selectEmployees, selectFilteredClients, selectFilteredContractors, selectFilteredEmployees } from '../../../../../redux/usersSelector';
 import StaffContent from './StaffContent';
 
 export default function StaffContentContainer(props) {
 
   const dispatch = useDispatch();
 
-  const contractors = useSelector(selectContractors);
-  const employees = useSelector(selectEmployees);
-  const clients = useSelector(selectClients);
+  const contractors = useSelector(selectFilteredContractors);
+  const employees = useSelector(selectFilteredEmployees);
+  const clients = useSelector(selectFilteredClients);
 
   useEffect(() => {
     dispatch(getClients())
