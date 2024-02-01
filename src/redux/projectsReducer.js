@@ -73,6 +73,8 @@ export const getUserProjects = (userId) => async (dispatch) => {
   await projectsAPI.getUserProjects(userId)
     .then(response => dispatch(setUserProjects(response.data)))
     .catch(err => console.log(err))
+
+  dispatch(setSearchProject(''));
 }
 
 export const addProject = (

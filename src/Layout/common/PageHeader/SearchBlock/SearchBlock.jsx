@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import { searchUser } from '../../../../redux/usersReducer';
 import { searchProject } from '../../../../redux/projectsReducer';
 import { searchItem } from '../../../../redux/cashItemReducer';
+import { searchInvoice } from '../../../../redux/invoicesReducer';
+import { searchPayment } from '../../../../redux/paymentReducer';
 
 export default function SearchBlock(props) {
 
@@ -14,6 +16,7 @@ const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
+    reset,
   } = useForm({
     mode: 'onChange',
   });
@@ -22,6 +25,8 @@ const dispatch = useDispatch()
     props.usersSearch && dispatch(searchUser(data.searchText));
     props.projectSearch && dispatch(searchProject(data.searchText));
     props.cashSearch && dispatch(searchItem(data.searchText));
+    props.invoiceSearch && dispatch(searchInvoice(data.searchText));
+    props.paymentSearch && dispatch(searchPayment(data.searchText))
   })
 
   return (

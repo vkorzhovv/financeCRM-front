@@ -15,7 +15,7 @@ export default function ProjectContentContainer(props) {
   useEffect(() => {
     me.user_type && me.user_type === 's' && dispatch(getProjects());
     me.user_type && me.user_type !== 's' && dispatch(getUserProjects(me.id));
-  }, [dispatch, me.user_type])
+  }, [dispatch, me])
 
   return (
     <ProjectContent

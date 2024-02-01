@@ -28,13 +28,16 @@ export default function InvoicesHeader(props) {
         withInvoices={'withInvoices'}
         handleClickAdd={handleClickOpen}
         access={me.user_type === 's'}
+
+        invoiceSearch={true}
+        searchPlaceholder={'Счет, Проект, Ф.И.О'}
       />
       {
         isOpenPopup && <InvoicesAddPopupContainer
-        handleClickClose={handleClickClose}
-        submitText = {'Добавить'}
-        popupHeader = {'Добавить счет'}
-        close={setIsOpenPopup}
+          handleClickClose={handleClickClose}
+          submitText={'Добавить'}
+          popupHeader={'Добавить счет'}
+          close={setIsOpenPopup}
         />
       }
     </div>

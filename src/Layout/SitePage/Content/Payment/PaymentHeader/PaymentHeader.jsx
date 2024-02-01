@@ -27,6 +27,9 @@ export default function PaymentHeader(props) {
         addBtnText={'Добавить'}
         handleClickAdd={handleClickOpen}
         access={me.user_type === 's'}
+
+        paymentSearch={true}
+        searchPlaceholder={'Счет, Платеж, Ф.И.О'}
       />
       {
         isOpenPopup && <PaymentAddPopupContainer

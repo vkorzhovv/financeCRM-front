@@ -22,6 +22,8 @@ export default function PageHeader(props) {
         withoutCash={props.withoutCash}
         withInvoices={props.withInvoices}
 
+        paymentSearch={props.paymentSearch}
+        invoiceSearch={props.invoiceSearch}
         cashSearch={props.cashSearch}
         usersSearch={props.usersSearch}
         projectSearch={props.projectSearch}
