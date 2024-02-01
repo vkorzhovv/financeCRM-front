@@ -85,14 +85,14 @@ export const getInvoices = () => async (dispatch) => {
     .then(response => dispatch(setInvoices(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchInvoice(''));
+    dispatch(setSearchInvoice(localStorage.getItem('searchInvoice') || ''));
 }
 export const getUserInvoices = (userId) => async (dispatch) => {
   await invoicesAPI.getUserInvoices(userId)
     .then(response => dispatch(setUserInvoices(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchInvoice(''));
+    dispatch(setSearchInvoice(localStorage.getItem('searchInvoice') || ''));
 }
 export const getUnapprovedInvoices = () => async (dispatch) => {
   await invoicesAPI.getUnapprovedInvoices()
@@ -109,28 +109,28 @@ export const getUnpaidInvoices = () => async (dispatch) => {
     .then(response => dispatch(setInvoices(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchInvoice(''));
+    dispatch(setSearchInvoice(localStorage.getItem('searchInvoice') || ''));
 }
 export const getUserUnpaidInvoices = (userId) => async (dispatch) => {
   await invoicesAPI.getUserUnpaidInvoices(userId)
     .then(response => dispatch(setUserInvoices(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchInvoice(''));
+    dispatch(setSearchInvoice(localStorage.getItem('searchInvoice') || ''));
 }
 export const getDebInvoices = () => async (dispatch) => {
   await invoicesAPI.getDebInvoices()
     .then(response => dispatch(setInvoices(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchInvoice(''));
+    dispatch(setSearchInvoice(localStorage.getItem('searchInvoice') || ''));
 }
 export const getUserDebInvoices = (userId) => async (dispatch) => {
   await invoicesAPI.getUserDebInvoices(userId)
     .then(response => dispatch(setUserInvoices(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchInvoice(''));
+    dispatch(setSearchInvoice(localStorage.getItem('searchInvoice') || ''));
 }
 
 export const addInvoice = (
@@ -164,12 +164,12 @@ export const addInvoice = (
         throw err;
       })
 
-    dispatch(setSearchInvoice(''));
+    dispatch(setSearchInvoice(localStorage.getItem('searchInvoice') || ''));
   }
 
 export const searchInvoice = (searchText) => (dispatch) => {
   let text = searchText.toLowerCase()
-
+  localStorage.setItem('searchInvoice', text);
   setTimeout(() => dispatch(setSearchInvoice(text)), 300)
 }
 

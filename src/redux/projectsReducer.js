@@ -66,7 +66,7 @@ export const getProjects = () => async (dispatch) => {
     .then(response => dispatch(setProjects(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchProject(''));
+  dispatch(setSearchProject(localStorage.getItem('searchProject')) || '');
 }
 
 export const getUserProjects = (userId) => async (dispatch) => {
@@ -74,7 +74,7 @@ export const getUserProjects = (userId) => async (dispatch) => {
     .then(response => dispatch(setUserProjects(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchProject(''));
+  dispatch(setSearchProject(localStorage.getItem('searchProject')) || '');
 }
 
 export const addProject = (
@@ -109,12 +109,12 @@ export const addProject = (
         throw err;
       })
 
-    dispatch(setSearchProject(''));
+    dispatch(setSearchProject(localStorage.getItem('searchProject')) || '');
   }
 
 export const searchProject = (searchText) => (dispatch) => {
   let text = searchText.toLowerCase()
-
+  localStorage.setItem('searchProject', text);
   setTimeout(() => dispatch(setSearchProject(text)), 300)
 }
 

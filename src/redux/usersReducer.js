@@ -98,7 +98,7 @@ export const getClients = () => async (dispatch) => {
     .then(response => dispatch(setClients(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchUser(''));
+    dispatch(setSearchUser(localStorage.getItem('searchUser') || ''));
 }
 
 export const getEmployees = () => async (dispatch) => {
@@ -106,7 +106,7 @@ export const getEmployees = () => async (dispatch) => {
     .then(response => dispatch(setEmployees(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchUser(''));
+    dispatch(setSearchUser(localStorage.getItem('searchUser') || ''));
 }
 
 export const getContractors = () => async (dispatch) => {
@@ -114,7 +114,7 @@ export const getContractors = () => async (dispatch) => {
     .then(response => dispatch(setContractors(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchUser(''));
+  dispatch(setSearchUser(localStorage.getItem('searchUser') || ''));
 }
 
 export const addUser = (
@@ -153,9 +153,9 @@ export const addUser = (
 }
 
 export const searchUser = (searchText) => (dispatch) => {
-  let text = searchText.toLowerCase()
-
-  setTimeout(() => dispatch(setSearchUser(text)), 300)
+  let text = searchText.toLowerCase();
+  localStorage.setItem('searchUser', text);
+  setTimeout(() => dispatch(setSearchUser(text)), 300);
 }
 
 export const deleteUser = (userId) => async () => {

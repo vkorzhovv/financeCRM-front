@@ -76,7 +76,7 @@ export const getPayments = () => async (dispatch) => {
     .then(response => dispatch(setPayments(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchPayment(''))
+  dispatch(setSearchPayment(localStorage.getItem('searchPayment') || ''));
 }
 
 export const getUserPayments = (userId) => async (dispatch) => {
@@ -84,7 +84,7 @@ export const getUserPayments = (userId) => async (dispatch) => {
     .then(response => dispatch(setUserPayments(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchPayment(''))
+  dispatch(setSearchPayment(localStorage.getItem('searchPayment') || ''));
 }
 
 export const getPaymentsInInvoice = (invoiceId) => async (dispatch) => {
@@ -118,12 +118,12 @@ export const addPayment = (
         throw err;
       })
 
-    dispatch(setSearchPayment(''))
+    dispatch(setSearchPayment(localStorage.getItem('searchPayment') || ''));
   }
 
 export const searchPayment = (searchText) => (dispatch) => {
   let text = searchText.toLowerCase()
-
+  localStorage.setItem('searchPayment', text);
   setTimeout(() => dispatch(setSearchPayment(text)), 300)
 }
 

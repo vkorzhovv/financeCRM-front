@@ -73,7 +73,7 @@ export const getItems = () => async (dispatch) => {
     .then(response => dispatch(setItems(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchItems(''));
+  dispatch(setSearchItems(localStorage.getItem('searchItem') || ''));
 }
 
 export const getPaymentTypes = () => async (dispatch) => {
@@ -119,7 +119,7 @@ export const editItem = (itemId, type, name) => async (dispatch) => {
 
 export const searchItem = (searchText) => (dispatch) => {
   let text = searchText.toLowerCase()
-
+  localStorage.setItem('searchItem', text);
   setTimeout(() => dispatch(setSearchItems(text)), 300)
 }
 

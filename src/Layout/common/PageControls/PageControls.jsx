@@ -51,6 +51,7 @@ export default function PageControls(props) {
                 ? classNames(styles.searchBlock, styles.searchVisible)
                 : styles.searchBlock}>
               <SearchBlock
+                isVisible={isVisible}
                 paymentSearch={props.paymentSearch}
                 invoiceSearch={props.invoiceSearch}
                 cashSearch={props.cashSearch}
