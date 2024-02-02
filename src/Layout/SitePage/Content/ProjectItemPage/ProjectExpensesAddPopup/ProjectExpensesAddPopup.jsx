@@ -10,25 +10,60 @@ import { editDateForInput } from "../../../../../utils/dateEditor";
 import { selectMe } from "../../../../../redux/authSelectors";
 import { selectSubtypes } from "../../../../../redux/cashItemSelector";
 import { getSubtypes } from "../../../../../redux/cashItemReducer";
+import { getItems, getPaymentTypes } from "../../../../../redux/cashItemReducer";
+import { selectAllItems, selectPaymentTypes } from "../../../../../redux/cashItemSelector";
+import { getEmployees } from "../../../../../redux/usersReducer";
+import { selectEmployees } from "../../../../../redux/usersSelector";
 
 export default function ProjectExpensesAddPopup(props) {
+
+  const dispatch = useDispatch();
+
+  const me = useSelector(selectMe);
+  const subtypesList = useSelector(selectSubtypes);
+  const isFetching = useSelector(selectIsFetchingExpenses);
+  const users = useSelector(selectEmployees)
+  const typesList = useSelector(selectPaymentTypes);
+  const createdTypes = useSelector(selectAllItems);
 
   const {
     clearErrors,
     setError,
     register,
     getValues,
+    setValue,
     handleSubmit,
     formState: { errors, isValid }
   } = useForm({
     mode: 'onChange',
   });
 
-  const me = useSelector(selectMe);
-  const subtypesList = useSelector(selectSubtypes);
-  const isFetching = useSelector(selectIsFetchingExpenses);
+  useEffect(() => {
+    dispatch(getEmployees())
+      .then(() => {
+        setValue('payer', props.detail ? props.expense.payer.id : me.id);
+      }
+      )
 
-  const dispatch = useDispatch();
+    const getTypes = () => {
+      return (
+        dispatch(getItems())
+          .then(() => dispatch(getPaymentTypes()))
+      )
+    }
+
+    getTypes()
+      .then(() => {
+        props.detail && setValue('type', props.expense && props.expense.payment_type)
+      })
+
+
+    if (props.detail) {
+      props.expense.payment_type && dispatch(getSubtypes(props.expense.payment_type))
+        .then(() => setValue('purpose', props.expense && props.expense.subtype))
+    }
+
+  }, [dispatch, setValue])
 
   useEffect(() => {
     getValues('type') && dispatch(getSubtypes(getValues('type')))
@@ -108,13 +143,13 @@ export default function ProjectExpensesAddPopup(props) {
               className={!errors.payer
                 ? classNames('popupInput', styles.input, !me.is_superuser && 'nonTouch')
                 : classNames('popupInput', 'popupError', styles.input, styles.error, !me.is_superuser && 'nonTouch')}
-              defaultValue={props.detail ? (props.expense.payer && props.expense.payer.id) : me.id}
             >
               <option value="">Выбрать</option>
-              {props.users && props.users.map(item =>
+              {users && users.map(item =>
                 <option
                   key={item.id}
-                  value={item.id}>
+                  value={item.id}
+                >
                   {item.last_name} {item.first_name} {item.father_name}
                 </option>
               )}
@@ -133,11 +168,10 @@ export default function ProjectExpensesAddPopup(props) {
               className={!errors.type
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
-              defaultValue={props.detail && props.expense.payment_type && props.expense.payment_type}
             >
               <option value="">Выбрать</option>
-              {props.typesList && props.createdTypes && props.typesList.filter(item =>
-                props.createdTypes.map(type => type.item_type).includes(item.type)
+              {typesList && createdTypes && typesList.filter(item =>
+                createdTypes.map(type => type.item_type).includes(item.type)
               )
                 .map(item =>
                   <option
@@ -154,7 +188,7 @@ export default function ProjectExpensesAddPopup(props) {
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel')} htmlFor="purpose">Назначение расходов</label>
             <select
-              disabled={!getValues('type')}
+              disabled={!props.detail ? !getValues('type') : !props.expense.payment_type}
               {...register('purpose', {
                 required: 'Выберите назначение',
               })}
@@ -162,7 +196,6 @@ export default function ProjectExpensesAddPopup(props) {
               className={!errors.purpose
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
-              defaultValue={props.detail && props.expense.subtype && props.expense.subtype}
             >
               <option value="">Выбрать</option>
               {subtypesList && subtypesList.map(item =>

@@ -25,7 +25,6 @@ export default function CashData(props) {
   const dispatch = useDispatch();
 
   const handleClickOpen = () => {
-    console.log('open')
     setIsOpenPopup(true)
     document.body.classList.add('modal-show');
   }

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from './projectaddpopup.module.css';
 import { useForm } from 'react-hook-form';
@@ -8,22 +8,46 @@ import { addProject, getProjects } from "../../../../../redux/projectsReducer";
 import { editProject } from "../../../../../redux/projectItemReducer";
 import { selectIsFetchingAddProjects } from "../../../../../redux/projectItemSelector";
 import { selectIsFetchingEditProjects } from "../../../../../redux/projectsSelector";
+import { getClients, getContractors, getEmployees } from "../../../../../redux/usersReducer";
+import { selectClients, selectContractors, selectEmployees } from "../../../../../redux/usersSelector";
 
 export default function ProjectAddPopup(props) {
 
   const dispatch = useDispatch();
   const isFetchingAdd = useSelector(selectIsFetchingAddProjects);
   const isFetchingEdit = useSelector(selectIsFetchingEditProjects);
+  const contractors = useSelector(selectContractors);
+  const employees = useSelector(selectEmployees);
+  const clients = useSelector(selectClients);
 
   const {
     clearErrors,
     setError,
     register,
+    setValue,
     handleSubmit,
     formState: { errors, isValid }
   } = useForm({
     mode: 'onChange',
   });
+
+  useEffect(() => {
+    dispatch(getClients())
+      .then(() => {
+        props.detail && setValue('client', props.project.client && props.project.client.id);
+      }
+      )
+    dispatch(getEmployees())
+      .then(() => {
+        props.detail && setValue('manager', props.project.project_manager && props.project.project_manager.id);
+      }
+      )
+    dispatch(getContractors())
+      .then(() => {
+        props.detail && setValue('foreman', props.project.foreman && props.project.foreman.id);
+      }
+      )
+  }, [dispatch, setValue])
 
   const addProjectLocal = (data) => {
     dispatch(addProject(
@@ -141,10 +165,9 @@ export default function ProjectAddPopup(props) {
               className={!errors.status
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
-              defaultValue={props.detail && props.project.project_manager && props.project.project_manager.id}
             >
               <option value="">Выбрать</option>
-              {props.employees && props.employees.map(item =>
+              {employees && employees.map(item =>
                 <option
                   key={item.id}
                   value={item.id}>
@@ -166,10 +189,9 @@ export default function ProjectAddPopup(props) {
               className={!errors.status
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
-              defaultValue={props.detail && props.project.client && props.project.client.id}
             >
               <option value="">Выбрать</option>
-              {props.clients && props.clients.map(item =>
+              {clients && clients.map(item =>
                 <option
                   key={item.id}
                   value={item.id}>
@@ -191,10 +213,9 @@ export default function ProjectAddPopup(props) {
               className={!errors.status
                 ? classNames('popupInput', styles.input)
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
-              defaultValue={props.detail && props.project.foreman && props.project.foreman.id}
             >
               <option value="">Выбрать</option>
-              {props.contractors && props.contractors.map(item =>
+              {contractors && contractors.map(item =>
                 <option
                   key={item.id}
                   value={item.id}>

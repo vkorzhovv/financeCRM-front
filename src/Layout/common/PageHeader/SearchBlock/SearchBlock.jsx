@@ -25,23 +25,18 @@ const dispatch = useDispatch()
   const resetFunction = () => {
     if(props.usersSearch) {
       dispatch(searchUser(''))
-      console.log("закрыл у юзеров")
     }
     if(props.projectSearch) {
       dispatch(searchProject(''))
-      console.log("закрыл у проектов")
     }
     if(props.cashSearch) {
       dispatch(searchItem(''))
-      console.log("закрыл у статей")
     }
     if(props.invoiceSearch) {
       dispatch(searchInvoice(''))
-      console.log("закрыл у счетов")
     }
     if(props.paymentSearch) {
       dispatch(searchPayment(''))
-      console.log("закрыл у платежей")
     }
     reset();
   }

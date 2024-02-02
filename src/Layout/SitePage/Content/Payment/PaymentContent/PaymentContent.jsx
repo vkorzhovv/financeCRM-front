@@ -32,12 +32,16 @@ export default function PaymentContent(props) {
           </div>
         </div>
         <div className={classNames('tableBody')}>
-          {props.payments && props.payments.map(item =>
-            <PaymentItem
-              key={item.id}
-              item={item}
-            />
-          )}
+          {props.payments.length ?
+            props.payments.map(item =>
+              <PaymentItem
+                key={item.id}
+                item={item}
+              />
+            )
+            :
+            "Платежи отсутствуют"
+          }
         </div>
       </div>
     </div>

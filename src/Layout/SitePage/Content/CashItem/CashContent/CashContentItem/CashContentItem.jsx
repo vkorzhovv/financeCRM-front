@@ -11,18 +11,22 @@ export default function CashContentItem(props) {
       </h2>
       <div className={classNames(styles.cashWrapper)}>
         <div className={classNames('flex', styles.dataWrapper)}>
-          {props.items.map((item, index) =>
-            <CashData
-              key={item.id ? item.id : item.type + index}
-              id={item.id}
-              name={item.name}
-              type_name={item.item_type_name}
-              type={item.item_type}
-              isOpenPopup={props.isOpenPopup}
-              handleClickClose={props.handleClickClose}
-              handleClickOpen={props.handleClickOpen}
-            />
-          )}
+          {props.items.length ?
+            props.items.map((item, index) =>
+              <CashData
+                key={item.id ? item.id : item.type + index}
+                id={item.id}
+                name={item.name}
+                type_name={item.item_type_name}
+                type={item.item_type}
+                isOpenPopup={props.isOpenPopup}
+                handleClickClose={props.handleClickClose}
+                handleClickOpen={props.handleClickOpen}
+              />
+            )
+            :
+            "Статьи отсутсвуют"
+          }
         </div>
       </div>
     </div>

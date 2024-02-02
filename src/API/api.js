@@ -584,15 +584,34 @@ export const paymentsAPI = {
 }
 
 export function setupInterceptor(store) {
-  instance.interceptors.response.use(function (response) {
 
+  // instance.interceptors.request.use(
+  //   function (config) {
+  //     const controller = new AbortController();
+
+  //     config = {
+  //       ...config,
+  //       signal: controller.signal
+  //     }
+
+  //     console.log(config)
+  //     console.log('dddd')
+
+  //     return config;
+  //   }, function (error) {
+  //     return Promise.reject(error);
+  //   }
+  // );
+
+  instance.interceptors.response.use(function (response) {
     return response;
   }, function (error) {
 
     if (error.response.status === 401) {
-      alert('Вы не авторизованы!');
+      // alert('Вы не авторизованы!');
       store.dispatch(setAuth(false));
       localStorage.clear();
+      // controller.abort();
       return;
     }
 

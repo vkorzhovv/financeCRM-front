@@ -13,6 +13,8 @@ import { editDateForInput } from "../../../../../utils/dateEditor";
 import LoadingIcon from "../../../../../svgIcons/loading";
 import { selectInvoiceItem } from "../../../../../redux/invoiceItemSelector";
 import { useEffect } from "react";
+import { getUnapprovedInvoices } from "../../../../../redux/invoicesReducer";
+import { selectUnapprovedInvoices } from "../../../../../redux/invoicesSelector";
 
 export default function PaymentAddPopup(props) {
 
@@ -22,18 +24,33 @@ export default function PaymentAddPopup(props) {
   const isFetchingAdd = useSelector(selectIsFetchingAddPayment);
   const isFetchingEdit = useSelector(selectIsFetchingEditPayment);
   const invoice = useSelector(selectInvoiceItem);
+  const invoicesList = useSelector(selectUnapprovedInvoices)
 
   const {
     clearErrors,
     setError,
     register,
     reset,
+    setValue,
     handleSubmit,
     getValues,
     formState: { errors, isValid }
   } = useForm({
     mode: 'onChange',
   });
+
+  useEffect(() => {
+    !props.isStatic &&
+    dispatch(getUnapprovedInvoices())
+    .then(() => {
+      props.detail && setValue('check', props.payment.invoice.id);
+    })
+
+    if (props.detail) {
+      dispatch(getInvoiceItem(props.payment.invoice.id))
+    }
+
+  }, [dispatch, setValue])
 
   useEffect(() => {
     getValues('check') && dispatch(getInvoiceItem(getValues('check')));
@@ -130,10 +147,9 @@ export default function PaymentAddPopup(props) {
                 className={!errors.check
                   ? classNames('popupInput', styles.input)
                   : classNames('popupInput', 'popupError', styles.input, styles.error)}
-                defaultValue={props.detail && props.payment.invoice && props.payment.invoice.id}
               >
                 <option value="">Выбрать</option>
-                {props.invoicesList && props.invoicesList.map(item =>
+                {invoicesList && invoicesList.map(item =>
                   <option
                     key={item.id}
                     value={item.id}>
@@ -145,7 +161,7 @@ export default function PaymentAddPopup(props) {
             </div>
           }
 
-          {!props.isStatic && getValues('check') &&
+          {!props.isStatic && (!props.detail ? getValues('check') : props.payment.invoice) &&
             <div className={classNames('flex', 'popupInputBox')}>
               <p className={classNames('popupLabel', styles.projectLabel)}>Остаток по счету:</p>
               <div className={classNames('flex', styles.filesContainer)}>

@@ -31,12 +31,16 @@ export default function InvoicesContent(props) {
           </div>
         </div>
         <div className={classNames('tableBody')}>
-          {props.invoices && props.invoices.map(item =>
-            <InvoicesItem
-              key={item.id}
-              item={item}
-            />
-          )}
+          {props.invoices.length ?
+            props.invoices.map(item =>
+              <InvoicesItem
+                key={item.id}
+                item={item}
+              />
+            )
+            :
+            "Счета отсутсвуют"
+          }
         </div>
       </div>
     </div>

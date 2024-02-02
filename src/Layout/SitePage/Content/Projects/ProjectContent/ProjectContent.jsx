@@ -33,12 +33,16 @@ export default function ProjectContent(props) {
           </div>
         </div>
         <div className={classNames('tableBody')}>
-          {props.projects && props.projects.map(item =>
-            <ProjectItem
-              key={item.id}
-              item={item}
-            />
-          )}
+          {props.projects.length
+            ? props.projects.map(item =>
+              <ProjectItem
+                key={item.id}
+                item={item}
+              />
+            )
+            :
+            "Проекты отсутсвуют"
+          }
         </div>
       </div>
     </div>
