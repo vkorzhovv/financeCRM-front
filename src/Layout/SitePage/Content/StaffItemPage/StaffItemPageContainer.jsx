@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { getUserPayments } from '../../../../redux/paymentReducer';
-import { selectUserPayments } from '../../../../redux/paymentSelector';
+import { selectFilteredPayments, selectUserPayments } from '../../../../redux/paymentSelector';
 import { getUserItem } from '../../../../redux/userItemReducer';
 import { selectUserItem } from '../../../../redux/userItemSelector';
 import { getClients, getContractors, getEmployees} from '../../../../redux/usersReducer';
@@ -19,7 +19,7 @@ export default function StaffItemPageContainer(props) {
   const clients = useSelector(selectClients);
   const contractors = useSelector(selectContractors);
   const employees = useSelector(selectEmployees);
-  const userPayments = useSelector(selectUserPayments);
+  const userPayments = useSelector(selectFilteredPayments);
 
   useEffect(() => {
     const getList = (type) => {
