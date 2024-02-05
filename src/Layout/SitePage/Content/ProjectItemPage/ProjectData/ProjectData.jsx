@@ -17,8 +17,9 @@ export default function ProjectData(props) {
   const receipts = props.projectInvoices ? props.projectInvoices.map(item =>
     item.receipts
   ).reduce((acc, number) => Number(acc) + Number(number), 0).toFixed(2) : (0).toFixed(2);
+
   const expenses = props.projectExpenses ? props.projectExpenses.map(item =>
-    item.amount
+    item.receipts
   ).reduce((acc, number) => Number(acc) + Number(number), 0).toFixed(2) : (0).toFixed(2);
 
   const balance = (props.project.price - receipts).toFixed(2);
@@ -118,6 +119,7 @@ export default function ProjectData(props) {
         </div>
         <div className={classNames(styles.projectDataItem, styles.dataItemMoney)}>
           <ProjectMoneyBox
+            projectClient={props.projectClient}
             projectId={props.projectId}
             receipts={true}
             title={"Поступления по проекту"}
@@ -127,6 +129,7 @@ export default function ProjectData(props) {
       </div>
       <div className={classNames(styles.projectDataItem, styles.dataItemMoney)}>
         <ProjectMoneyBox
+          projectClient={props.projectClient}
           projectId={props.projectId}
           expenses={true}
           title={"Расходы по проекту"}

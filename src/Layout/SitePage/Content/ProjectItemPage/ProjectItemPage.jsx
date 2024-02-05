@@ -33,6 +33,8 @@ export default function ProjectItemPage(props) {
     })
   }
 
+  const client = props.project.client && props.project.client.id;
+
   return (
     <div className={styles.projectItemPage}>
       <PageHeader
@@ -65,6 +67,7 @@ export default function ProjectItemPage(props) {
         </div>
         <ProjectData
           project={props.project}
+          projectClient={client}
           projectId={props.project.id}
           projectInvoices={props.projectInvoices}
           projectExpenses={props.projectExpenses}

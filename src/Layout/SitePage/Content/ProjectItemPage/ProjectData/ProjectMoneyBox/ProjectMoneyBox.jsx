@@ -3,7 +3,6 @@ import styles from './projectmoneybox.module.css';
 import classNames from 'classnames';
 import ProjectMoney from './ProjectMoney/ProjectMoney';
 import InvoicesAddPopupContainer from '../../../Invoices/InvoicesAddPopup/InvoicesAddPopupContainer';
-import ProjectExpensesAddPopupContainer from '../../ProjectExpensesAddPopup/ProjectExpensesAddPopupContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProjects } from '../../../../../../redux/projectsReducer';
 import { selectMe } from '../../../../../../redux/authSelectors';
@@ -38,14 +37,9 @@ export default function ProjectMoneyBox(props) {
         <div className={classNames('flex', styles.moneyHeaderData)}>
           <p className={classNames(styles.moneyHeaderText, styles.moneyHeaderSumm)}>
             {
-              props.receipts ?
-                props.cash.map(item =>
-                  item.receipts
-                ).reduce((acc, number) => Number(acc) + Number(number), 0).toFixed(2)
-                :
-                props.cash.map(item =>
-                  item.amount
-                ).reduce((acc, number) => Number(acc) + Number(number), 0).toFixed(2)
+              props.cash.map(item =>
+                item.receipts
+              ).reduce((acc, number) => Number(acc) + Number(number), 0).toFixed(2)
             }&nbsp;&#8381;
           </p>
           {me.user_type === 's' &&
@@ -63,6 +57,7 @@ export default function ProjectMoneyBox(props) {
         <div className={classNames('table', styles.moneyTable)}>
           {props.cash.map(item =>
             <ProjectMoney
+              projectClient={props.projectClient}
               projectId={props.projectId}
               key={item.id}
               receipts={props.receipts || false}
@@ -74,9 +69,13 @@ export default function ProjectMoneyBox(props) {
       </div>
 
       {isOpenPopupExpenses &&
-        <ProjectExpensesAddPopupContainer
+        <InvoicesAddPopupContainer
+          projectExpense={true}
+          projectClient={props.projectClient}
+
           projectId={props.projectId}
           handleClickClose={handleClickClose}
+          close={handleClickClose}
 
           submitText={"Добавить"}
           popupHeader={"Добавить расход"}
@@ -84,11 +83,15 @@ export default function ProjectMoneyBox(props) {
       }
       {isOpenPopupInvoices &&
         <InvoicesAddPopupContainer
+          projectReceipt={true}
+          projectClient={props.projectClient}
+
           projectId={props.projectId}
           handleClickClose={handleClickClose}
           close={handleClickClose}
+
           submitText={"Добавить"}
-          popupHeader={"Добавить счет"}
+          popupHeader={"Добавить поступление"}
         />
       }
     </div>

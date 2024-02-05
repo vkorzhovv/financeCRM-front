@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import DeleteIcon from '../../../../../../../svgIcons/delete';
 import EditIcon from '../../../../../../../svgIcons/edit';
 import ConfirmDelete from '../../../../../../common/ConfirmDelete/ConfirmDelete';
-import ProjectExpensesAddPopupContainer from '../../../ProjectExpensesAddPopup/ProjectExpensesAddPopupContainer';
 import InvoicesAddPopupContainer from '../../../../Invoices/InvoicesAddPopup/InvoicesAddPopupContainer';
 import { useDispatch } from 'react-redux';
 import { getProjects } from '../../../../../../../redux/projectsReducer';
@@ -77,12 +76,15 @@ export default function MoneyControls(props) {
             e.stopPropagation();
           }}
         >
-          <ProjectExpensesAddPopupContainer
+          <InvoicesAddPopupContainer
+            projectExpense={true}
             projectId={props.projectId}
+            projectClient={props.projectClient}
             handleClickClose={handleClickClose}
-            expense={props.money}
+            close={handleClickClose}
+            invoice={props.money}
             submitText={"Готово"}
-            popupHeader={"Редактировать расход"}
+            popupHeader={`Редактировать счет № ${props.money.id + 10000}`}
             detail={"detail"}
           />
         </div>
@@ -94,13 +96,14 @@ export default function MoneyControls(props) {
           }}
         >
           <InvoicesAddPopupContainer
-
+            projectReceipt={true}
             invoice={props.money}
             projectId={props.projectId}
+            projectClient={props.projectClient}
             handleClickClose={handleClickClose}
             close={handleClickClose}
             submitText={"Готово"}
-            popupHeader={`Редактировать счет № ${props.money.id}`}
+            popupHeader={`Редактировать счет № ${props.money.id + 10000}`}
             detail={"detail"}
           />
         </div>

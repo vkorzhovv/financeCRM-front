@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import styles from './invoicesaddpopup.module.css';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { addInvoice, getInvoices, getProjectInvoices } from "../../../../../redux/invoicesReducer";
+import { addInvoice, getInvoices, getProjectExpenses, getProjectInvoices, getProjectReceipts } from "../../../../../redux/invoicesReducer";
 import { editInvoice, getInvoiceItem } from "../../../../../redux/invoiceItemReducer";
 import { selectIsFetchingAddInvoice } from "../../../../../redux/invoicesSelector";
 import { selectIsFetchingEditInvoice } from "../../../../../redux/invoiceItemSelector";
@@ -28,7 +28,7 @@ export default function InvoicesAddPopup(props) {
   const isFetchingEdit = useSelector(selectIsFetchingEditInvoice);
   const subtypesList = useSelector(selectSubtypes);
   const usersList = useSelector(selectAllUsers);
-  const employeesList = useSelector(selectEmployees);
+  // const employeesList = useSelector(selectEmployees);
   const projectsList = useSelector(selectProjects);
   const typesList = useSelector(selectPaymentTypes);
   const createdTypes = useSelector(selectAllItems);
@@ -46,12 +46,19 @@ export default function InvoicesAddPopup(props) {
   });
 
   useEffect(() => {
-    dispatch(getEmployees())
-      .then(() => {
-        setValue('payer', props.detail ? props.invoice.payer && props.invoice.payer.id : me.id);
-      })
     dispatch(getUsers())
       .then(() => {
+        if (!props.detail && props.projectReceipt) {
+          setValue('payer', props.projectClient);
+        }
+        if (!props.detail && !props.projectReceipt) {
+          setValue('payer', me.id);
+        }
+
+        if (props.detail) {
+          setValue('payer', props.invoice.payer && props.invoice.payer.id);
+        }
+
         props.detail && setValue('receiver', props.invoice.receiver && props.invoice.receiver.id);
       })
     dispatch(getProjects())
@@ -97,8 +104,9 @@ export default function InvoicesAddPopup(props) {
       data.date,
     ))
       .then(() => {
-        dispatch(getInvoices())
-        props.projectId && dispatch(getProjectInvoices(props.projectId))
+        (!props.projectReceipt && !props.projectExpense) && dispatch(getInvoices())
+        props.projectReceipt && dispatch(getProjectReceipts(props.projectId))
+        props.projectExpense && dispatch(getProjectExpenses(props.projectId))
         props.close(false)
         document.body.classList.remove('modal-show');
       })
@@ -125,8 +133,9 @@ export default function InvoicesAddPopup(props) {
       data.date,
     ))
       .then(() => {
-        dispatch(getInvoiceItem(props.invoice.id))
-        props.projectId && dispatch(getProjectInvoices(props.projectId))
+        (!props.projectReceipt && !props.projectExpense) && dispatch(getInvoiceItem(props.invoice.id))
+        props.projectReceipt && dispatch(getProjectReceipts(props.projectId))
+        props.projectExpense && dispatch(getProjectExpenses(props.projectId))
         props.close(false)
         document.body.classList.remove('modal-show');
       })
@@ -164,17 +173,27 @@ export default function InvoicesAddPopup(props) {
             })}
               id='payer'
               className={!errors.payer
-                ? classNames('popupInput', styles.input, !me.is_superuser && 'nonTouch')
-                : classNames('popupInput', 'popupError', styles.input, styles.error, !me.is_superuser && 'nonTouch')}
+                ? classNames('popupInput', styles.input, !me.is_superuser || props.projectReceipt && 'nonTouch')
+                : classNames('popupInput', 'popupError', styles.input, styles.error, !me.is_superuser || props.projectReceipt && 'nonTouch')}
             >
               <option value="">Выбрать</option>
-              {employeesList && employeesList.map(item =>
-                <option
-                  value={item.id}
-                  key={item.id}>
-                  {item.last_name} {item.first_name} {item.father_name}
-                </option>
-              )}
+              {props.projectReceipt ?
+                usersList && usersList.map(item =>
+                  <option
+                    value={item.id}
+                    key={item.id}>
+                    {item.last_name} {item.first_name} {item.father_name}
+                  </option>
+                )
+                :
+                usersList && usersList.filter(item => item.id !== props.projectClient).map(item =>
+                  <option
+                    value={item.id}
+                    key={item.id}>
+                    {item.last_name} {item.first_name} {item.father_name}
+                  </option>
+                )
+              }
             </select>
             {errors.payer && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.payer.message}</div>}
           </div>

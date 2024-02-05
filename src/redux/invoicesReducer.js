@@ -4,6 +4,8 @@ const SET_INVOICES = 'SET_INVOICES'
 const SET_USER_INVOICES = 'SET_USER_INVOICES'
 const SET_UNAPPROVED_INVOICES = 'SET_UNAPPROVED_INVOICES'
 const SET_PROJECT_INVOICES = 'SET_PROJECT_INVOICES'
+const SET_PROJECT_RECEIPTS = 'SET_PROJECT_RECEIPTS'
+const SET_PROJECT_EXPENSES = 'SET_PROJECT_EXPENSES'
 const ADD_INVOICE = 'ADD_INVOICE';
 const SEARCH_INVOICE = 'SEARCH_INVOICE'
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
@@ -15,6 +17,8 @@ let initialState = {
   userInvoices: [],
   unapprovedInvoices: [],
   projectInvoices: [],
+  projectReceipts: [],
+  projectExpenses: [],
   isFetching: false
 };
 
@@ -40,6 +44,16 @@ export const invoicesReducer = (state = initialState, action) => {
       return {
         ...state,
         projectInvoices: action.projectInvoices
+      }
+    case SET_PROJECT_RECEIPTS:
+      return {
+        ...state,
+        projectReceipts: action.projectReceipts
+      }
+    case SET_PROJECT_EXPENSES:
+      return {
+        ...state,
+        projectExpenses: action.projectExpenses
       }
     case ADD_INVOICE:
       return {
@@ -76,6 +90,8 @@ const setInvoices = (invoices) => ({ type: SET_INVOICES, invoices });
 const setUserInvoices = (invoices) => ({ type: SET_USER_INVOICES, invoices });
 const setUnapprovedInvoices = (unapprovedInvoices) => ({ type: SET_UNAPPROVED_INVOICES, unapprovedInvoices });
 const setProjectInvoices = (projectInvoices) => ({ type: SET_PROJECT_INVOICES, projectInvoices });
+const setProjectReceipts = (projectReceipts) => ({ type: SET_PROJECT_RECEIPTS, projectReceipts });
+const setProjectExpenses = (projectExpenses) => ({ type: SET_PROJECT_EXPENSES, projectExpenses });
 const setAddInvoices = (newInvoice) => ({ type: ADD_INVOICE, newInvoice });
 const setSearchInvoice = (searchInvoice) => ({ type: SEARCH_INVOICE, searchInvoice });
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
@@ -97,6 +113,16 @@ export const getUserInvoices = (userId) => async (dispatch) => {
 export const getUnapprovedInvoices = () => async (dispatch) => {
   await invoicesAPI.getUnapprovedInvoices()
     .then(response => dispatch(setUnapprovedInvoices(response.data)))
+    .catch(err => console.log(err))
+}
+export const getProjectReceipts = (projectId) => async (dispatch) => {
+  await invoicesAPI.getProjectReceipts(projectId)
+    .then(response => dispatch(setProjectReceipts(response.data)))
+    .catch(err => console.log(err))
+}
+export const getProjectExpenses = (projectId) => async (dispatch) => {
+  await invoicesAPI.getProjectExpenses(projectId)
+    .then(response => dispatch(setProjectExpenses(response.data)))
     .catch(err => console.log(err))
 }
 export const getProjectInvoices = (projectId) => async (dispatch) => {

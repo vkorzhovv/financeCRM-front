@@ -413,6 +413,20 @@ export const invoicesAPI = {
       }
     })
   },
+  getProjectReceipts(projectId) {
+    return instance.get(`/api/invoice_expences_false/${projectId}`, {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
+  getProjectExpenses(projectId) {
+    return instance.get(`/api/invoice_expences/${projectId}`, {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
   addInvoice(
     comment,
     approved,
