@@ -67,23 +67,27 @@ button {
   background-color: var(--green63);
 }
 
-.btn.btnTransparent {
+.btnTransparent {
   padding: 13px 30px;
   color: var(--black05);
   border: 1px solid var(--black05);
   background-color: transparent;
 }
 
-.btn.btnTransparent:hover {
+.btnTransparent:hover {
   color: var(--black34);
   border: 1px solid var(--black34);
   background-color: transparent;
 }
 
-.btn.btnTransparent:active {
+.btnTransparent:active {
   color: var(--black05);
   border: 1px solid var(--black05);
   background-color: transparent;
+}
+
+.filterBtn {
+  padding: 7px 15px;
 }
 
 .btn:disabled {
@@ -122,7 +126,7 @@ button {
   transition: .3s;
 }
 
-.tableRowHov:hover  {
+.tableRowHov:hover {
   background-color: var(--greenC8);
 }
 
@@ -135,6 +139,7 @@ button {
 .tableCell:first-child {
   border-radius: 5px 0 0 5px;
 }
+
 .tableCell:last-child {
   border-radius: 0 5px 5px 0;
 }
@@ -278,6 +283,72 @@ button {
   max-width: 100%;
 }
 
+.filterForm {
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--whiteF8);
+  margin-bottom: 10px;
+}
+
+.filterHeader {
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--greyE1);
+}
+
+.filterHeader .btn:not(:last-child) {
+  margin-right: 25px;
+}
+
+.filterFields {
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.addRowFilterFields {
+  margin-top: 15px;
+}
+
+.filterColumn {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.filterLabel {
+  margin-right: 10px;
+}
+
+.filterColumn .filterLabel {
+  margin-right: 0;
+  margin-bottom: 10px;
+}
+
+.filterTitle {
+  font-size: 25px;
+}
+
+.filterInputBox {
+  width: 150px;
+  margin-bottom: 0;
+}
+
+.filterInput {
+  width: 100%;
+  padding: 7px 10px;
+}
+
+.fromToFilter .filterInputBox {
+  width: 130px;
+}
+
+.fromToFilter .filterInputBox:not(:last-child) {
+  margin-right: 10px;
+}
+
 .nowrapString {
   white-space: nowrap;
 }
@@ -300,6 +371,23 @@ button {
   .popupInputBox {
     width: 100%;
   }
+
+  .filterInputBox {
+    width: 150px;
+    margin-bottom: 10px;
+  }
+
+  .fromToFilter {
+    flex-direction: column;
+  }
+
+  .fromToFilter .filterInputBox:not(:last-child) {
+    margin-right: 0;
+  }
+
+  .fromToFilter .filterInputBox:first-child {
+    margin-bottom: 15px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -321,6 +409,45 @@ button {
 @media (max-width: 576px) {
   .popupWindow {
     padding: 15px;
+  }
+}
+
+@media (max-width: 500px) {
+  .filterHeader {
+    flex-direction: column;
+  }
+
+  .filterHeader div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .filterTitle {
+    align-self: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .filterFields {
+    flex-direction: column;
+  }
+
+  .filterColumn {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filterInputBox {
+    width: 100%;
+  }
+
+  .fromToFilter {
+    width: 100%;
+  }
+
+  .fromToFilter .filterInputBox {
+    width: 100%;
   }
 }
 

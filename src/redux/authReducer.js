@@ -60,6 +60,7 @@ export const logout = () => async (dispatch) => {
     response = await authAPI.logout();
     if (response.status < 300) {
       localStorage.clear();
+      sessionStorage.clear();
       dispatch(setAuth(false));
     }
   }

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import SettingsIcon from '../../../svgIcons/settings';
 import SearchIcon from '../../../svgIcons/search';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDebInvoices, getInvoices, getUnpaidInvoices, getUserDebInvoices, getUserInvoices, getUserUnpaidInvoices } from '../../../redux/invoicesReducer';
+import { filterInvoice, getDebInvoices, getInvoices, getUnpaidInvoices, getUserDebInvoices, getUserInvoices, getUserUnpaidInvoices } from '../../../redux/invoicesReducer';
 import ConfirmDelete from '../ConfirmDelete/ConfirmDelete';
 import { selectMe } from '../../../redux/authSelectors';
 import SearchBlock from '../PageHeader/SearchBlock/SearchBlock';
@@ -32,13 +32,13 @@ export default function PageControls(props) {
 
   const dispatch = useDispatch()
   const handleDebInvoices = () => {
-    me.user_type === 's' ? dispatch(getDebInvoices()) : dispatch(getUserDebInvoices(me.id));
+    me.user_type === 's' ? dispatch(getDebInvoices()) : dispatch(getUserDebInvoices(me.id))
   }
   const handleUnpaidInvoices = () => {
-    me.user_type === 's' ? dispatch(getUnpaidInvoices()) : dispatch(getUserUnpaidInvoices(me.id));
+    me.user_type === 's' ? dispatch(getUnpaidInvoices()) : dispatch(getUserUnpaidInvoices(me.id))
   }
   const handleAllInvoices = () => {
-    me.user_type === 's' ? dispatch(getInvoices()) : dispatch(getUserInvoices(me.id));
+    me.user_type === 's' ? dispatch(getInvoices()) : dispatch(getUserInvoices(me.id))
   }
 
   return (
@@ -68,7 +68,10 @@ export default function PageControls(props) {
         {
           (!props.withoutCash && !props.detail) &&
           <div className={classNames(styles.pageControlItem, styles.settingsBlock)}>
-            <button className={classNames(styles.settingsBtn, styles.controlsBtn)}>
+            <button
+              onClick={props.openFilter}
+              className={classNames(styles.settingsBtn, styles.controlsBtn)}
+            >
               <SettingsIcon />
             </button>
           </div>

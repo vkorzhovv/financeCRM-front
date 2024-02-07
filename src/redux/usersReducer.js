@@ -6,13 +6,16 @@ const SET_EMPLOYEES = 'SET_EMPLOYEES';
 const SET_CONTRACTORS = 'SET_CONTRACTORS';
 const ADD_USER = 'ADD_USER';
 const SEARCH_USER = 'SEARCH_USER';
-const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
+const FILTER_USER = 'FILTER_USER';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
   allUsers: [],
   clients: [],
   employees: [],
   contractors: [],
+  balanceStart: sessionStorage.getItem('userBalanceStart') || '-Infinity',
+  balanceEnd: sessionStorage.getItem('userBalanceEnd') || 'Infinity',
   searchUser: '',
   filteredClients: [],
   filteredEmployees: [],
@@ -69,6 +72,28 @@ export const usersReducer = (state = initialState, action) => {
           : [],
       }
     }
+    case FILTER_USER: {
+      return {
+        ...state,
+        balanceStart: action.balanceStart,
+        balanceEnd: action.balanceEnd,
+
+        filteredEmployees: state.filteredEmployees.length
+          ? [...state.filteredEmployees]
+            .filter(item => (+item.balance >= +action.balanceStart && +item.balance <= +action.balanceEnd))
+          : [],
+
+        filteredContractors: state.filteredContractors.length
+          ? [...state.filteredContractors]
+            .filter(item => (+item.balance >= +action.balanceStart && +item.balance <= +action.balanceEnd))
+          : [],
+
+        filteredClients: state.filteredClients.length
+          ? [...state.filteredClients]
+            .filter(item => (+item.balance >= +action.balanceStart && +item.balance <= +action.balanceEnd))
+          : [],
+      }
+    }
     case TOGGLE_IS_FETCHING: {
       return {
         ...state,
@@ -85,7 +110,15 @@ const setClients = (clients) => ({ type: SET_CLIENTS, clients });
 const setEmployees = (employees) => ({ type: SET_EMPLOYEES, employees });
 const setContractors = (contractors) => ({ type: SET_CONTRACTORS, contractors });
 const setSearchUser = (searchUser) => ({ type: SEARCH_USER, searchUser });
+const setFilterUser = (balanceStart, balanceEnd) => ({ type: FILTER_USER, balanceStart, balanceEnd });
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
+
+const filterFunctions = (dispatch) => {
+  dispatch(setSearchUser(localStorage.getItem('searchUser') || ''));
+  dispatch(setFilterUser(
+    sessionStorage.getItem('userBalanceStart') || '-Infinity',
+    sessionStorage.getItem('userBalanceEnd') || 'Infinity'));
+}
 
 export const getUsers = () => async (dispatch) => {
   await usersAPI.getAllUsers()
@@ -98,7 +131,7 @@ export const getClients = () => async (dispatch) => {
     .then(response => dispatch(setClients(response.data)))
     .catch(err => console.log(err))
 
-    dispatch(setSearchUser(localStorage.getItem('searchUser') || ''));
+  filterFunctions(dispatch);
 }
 
 export const getEmployees = () => async (dispatch) => {
@@ -106,7 +139,7 @@ export const getEmployees = () => async (dispatch) => {
     .then(response => dispatch(setEmployees(response.data)))
     .catch(err => console.log(err))
 
-    dispatch(setSearchUser(localStorage.getItem('searchUser') || ''));
+  filterFunctions(dispatch);
 }
 
 export const getContractors = () => async (dispatch) => {
@@ -114,7 +147,7 @@ export const getContractors = () => async (dispatch) => {
     .then(response => dispatch(setContractors(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchUser(localStorage.getItem('searchUser') || ''));
+  filterFunctions(dispatch);
 }
 
 export const addUser = (
@@ -155,7 +188,18 @@ export const addUser = (
 export const searchUser = (searchText) => (dispatch) => {
   let text = searchText.toLowerCase();
   localStorage.setItem('searchUser', text);
-  setTimeout(() => dispatch(setSearchUser(text)), 300);
+  dispatch(setSearchUser(text));
+  dispatch(setFilterUser(
+    sessionStorage.getItem('userBalanceStart') || '-Infinity',
+    sessionStorage.getItem('userBalanceEnd') || 'Infinity'));
+}
+
+export const filterUser = (start, end) => (dispatch) => {
+  sessionStorage.setItem('userBalanceStart', start);
+  sessionStorage.setItem('userBalanceEnd', end);
+
+  dispatch(setSearchUser(localStorage.getItem('searchUser') || ''));
+  dispatch(setFilterUser(start, end));
 }
 
 export const deleteUser = (userId) => async () => {

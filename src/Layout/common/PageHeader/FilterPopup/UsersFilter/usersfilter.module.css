@@ -1,0 +1,29 @@
+.userFilterInput {
+  width: 150px;
+  margin-bottom: 0;
+}
+
+.userFilterInput:not(:last-child) {
+  margin-right: 20px;
+}
+
+@media (max-width: 500px) {
+  .userFilter {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .userFilterInput {
+    width: 100%;
+  }
+
+  .userLabel {
+    margin-bottom: 15px;
+  }
+
+  .userFilterInput:not(:last-child) {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+}

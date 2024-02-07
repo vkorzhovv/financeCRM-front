@@ -625,6 +625,7 @@ export function setupInterceptor(store) {
       // alert('Вы не авторизованы!');
       store.dispatch(setAuth(false));
       localStorage.clear();
+      sessionStorage.clear();
       // controller.abort();
       return;
     }

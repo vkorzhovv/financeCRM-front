@@ -28,6 +28,7 @@ export default function PaymentHeader(props) {
         handleClickAdd={handleClickOpen}
         access={me.user_type === 's'}
 
+        paymentFilter={true}
         paymentSearch={true}
         searchPlaceholder={'Счет, Платеж, Ф.И.О'}
       />

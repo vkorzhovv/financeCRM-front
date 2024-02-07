@@ -28,6 +28,7 @@ export default function ProjectHeader(props) {
       handleClickAdd={handleClickOpen}
       access={me.user_type === 's'}
 
+      projectsFilter={true}
       projectSearch={true}
       searchPlaceholder={'Название, Описание, Ф.И.О'}
       />

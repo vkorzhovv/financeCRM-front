@@ -2,8 +2,8 @@ import React from 'react';
 import InvoicesContent from './InvoicesContent';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectFilteredInvoices, selectInvoices, selectUserInvoices } from '../../../../../redux/invoicesSelector';
-import { getInvoices, getUserInvoices } from '../../../../../redux/invoicesReducer';
+import { selectFilteredInvoices } from '../../../../../redux/invoicesSelector';
+import { filterInvoice, getInvoices, getUserInvoices } from '../../../../../redux/invoicesReducer';
 import { selectMe } from '../../../../../redux/authSelectors';
 
 export default function InvoicesContentContainer(props) {
@@ -19,8 +19,24 @@ export default function InvoicesContentContainer(props) {
   const invoices = useSelector(selectFilteredInvoices);
 
   useEffect(() => {
-    me.user_type && me.user_type === 's' && dispatch(getInvoices());
-    me.user_type && me.user_type !== 's' && dispatch(getUserInvoices(me.id));
+    Promise.all([
+      me.user_type && me.user_type === 's' && dispatch(getInvoices()),
+      me.user_type && me.user_type !== 's' && dispatch(getUserInvoices(me.id))
+    ])
+      .then(() => {
+        dispatch(filterInvoice(
+          sessionStorage.getItem('invoiceProject') || '',
+          sessionStorage.getItem('invoicePayer') || '',
+          sessionStorage.getItem('invoiceReceiver') || '',
+          sessionStorage.getItem('invoiceFromDate') || '',
+          sessionStorage.getItem('invoiceToDate') || '',
+          sessionStorage.getItem('invoiceSummMin') || 0,
+          sessionStorage.getItem('invoiceSummMax') || 'Infinity',
+          sessionStorage.getItem('invoiceType') || '',
+          sessionStorage.getItem('invoiceStatus') || ''
+        ))
+      })
+
   }, [dispatch, me.user_type])
 
   return (

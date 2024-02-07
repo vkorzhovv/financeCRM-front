@@ -1,0 +1,9 @@
+.invoiceBox {
+  width: 170px;
+}
+
+@media (max-width: 500px) {
+  .invoiceBox {
+    width: 100%;
+  }
+}

@@ -29,6 +29,7 @@ export default function InvoicesHeader(props) {
         handleClickAdd={handleClickOpen}
         access={me.user_type === 's'}
 
+        invoicesFilter={true}
         invoiceSearch={true}
         searchPlaceholder={'Счет, Проект, Ф.И.О'}
       />

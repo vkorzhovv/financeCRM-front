@@ -1,5 +1,11 @@
+.headerWithFilter {
+  flex-direction: column;
+  width: 100%;
+}
+
 .pageHeader {
   justify-content: space-between;
+  width: 100%;
   padding: 22px 0 30px 0;
 }
 
@@ -7,6 +13,10 @@
   font-size: 28px;
   font-weight: 500;
   min-width: max-content;
+}
+
+.pageFilter {
+  width: 100%;
 }
 
 @media (max-width: 1400px) {}

@@ -1,0 +1,9 @@
+.paymentBox {
+  width: 170px;
+}
+
+@media (max-width: 500px) {
+  .paymentBox {
+    width: 100%;
+  }
+}

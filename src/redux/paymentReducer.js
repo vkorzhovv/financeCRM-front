@@ -5,11 +5,22 @@ const SET_USER_PAYMENTS = 'SET_USER_PAYMENTS';
 const SET_PAYMENTS_IN_INVOICE = 'SET_PAYMENTS_IN_INVOICE';
 const ADD_PAYMENT = 'ADD_PAYMENT';
 const SEARCH_PAYMENT = 'SEARCH_PAYMENT';
+const FILTER_PAYMENT = 'FILTER_PAYMENT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
   payments: [],
   filteredPayments: [],
+  filterDatas: {
+    project: sessionStorage.getItem('paymentProject') || '',
+    payer: sessionStorage.getItem('paymentPayer') || '',
+    receiver: sessionStorage.getItem('paymentReceiver') || '',
+    fromDate: sessionStorage.getItem('paymentFromDate') || '',
+    toDate: sessionStorage.getItem('paymentToDate') || '',
+    summMin: sessionStorage.getItem('paymentSummMin') || 0,
+    summMax: sessionStorage.getItem('paymentSummMax') || 'Infinity',
+    status: sessionStorage.getItem('paymentStatus') || '',
+  },
   searchPayment: '',
   userPayments: [],
   paymentsInInvoice: [],
@@ -26,7 +37,6 @@ export const paymentsReducer = (state = initialState, action) => {
     case SET_USER_PAYMENTS:
       return {
         ...state,
-        // userPayments: action.userPayments
         payments: action.payments
       }
     case SET_PAYMENTS_IN_INVOICE:
@@ -53,6 +63,22 @@ export const paymentsReducer = (state = initialState, action) => {
           : [],
       }
     }
+    case FILTER_PAYMENT: {
+      return {
+        ...state,
+        filterDatas: action.filterDatas,
+        filteredPayments: state.filteredPayments.length
+          ? [...state.filteredPayments]
+            .filter(item => action.filterDatas.project === '' ? item : +action.filterDatas.project === +item.invoice.project.id)
+            .filter(item => action.filterDatas.payer === '' ? item : +action.filterDatas.payer === +item.invoice.payer.id)
+            .filter(item => action.filterDatas.receiver === '' ? item : +action.filterDatas.receiver === +item.invoice.receiver.id)
+            .filter(item => action.filterDatas.fromDate === '' ? item : new Date(action.filterDatas.fromDate).getTime() <= new Date(item.date).getTime())
+            .filter(item => action.filterDatas.toDate === '' ? item : new Date(action.filterDatas.toDate).getTime() >= new Date(item.date).getTime())
+            .filter(item => +item.total >= +action.filterDatas.summMin && +item.total <= +action.filterDatas.summMax)
+            .filter(item => action.filterDatas.status === '' ? item : item.approved === Boolean(Number(action.filterDatas.status)))
+          : [],
+      }
+    }
     case TOGGLE_IS_FETCHING: {
       return {
         ...state,
@@ -64,19 +90,54 @@ export const paymentsReducer = (state = initialState, action) => {
 }
 
 const setPayments = (payments) => ({ type: SET_PAYMENTS, payments });
-// const setUserPayments = (userPayments) => ({ type: SET_USER_PAYMENTS, userPayments });
 const setUserPayments = (payments) => ({ type: SET_USER_PAYMENTS, payments });
 const setPaymentsInInvoice = (paymentsInInvoice) => ({ type: SET_PAYMENTS_IN_INVOICE, paymentsInInvoice });
 const setAddPayment = (newPayment) => ({ type: ADD_PAYMENT, newPayment });
 const setSearchPayment = (searchPayment) => ({ type: SEARCH_PAYMENT, searchPayment });
+const setFilterPayment = (
+  project,
+  payer,
+  receiver,
+  fromDate,
+  toDate,
+  minSumm,
+  maxSumm,
+  status,
+) => ({
+  type: FILTER_PAYMENT,
+  filterDatas: {
+    project: project,
+    payer: payer,
+    receiver: receiver,
+    fromDate: fromDate,
+    toDate: toDate,
+    summMin: minSumm,
+    summMax: maxSumm,
+    status: status,
+  }
+});
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
+
+const filterFunctions = (dispatch) => {
+  dispatch(setSearchPayment(localStorage.getItem('searchPayment') || ''))
+  dispatch(setFilterPayment(
+    sessionStorage.getItem('paymentProject') || '',
+    sessionStorage.getItem('paymentPayer') || '',
+    sessionStorage.getItem('paymentReceiver') || '',
+    sessionStorage.getItem('paymentFromDate') || '',
+    sessionStorage.getItem('paymentToDate') || '',
+    sessionStorage.getItem('paymentSummMin') || 0,
+    sessionStorage.getItem('paymentSummMax') || 'Infinity',
+    sessionStorage.getItem('paymentStatus') || ''
+  ))
+}
 
 export const getPayments = () => async (dispatch) => {
   await paymentsAPI.getPayments()
     .then(response => dispatch(setPayments(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchPayment(localStorage.getItem('searchPayment') || ''));
+  filterFunctions(dispatch);
 }
 
 export const getUserPayments = (userId) => async (dispatch) => {
@@ -84,7 +145,7 @@ export const getUserPayments = (userId) => async (dispatch) => {
     .then(response => dispatch(setUserPayments(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchPayment(localStorage.getItem('searchPayment') || ''));
+  filterFunctions(dispatch);
 }
 
 export const getPaymentsInInvoice = (invoiceId) => async (dispatch) => {
@@ -117,14 +178,54 @@ export const addPayment = (
         dispatch(toggleIsFetching(false));
         throw err;
       })
-
-    dispatch(setSearchPayment(localStorage.getItem('searchPayment') || ''));
   }
 
 export const searchPayment = (searchText) => (dispatch) => {
   let text = searchText.toLowerCase()
   localStorage.setItem('searchPayment', text);
-  setTimeout(() => dispatch(setSearchPayment(text)), 300)
+  dispatch(setSearchPayment(text))
+  dispatch(setFilterPayment(
+    sessionStorage.getItem('paymentProject') || '',
+    sessionStorage.getItem('paymentPayer') || '',
+    sessionStorage.getItem('paymentReceiver') || '',
+    sessionStorage.getItem('paymentFromDate') || '',
+    sessionStorage.getItem('paymentToDate') || '',
+    sessionStorage.getItem('paymentSummMin') || 0,
+    sessionStorage.getItem('paymentSummMax') || 'Infinity',
+    sessionStorage.getItem('paymentStatus') || ''
+  ));
+}
+
+export const filterPayment = (
+  project,
+  payer,
+  receiver,
+  fromDate,
+  toDate,
+  minSumm,
+  maxSumm,
+  status,
+) => (dispatch) => {
+  sessionStorage.setItem('paymentProject', project)
+  sessionStorage.setItem('paymentPayer', payer)
+  sessionStorage.setItem('paymentReceiver', receiver)
+  sessionStorage.setItem('paymentFromDate', fromDate)
+  sessionStorage.setItem('paymentToDate', toDate)
+  sessionStorage.setItem('paymentSummMin', minSumm)
+  sessionStorage.setItem('paymentSummMax', maxSumm)
+  sessionStorage.setItem('paymentStatus', status)
+
+  dispatch(setSearchPayment(localStorage.getItem('searchPayment') || ''));
+  dispatch(setFilterPayment(
+    project,
+    payer,
+    receiver,
+    fromDate,
+    toDate,
+    minSumm,
+    maxSumm,
+    status,
+  ));
 }
 
 export const deletePayment = (paymentId) => async () => {

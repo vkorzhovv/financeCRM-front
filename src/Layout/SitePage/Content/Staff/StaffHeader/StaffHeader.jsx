@@ -28,6 +28,7 @@ export default function StaffHeader(props) {
         handleClickAdd={handleClickOpen}
         access={me.user_type === 's'}
 
+        usersFilter={true}
         usersSearch={true}
         searchPlaceholder="Ф.И.О."
       />
