@@ -69,7 +69,7 @@ export default function Navigation(props) {
               onClick={window.innerWidth < 1025 && handleOpenNav}
               key={item.key}
               to={item.linkUrl}
-              className={styles.navLink}
+              className={({isActive}) => isActive ? classNames(styles.active, styles.navLink) : styles.navLink}
             >
               {item.itemName}
             </NavLink>

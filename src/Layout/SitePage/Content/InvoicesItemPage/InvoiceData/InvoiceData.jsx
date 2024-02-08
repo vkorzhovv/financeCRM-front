@@ -68,6 +68,7 @@ export default function InvoiceData(props) {
         <p className={styles.invoicesListTitle}>Номер счета</p>
         <InvoicesListContainer
           invoice={props.invoice}
+          me={me}
         />
       </div>
       <div className={classNames(styles.dataRight)}>

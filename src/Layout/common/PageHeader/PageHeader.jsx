@@ -32,6 +32,10 @@ export default function PageHeader(props) {
 
           openFilter={handleOpenFilter}
 
+          paymentFilter={props.paymentFilter}
+          invoicesFilter={props.invoicesFilter}
+          projectsFilter={props.projectsFilter}
+          usersFilter={props.usersFilter}
           paymentSearch={props.paymentSearch}
           invoiceSearch={props.invoiceSearch}
           cashSearch={props.cashSearch}

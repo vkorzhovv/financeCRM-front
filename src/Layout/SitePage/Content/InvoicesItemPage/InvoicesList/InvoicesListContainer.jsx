@@ -19,6 +19,7 @@ export default function InvoicesListContainer(props) {
   return (
     <InvoicesList
       invoicesList={invoicesList}
+      me={props.me}
     />
   );
 }

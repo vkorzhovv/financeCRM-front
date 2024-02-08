@@ -190,6 +190,7 @@ export const addProject = (
         throw err;
       })
 
+    filterFunctions(dispatch);
   }
 
 export const searchProject = (searchText) => (dispatch) => {

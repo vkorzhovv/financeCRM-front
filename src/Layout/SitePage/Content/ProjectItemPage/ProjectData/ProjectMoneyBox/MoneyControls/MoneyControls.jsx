@@ -50,13 +50,14 @@ export default function MoneyControls(props) {
           <DeleteIcon />
         </button>
       }
-      <button
-        onClick={handleClickOpen}
-        className={classNames('flex', styles.controlBtn, styles.strokeSVG)}
-      >
-        <EditIcon />
-      </button>
-
+      {props.acceptToInvoice &&
+        <button
+          onClick={handleClickOpen}
+          className={classNames('flex', styles.controlBtn, styles.strokeSVG)}
+        >
+          <EditIcon />
+        </button>
+      }
       {
         isOpenDelete &&
         <div

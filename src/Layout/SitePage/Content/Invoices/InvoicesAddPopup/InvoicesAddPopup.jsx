@@ -173,8 +173,8 @@ export default function InvoicesAddPopup(props) {
             })}
               id='payer'
               className={!errors.payer
-                ? classNames('popupInput', styles.input, !me.is_superuser || props.projectReceipt && 'nonTouch')
-                : classNames('popupInput', 'popupError', styles.input, styles.error, !me.is_superuser || props.projectReceipt && 'nonTouch')}
+                ? classNames('popupInput', styles.input, (!me.is_superuser || props.projectReceipt) && 'nonTouch')
+                : classNames('popupInput', 'popupError', styles.input, styles.error, (!me.is_superuser || props.projectReceipt) && 'nonTouch')}
             >
               <option value="">Выбрать</option>
               {props.projectReceipt ?

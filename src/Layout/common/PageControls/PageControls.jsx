@@ -4,10 +4,12 @@ import classNames from 'classnames';
 import SettingsIcon from '../../../svgIcons/settings';
 import SearchIcon from '../../../svgIcons/search';
 import { useDispatch, useSelector } from 'react-redux';
-import { filterInvoice, getDebInvoices, getInvoices, getUnpaidInvoices, getUserDebInvoices, getUserInvoices, getUserUnpaidInvoices } from '../../../redux/invoicesReducer';
+import { getDebInvoices, getInvoices, getUnpaidInvoices, getUserDebInvoices, getUserInvoices, getUserUnpaidInvoices } from '../../../redux/invoicesReducer';
 import ConfirmDelete from '../ConfirmDelete/ConfirmDelete';
 import { selectMe } from '../../../redux/authSelectors';
 import SearchBlock from '../PageHeader/SearchBlock/SearchBlock';
+import CheckIcon from '../../../svgIcons/check';
+import { useEffect } from 'react';
 
 export default function PageControls(props) {
 
@@ -41,6 +43,54 @@ export default function PageControls(props) {
     me.user_type === 's' ? dispatch(getInvoices()) : dispatch(getUserInvoices(me.id))
   }
 
+  const userFilterActive =
+    props.usersFilter && Boolean(sessionStorage.getItem('userBalanceStart')) &&
+    (
+      sessionStorage.getItem('userBalanceStart') != '-Infinity' ||
+      sessionStorage.getItem('userBalanceEnd') != 'Infinity'
+    );
+  const projectFilterActive =
+    props.projectsFilter && Boolean(sessionStorage.getItem('projectBalanceMax')) &&
+    (
+      sessionStorage.getItem('projectManager') != '' ||
+      sessionStorage.getItem('projectForeman') != '' ||
+      sessionStorage.getItem('projectClient') != '' ||
+      sessionStorage.getItem('projectStartDate') != '' ||
+      sessionStorage.getItem('projectEndDate') != '' ||
+      sessionStorage.getItem('projectSummMin') != '0' ||
+      sessionStorage.getItem('projectSummMax') != 'Infinity' ||
+      sessionStorage.getItem('projectBalanceMin') != '-Infinity' ||
+      sessionStorage.getItem('projectBalanceMax') != 'Infinity' ||
+      sessionStorage.getItem('projectExpensesMin') != '-Infinity' ||
+      sessionStorage.getItem('projectExpensesMax') != 'Infinity' ||
+      sessionStorage.getItem('projectStatus') != ''
+    );
+  const invoiceFilterActive =
+    props.invoicesFilter && Boolean(sessionStorage.getItem('invoiceSummMax')) &&
+    (
+      sessionStorage.getItem('invoiceProject') != '' ||
+      sessionStorage.getItem('invoicePayer') != '' ||
+      sessionStorage.getItem('invoiceReceiver') != '' ||
+      sessionStorage.getItem('invoiceFromDate') != '' ||
+      sessionStorage.getItem('invoiceToDate') != '' ||
+      sessionStorage.getItem('invoiceSummMin') != '0' ||
+      sessionStorage.getItem('invoiceSummMax') != 'Infinity' ||
+      sessionStorage.getItem('invoiceType') != '' ||
+      sessionStorage.getItem('invoiceStatus') != ''
+    );
+  const paymentFilterActive =
+    props.paymentFilter && Boolean(sessionStorage.getItem('paymentSummMax')) &&
+    (
+      sessionStorage.getItem('paymentProject') != '' ||
+      sessionStorage.getItem('paymentPayer') != '' ||
+      sessionStorage.getItem('paymentReceiver') != '' ||
+      sessionStorage.getItem('paymentFromDate') != '' ||
+      sessionStorage.getItem('paymentToDate') != '' ||
+      sessionStorage.getItem('paymentSummMin') != '0' ||
+      sessionStorage.getItem('paymentSummMax') != 'Infinity' ||
+      sessionStorage.getItem('paymentStatus') != ''
+    );
+
   return (
     <div className={classNames('flex', styles.pageControls)}>
       <div className={classNames('flex', styles.svgBtnsBlock)}>
@@ -67,12 +117,18 @@ export default function PageControls(props) {
         }
         {
           (!props.withoutCash && !props.detail) &&
-          <div className={classNames(styles.pageControlItem, styles.settingsBlock)}>
+          <div className={classNames(styles.pageControlItem, styles.filterBlock)}>
             <button
               onClick={props.openFilter}
-              className={classNames(styles.settingsBtn, styles.controlsBtn)}
+              className={classNames(styles.filterBtn, styles.controlsBtn)}
             >
               <SettingsIcon />
+              {
+                (userFilterActive || projectFilterActive || invoiceFilterActive || paymentFilterActive) &&
+                <div>
+                  <CheckIcon />
+                </div>
+              }
             </button>
           </div>
         }

@@ -18,20 +18,40 @@
 }
 
 .controlsBtn {
+  display: flex;
+  align-items: center;
   border: unset;
   background-color: transparent;
 }
 
-.controlsBtn svg path {
+.controlsBtn > svg path {
   transition: .3s;
 }
 
-.controlsBtn:hover svg path {
+.controlsBtn:hover > svg path {
   stroke: var(--green63);
 }
 
-.controlsBtn:active svg path {
+.controlsBtn:active > svg path {
   stroke: var(--black05);
+}
+
+.filterBtn {
+  position: relative;
+}
+
+.controlsBtn div {
+  position: absolute;
+  bottom: 0;
+  right: -2px;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  background-color: var(--greyE1);
+}
+
+.controlsBtn div svg path {
+  fill: var(--green63);
 }
 
 .invoicesBtnBlock {
@@ -62,7 +82,7 @@
     margin-bottom: 20px;
   }
 
-  .settingsBlock {
+  .filterBlock {
     page-break-before: always;
   }
 

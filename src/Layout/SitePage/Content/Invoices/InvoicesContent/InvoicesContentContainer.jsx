@@ -10,12 +10,7 @@ export default function InvoicesContentContainer(props) {
 
   const dispatch = useDispatch()
   const me = useSelector(selectMe);
-  // const allInvoices = useSelector(selectInvoices);
-  // const userInvoices = useSelector(selectUserInvoices);
 
-  // const invoices = me.user_type === 's' ?
-  //   allInvoices :
-  //   userInvoices;
   const invoices = useSelector(selectFilteredInvoices);
 
   useEffect(() => {

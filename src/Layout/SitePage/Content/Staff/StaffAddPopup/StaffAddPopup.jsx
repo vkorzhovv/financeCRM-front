@@ -173,7 +173,6 @@ export default function StaffAddPopup(props) {
                 placeholder='Отчество'
                 {...register('patronymic',
                   {
-                    required: 'Введите отчетство',
                     minLength: {
                       value: 2,
                       message: 'Минимум 2 символа'
@@ -202,10 +201,7 @@ export default function StaffAddPopup(props) {
               name='description'
               defaultValue={props.detail && props.user.description}
               placeholder='Описание'
-              {...register('description',
-                {
-                  required: 'Введите описание',
-                })}
+              {...register('description')}
             ></textarea>
             {errors.description && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.description.message}</div>}
           </div>

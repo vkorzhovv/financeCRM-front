@@ -8,15 +8,14 @@ import { addProject, getProjects } from "../../../../../redux/projectsReducer";
 import { editProject } from "../../../../../redux/projectItemReducer";
 import { selectIsFetchingAddProjects } from "../../../../../redux/projectItemSelector";
 import { selectIsFetchingEditProjects } from "../../../../../redux/projectsSelector";
-import { getClients, getContractors, getEmployees } from "../../../../../redux/usersReducer";
-import { selectClients, selectContractors, selectEmployees } from "../../../../../redux/usersSelector";
+import { getClients, getEmployees } from "../../../../../redux/usersReducer";
+import { selectClients, selectEmployees } from "../../../../../redux/usersSelector";
 
 export default function ProjectAddPopup(props) {
 
   const dispatch = useDispatch();
   const isFetchingAdd = useSelector(selectIsFetchingAddProjects);
   const isFetchingEdit = useSelector(selectIsFetchingEditProjects);
-  const contractors = useSelector(selectContractors);
   const employees = useSelector(selectEmployees);
   const clients = useSelector(selectClients);
 
@@ -40,10 +39,6 @@ export default function ProjectAddPopup(props) {
     dispatch(getEmployees())
       .then(() => {
         props.detail && setValue('manager', props.project.project_manager && props.project.project_manager.id);
-      }
-      )
-    dispatch(getContractors())
-      .then(() => {
         props.detail && setValue('foreman', props.project.foreman && props.project.foreman.id);
       }
       )
@@ -215,7 +210,7 @@ export default function ProjectAddPopup(props) {
                 : classNames('popupInput', 'popupError', styles.input, styles.error)}
             >
               <option value="">Выбрать</option>
-              {contractors && contractors.map(item =>
+              {employees && employees.map(item =>
                 <option
                   key={item.id}
                   value={item.id}>

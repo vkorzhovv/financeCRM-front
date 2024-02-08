@@ -2,10 +2,38 @@
   font-size: 18px;
   font-weight: 500;
   text-align: center;
+  transition: .3s;
 }
 
 .navLink:not(:last-child) {
   margin-right: 80px;
+}
+
+.navLink:hover {
+  color: var(--green76);
+}
+
+.navLink:active {
+  color: var(--black34);
+}
+
+.navLink {
+  position: relative;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -38px;
+  left: -20px;
+  right: -25px;
+  height: 0;
+  background-color: var(--green76);
+  transition: .3s;
+}
+
+.active::after {
+  height: 4px;
 }
 
 .burgerContainer {
@@ -47,11 +75,24 @@
   .navLink:not(:last-child) {
     margin-right: 40px;
   }
+
+  .navLink::after {
+    left: -8px;
+    right: -8px;
+  }
 }
 
 @media (max-width: 1400px) {
   .navLink:not(:last-child) {
     margin-right: 20px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .navLink::after {
+    left: -5px;
+    right: -5px;
+    bottom: -20px;
   }
 }
 

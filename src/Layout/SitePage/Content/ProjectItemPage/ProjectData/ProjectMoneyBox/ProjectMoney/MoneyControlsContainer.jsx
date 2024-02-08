@@ -21,6 +21,7 @@ export default function MoneyControlsContainer(props) {
 
   return (
     <MoneyControls
+      acceptToInvoice={props.acceptToInvoice}
       me={props.me}
       receipts={props.receipts}
       projectId={props.projectId}
