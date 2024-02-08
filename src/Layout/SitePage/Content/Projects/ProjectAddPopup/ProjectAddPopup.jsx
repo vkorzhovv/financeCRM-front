@@ -237,7 +237,6 @@ export default function ProjectAddPopup(props) {
               <option value='1'>Активен</option>
               <option value='0'>Неактивен</option>
             </select>
-
             {errors.status && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.status.message}</div>}
           </div>
           <div className={!errors.start

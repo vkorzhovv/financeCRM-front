@@ -3,15 +3,14 @@ import React, { useEffect } from "react";
 import styles from './projectsfilter.module.css';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectClients, selectContractors, selectEmployees } from "../../../../../redux/usersSelector";
-import { getClients, getContractors, getEmployees } from "../../../../../redux/usersReducer";
+import { selectClients, selectEmployees } from "../../../../../redux/usersSelector";
+import { getClients, getEmployees } from "../../../../../redux/usersReducer";
 import { editName } from "../../../../../utils/nameEditor";
 import { filterProject } from "../../../../../redux/projectsReducer";
 
 export default function ProjectsFilter(props) {
 
   const dispatch = useDispatch();
-  const contractors = useSelector(selectContractors);
   const employees = useSelector(selectEmployees);
   const clients = useSelector(selectClients);
 
@@ -36,10 +35,6 @@ export default function ProjectsFilter(props) {
     dispatch(getEmployees())
       .then(() => {
         setValue('manager', sessionStorage.getItem('projectManager'));
-      }
-      )
-    dispatch(getContractors())
-      .then(() => {
         setValue('foreman', sessionStorage.getItem('projectForeman'));
       }
       )
@@ -123,7 +118,7 @@ export default function ProjectsFilter(props) {
               className={classNames('popupInput', 'filterInput')}
             >
               <option value="">Выбрать</option>
-              {contractors && contractors.map(item =>
+              {employees && employees.map(item =>
                 <option
                   key={item.id}
                   value={item.id}>
