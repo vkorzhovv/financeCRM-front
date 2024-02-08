@@ -13,14 +13,16 @@ import { editDateForInput } from "../../../../../utils/dateEditor";
 import LoadingIcon from "../../../../../svgIcons/loading";
 import { selectInvoiceItem } from "../../../../../redux/invoiceItemSelector";
 import { useEffect } from "react";
-import { getUnapprovedInvoices } from "../../../../../redux/invoicesReducer";
+import { getUnapprovedInvoices, getUserInvoices } from "../../../../../redux/invoicesReducer";
 import { selectUnapprovedInvoices } from "../../../../../redux/invoicesSelector";
+import { selectMe } from "../../../../../redux/authSelectors";
 
 export default function PaymentAddPopup(props) {
 
   const [filesList, setFilesList] = useState(((props.detail && props.payment.scans) && props.payment.scans.slice()) || []);
 
   const dispatch = useDispatch();
+  const me = useSelector(selectMe)
   const isFetchingAdd = useSelector(selectIsFetchingAddPayment);
   const isFetchingEdit = useSelector(selectIsFetchingEditPayment);
   const invoice = useSelector(selectInvoiceItem);
@@ -38,13 +40,13 @@ export default function PaymentAddPopup(props) {
   } = useForm({
     mode: 'onChange',
   });
-
+  me.user_type && me.user_type !== 's' && dispatch(getUserInvoices(me.id))
   useEffect(() => {
     !props.isStatic &&
-    dispatch(getUnapprovedInvoices())
-    .then(() => {
-      props.detail && setValue('check', props.payment.invoice.id);
-    })
+      dispatch(getUnapprovedInvoices())
+        .then(() => {
+          props.detail && setValue('check', props.payment.invoice.id);
+        })
 
     if (props.detail) {
       dispatch(getInvoiceItem(props.payment.invoice.id))
@@ -145,8 +147,8 @@ export default function PaymentAddPopup(props) {
               })}
                 id='check'
                 className={!errors.check
-                  ? classNames('popupInput', styles.input)
-                  : classNames('popupInput', 'popupError', styles.input, styles.error)}
+                  ? classNames('popupInput', styles.input, (me.user_type && me.user_type !== 's') && 'nonTouch')
+                  : classNames('popupInput', 'popupError', styles.input, styles.error, (me.user_type && me.user_type !== 's') && 'nonTouch')}
               >
                 <option value="">Выбрать</option>
                 {invoicesList && invoicesList.map(item =>

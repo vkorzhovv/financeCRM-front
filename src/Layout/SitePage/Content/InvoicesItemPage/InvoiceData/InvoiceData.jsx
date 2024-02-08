@@ -98,7 +98,14 @@ export default function InvoiceData(props) {
                   <div className={classNames('flex', styles.invoiceDataField)}>
                     <p className={styles.invoiceDataTitle}>Проект:</p>
                     {props.invoice.project ?
-                      <NavLink to={`/projects/${props.invoice.project.id}`}>
+                      <NavLink
+                        className={!(me.user_type === 's' ||
+                          me.id === props.invoice.project.client.id ||
+                          me.id === props.invoice.project.foreman.id ||
+                          me.id === props.invoice.project.project_manager.id)
+                          && 'nonTouch'}
+                        to={`/projects/${props.invoice.project.id}`}
+                      >
                         {props.invoice.project.name}
                       </NavLink>
                       :

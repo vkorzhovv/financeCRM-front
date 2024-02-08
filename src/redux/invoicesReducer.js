@@ -26,7 +26,6 @@ let initialState = {
     status: sessionStorage.getItem('invoiceStatus') || '',
   },
   searchInvoice: '',
-  userInvoices: [],
   unapprovedInvoices: [],
   projectInvoices: [],
   projectReceipts: [],

@@ -11,7 +11,7 @@ export default function UserPayments(props) {
       </div>
       <div className={styles.tableWrapper}>
         <div className={classNames('table', styles.moneyTable)}>
-          {props.userPayments ?
+          {props.userPayments && props.userPayments.length ?
             props.userPayments.map(item =>
               <UserPaymentItem
                 key={item.id}

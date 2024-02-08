@@ -31,11 +31,15 @@ export default function TheMan(props) {
           </div>
         </div>
       </div>
-      <div className={styles.userPayments}>
-        <UserPayments
-          userPayments={props.userPayments}
-        />
-      </div>
+      {
+        (props.me.user_type === 's' || props.me.id === props.user.id) &&
+        <div className={styles.userPayments}>
+          <UserPayments
+            userPayments={props.userPayments}
+          />
+        </div>
+      }
+
     </div>
   );
 }

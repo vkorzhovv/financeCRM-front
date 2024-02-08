@@ -14,8 +14,8 @@ import { selectSubtypes } from "../../../../../redux/cashItemSelector";
 import { getSubtypes } from "../../../../../redux/cashItemReducer";
 import { getProjects } from "../../../../../redux/projectsReducer";
 import { selectProjects } from "../../../../../redux/projectsSelector";
-import { selectAllUsers, selectEmployees } from "../../../../../redux/usersSelector";
-import { getEmployees, getUsers } from "../../../../../redux/usersReducer";
+import { selectAllUsers } from "../../../../../redux/usersSelector";
+import { getUsers } from "../../../../../redux/usersReducer";
 import { getItems, getPaymentTypes } from "../../../../../redux/cashItemReducer";
 import { selectAllItems, selectPaymentTypes } from "../../../../../redux/cashItemSelector";
 
@@ -28,7 +28,6 @@ export default function InvoicesAddPopup(props) {
   const isFetchingEdit = useSelector(selectIsFetchingEditInvoice);
   const subtypesList = useSelector(selectSubtypes);
   const usersList = useSelector(selectAllUsers);
-  // const employeesList = useSelector(selectEmployees);
   const projectsList = useSelector(selectProjects);
   const typesList = useSelector(selectPaymentTypes);
   const createdTypes = useSelector(selectAllItems);
@@ -61,6 +60,7 @@ export default function InvoicesAddPopup(props) {
 
         props.detail && setValue('receiver', props.invoice.receiver && props.invoice.receiver.id);
       })
+
     dispatch(getProjects())
       .then(() => {
         props.detail && setValue('project', props.invoice.project.id);
@@ -223,8 +223,8 @@ export default function InvoicesAddPopup(props) {
           {
             !props.projectId &&
             <div className={!errors.project
-              ? classNames('flex', 'popupInputBox', styles.inputBox)
-              : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
+              ? classNames('flex', 'popupInputBox', styles.inputBox, (me.user_type && me.user_type !== 's') && 'nonTouch')
+              : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError, (me.user_type && me.user_type !== 's') && 'nonTouch')}>
               <label className={classNames('popupLabel')} htmlFor="project">Проект</label>
               <select {...register('project', {
                 required: 'Выберите проект',

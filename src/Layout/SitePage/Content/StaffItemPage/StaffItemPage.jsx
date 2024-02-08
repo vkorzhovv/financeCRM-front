@@ -8,6 +8,7 @@ import styles from './staffitempage.module.css';
 import TheMan from './TheMan/TheMan';
 import { useNavigate } from "react-router-dom";
 import { selectMe } from '../../../../redux/authSelectors';
+import classNames from 'classnames';
 
 export default function StaffItemPage(props) {
 
@@ -56,7 +57,7 @@ export default function StaffItemPage(props) {
           close={setIsOpenPopup}
         />
       }
-      <div className={styles.staffItemContent}>
+      <div className={classNames(styles.staffItemContent, (me.user_type !== 's') && styles.allWidth)}>
         {me.user_type === 's' &&
           < StaffItem
             title={props.userListTitle}
@@ -64,6 +65,7 @@ export default function StaffItemPage(props) {
           />
         }
         <TheMan
+          me={me}
           user={props.user}
           userPayments={props.userPayments}
         />

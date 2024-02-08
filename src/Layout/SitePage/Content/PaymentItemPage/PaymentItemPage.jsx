@@ -64,6 +64,7 @@ export default function PaymentItemPage(props) {
           <PaymentListContainer payment={props.payment} />
         </div>
         <PaymentData
+          me={me}
           payment={props.payment}
         />
       </div>

@@ -30,7 +30,15 @@ export default function PaymentData(props) {
                 <div className={classNames('flex', styles.paymentDataField)}>
                   <p className={styles.paymentDataTitle}>Проект:</p>
                   {props.payment.invoice.project ?
-                    <NavLink to={`/projects/${props.payment.invoice.project.id}`}>
+                    <NavLink
+                      to={`/projects/${props.payment.invoice.project.id}`}
+                      className={!(props.me.user_type === 's' ||
+                        props.me.id === props.payment.invoice.project.client.id ||
+                        props.me.id === props.payment.invoice.project.foreman.id ||
+                        props.me.id === props.payment.invoice.project.project_manager.id)
+                        && 'nonTouch'
+                      }
+                    >
                       {props.payment.invoice.project.name}
                     </NavLink>
                     :
