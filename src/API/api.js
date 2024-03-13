@@ -92,7 +92,8 @@ export const usersAPI = {
     type,
     phone,
     superuser,
-    descr
+    descr,
+    start_balance
   ) {
     return instance.post('/api/auth/users/', {
       first_name: name,
@@ -103,7 +104,8 @@ export const usersAPI = {
       user_type: type,
       phone: phone,
       is_superuser: superuser,
-      description: descr
+      description: descr,
+      start_balance: start_balance
     },
       {
         headers: {
@@ -112,7 +114,7 @@ export const usersAPI = {
       }
     )
   },
-  editUser(userId, name, surname, patronymic, login, type, phone, superuser, descr) {
+  editUser(userId, name, surname, patronymic, login, type, phone, superuser, descr, start_balance) {
     return instance.patch(`/api/auth/users/${userId}/`, {
       first_name: name,
       last_name: surname,
@@ -121,7 +123,8 @@ export const usersAPI = {
       user_type: type,
       phone: phone,
       is_superuser: superuser,
-      description: descr
+      description: descr,
+      start_balance: start_balance
     },
       {
         headers: {
@@ -165,7 +168,8 @@ export const projectsAPI = {
     active,
     manager,
     client,
-    foreman
+    foreman,
+    coordinates
   ) {
     return instance.post('/api/projects/',
       {
@@ -177,7 +181,8 @@ export const projectsAPI = {
         active: active,
         project_manager: manager,
         client: client,
-        foreman: foreman
+        foreman: foreman,
+        coordinates: coordinates
       },
       {
         headers: {
@@ -195,7 +200,8 @@ export const projectsAPI = {
     active,
     manager,
     client,
-    foreman
+    foreman,
+    coordinates
   ) {
     return instance.patch(`/api/projects/${projectId}/`,
       {
@@ -207,7 +213,8 @@ export const projectsAPI = {
         active: active,
         project_manager: manager,
         client: client,
-        foreman: foreman
+        foreman: foreman,
+        coordinates: coordinates
       },
       {
         headers: {

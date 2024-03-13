@@ -107,7 +107,7 @@ export default function UsersFilter(props) {
                   message: 'Неверный ввод'
                 },
                 min: {
-                  value: Number(getValues('balanceStart')),
+                  value: Boolean(getValues('balanceStart')) ? Number(getValues('balanceStart')) : -Infinity,
                   message: 'Меньше Min'
                 }
               })

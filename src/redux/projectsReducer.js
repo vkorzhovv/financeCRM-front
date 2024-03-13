@@ -168,7 +168,8 @@ export const addProject = (
   active,
   manager,
   client,
-  foreman) => async (dispatch) => {
+  foreman,
+  coordinates) => async (dispatch) => {
 
     dispatch(toggleIsFetching(true))
 
@@ -180,7 +181,8 @@ export const addProject = (
       active,
       manager,
       client,
-      foreman)
+      foreman,
+      coordinates)
       .then(response => {
         dispatch(setAddProjects(response.data))
         dispatch(toggleIsFetching(false));

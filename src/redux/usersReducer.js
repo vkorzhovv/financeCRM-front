@@ -160,6 +160,7 @@ export const addUser = (
   phone,
   superuser,
   descr,
+  start_balance
 ) => async (dispatch) => {
 
   dispatch(toggleIsFetching(true))
@@ -173,7 +174,8 @@ export const addUser = (
     type,
     phone,
     superuser,
-    descr)
+    descr,
+    start_balance)
     .then(response => {
       dispatch(setAddUser(response.data))
       dispatch(toggleIsFetching(false));

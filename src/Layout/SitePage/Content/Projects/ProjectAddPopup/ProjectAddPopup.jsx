@@ -24,6 +24,7 @@ export default function ProjectAddPopup(props) {
     setError,
     register,
     setValue,
+    getValues,
     handleSubmit,
     formState: { errors, isValid }
   } = useForm({
@@ -53,8 +54,10 @@ export default function ProjectAddPopup(props) {
       data.summ,
       Boolean(Number(data.status)),
       Number(data.manager),
-      Number(data.client),
-      Number(data.foreman)))
+      Number(data.client) || null,
+      Number(data.foreman),
+      data.coordinates || null
+      ))
       .then(() => {
         props.close(false)
         document.body.classList.remove('modal-show');
@@ -77,8 +80,10 @@ export default function ProjectAddPopup(props) {
       data.summ,
       Boolean(Number(data.status)),
       Number(data.manager),
-      Number(data.client),
-      Number(data.foreman)))
+      Number(data.client) || null,
+      Number(data.foreman),
+      data.coordinates || null
+      ))
       .then(() => {
         props.close(false)
         document.body.classList.remove('modal-show');
@@ -142,10 +147,7 @@ export default function ProjectAddPopup(props) {
               name='description'
               defaultValue={props.detail && props.project.description}
               placeholder='Описание'
-              {...register('description',
-                {
-                  required: 'Введите описание',
-                })}
+              {...register('description')}
             ></textarea>
             {errors.description && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.description.message}</div>}
           </div>
@@ -177,9 +179,7 @@ export default function ProjectAddPopup(props) {
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
             <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="client">Клиент</label>
-            <select {...register('client', {
-              required: 'Выберите клиента',
-            })}
+            <select {...register('client')}
               id='client'
               className={!errors.status
                 ? classNames('popupInput', styles.input)
@@ -288,21 +288,37 @@ export default function ProjectAddPopup(props) {
               className={!errors.summ
                 ? classNames('popupInput', styles.inputHalf, styles.input)
                 : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
-              type='text'
+              type='number'
+              step='0.01'
               name='summ'
               defaultValue={props.detail && props.project.price}
               placeholder='0 &#8381;'
               {...register('summ',
                 {
-                  required: 'Введите сумму',
                   pattern: {
-                    value: /^[1-9]([0-9])*?[.]?([0-9]{0,2})$/,
-                    message: 'Минимум 1. В качестве разделителя "точка"'
+                    value: /^[0]{1}$|^[0]{1}[.]([0-9]{0,2})$|^[1-9]([0-9])*?[.]?([0-9]{0,2})$/,
+                    message: 'Неверный ввод'
                   },
                 })
               }
             />
             {errors.summ && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.summ.message}</div>}
+          </div>
+          <div className={!errors.coordinates
+            ? classNames('flex', 'popupInputBox', styles.inputBox)
+            : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
+            <label className={classNames('popupLabel', styles.projectLabel)}>Координаты</label>
+            <input
+              className={!errors.coordinates
+                ? classNames('popupInput', styles.inputHalf, styles.input)
+                : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
+              type='text'
+              name='coordinates'
+              defaultValue={props.detail && props.project.coordinates}
+              placeholder='00.000000, 00.00000'
+              {...register('coordinates')}
+            />
+            {errors.coordinates && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.coordinates.message}</div>}
           </div>
           <div className={classNames('popupBtnsWrapper', styles.btnsWrapper)}>
             <button

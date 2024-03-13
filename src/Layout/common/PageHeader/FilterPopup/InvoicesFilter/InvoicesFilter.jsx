@@ -150,12 +150,12 @@ export default function InvoicesFilter(props) {
                 type='date'
                 name='fromDate'
                 {...register('fromDate',
-                  // {
-                  //   max: {
-                  //     value: Boolean(getValues('maxSumm')) ? Number(getValues('maxSumm')) : Infinity,
-                  //     message: 'Больше Max'
-                  //   }
-                  // }
+                  {
+                    max: {
+                      value: Boolean(getValues('toDate')) ? getValues('toDate') : '3000-01-01',
+                      message: 'Больше Max'
+                    }
+                  }
                 )
                 }
               />
@@ -169,12 +169,12 @@ export default function InvoicesFilter(props) {
                 type='date'
                 name='toDate'
                 {...register('toDate',
-                  // {
-                  //   max: {
-                  //     value: Boolean(getValues('maxSumm')) ? Number(getValues('maxSumm')) : Infinity,
-                  //     message: 'Больше Max'
-                  //   }
-                  // }
+                  {
+                    min: {
+                      value: Boolean(getValues('fromDate')) ? getValues('fromDate') : '1970-01-01',
+                      message: 'Меньше Min'
+                    }
+                  }
                 )
                 }
               />
@@ -232,7 +232,7 @@ export default function InvoicesFilter(props) {
                     },
                     min: {
                       value: Boolean(getValues('minSumm')) ? Number(getValues('minSumm')) : 0,
-                      message: 'Больше Min'
+                      message: 'Больше Min и 0'
                     }
                   })
                 }

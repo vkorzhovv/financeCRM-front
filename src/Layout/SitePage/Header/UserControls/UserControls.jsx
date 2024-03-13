@@ -23,6 +23,10 @@ export default function UserControls(props) {
         <p className={styles.name}>{props.me.last_name}</p>
         <MoreIcon />
       </button>
+      {
+        props.me.user_type === 's' &&
+        <p className={styles.balance}>Баланс&nbsp;{props.me.balance}&nbsp;&#8381;</p>
+      }
       {isOpenUser &&
         <UserPopup
           me={props.me}

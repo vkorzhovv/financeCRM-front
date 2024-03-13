@@ -44,7 +44,8 @@ export const editProject = (
   active,
   manager,
   client,
-  foreman) => async (dispatch) => {
+  foreman,
+  coordinates) => async (dispatch) => {
 
     dispatch(toggleIsFetching(true));
 
@@ -58,7 +59,8 @@ export const editProject = (
       active,
       manager,
       client,
-      foreman)
+      foreman,
+      coordinates)
       .then(response => {
         dispatch(setProjectItem(response.data));
         dispatch(toggleIsFetching(false));

@@ -166,14 +166,14 @@ export const getInvoices = () => async (dispatch) => {
     .then(response => dispatch(setInvoices(response.data)))
     .catch(err => console.log(err))
 
-    filterFunctions(dispatch);
+  filterFunctions(dispatch);
 }
 export const getUserInvoices = (userId) => async (dispatch) => {
   await invoicesAPI.getUserInvoices(userId)
     .then(response => dispatch(setUserInvoices(response.data)))
     .catch(err => console.log(err))
 
-    filterFunctions(dispatch);
+  filterFunctions(dispatch);
 }
 export const getUnapprovedInvoices = () => async (dispatch) => {
   await invoicesAPI.getUnapprovedInvoices()
@@ -200,28 +200,28 @@ export const getUnpaidInvoices = () => async (dispatch) => {
     .then(response => dispatch(setInvoices(response.data)))
     .catch(err => console.log(err))
 
-    filterFunctions(dispatch);
+  filterFunctions(dispatch);
 }
 export const getUserUnpaidInvoices = (userId) => async (dispatch) => {
   await invoicesAPI.getUserUnpaidInvoices(userId)
     .then(response => dispatch(setUserInvoices(response.data)))
     .catch(err => console.log(err))
 
-    filterFunctions(dispatch);
+  filterFunctions(dispatch);
 }
 export const getDebInvoices = () => async (dispatch) => {
   await invoicesAPI.getDebInvoices()
     .then(response => dispatch(setInvoices(response.data)))
     .catch(err => console.log(err))
 
-    filterFunctions(dispatch);
+  filterFunctions(dispatch);
 }
 export const getUserDebInvoices = (userId) => async (dispatch) => {
   await invoicesAPI.getUserDebInvoices(userId)
     .then(response => dispatch(setUserInvoices(response.data)))
     .catch(err => console.log(err))
 
-    filterFunctions(dispatch);
+  filterFunctions(dispatch);
 }
 
 export const addInvoice = (
@@ -233,10 +233,9 @@ export const addInvoice = (
   receiver,
   project,
   amount,
-  date) => async (dispatch) => {
-
+  date) => (dispatch) => {
     dispatch(toggleIsFetching(true))
-    await invoicesAPI.addInvoice(comment,
+    return invoicesAPI.addInvoice(comment,
       approved,
       type,
       subtype,
@@ -254,7 +253,6 @@ export const addInvoice = (
         dispatch(toggleIsFetching(false));
         throw err;
       })
-
   }
 
 export const searchInvoice = (searchText) => (dispatch) => {

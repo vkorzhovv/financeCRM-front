@@ -18,6 +18,7 @@ export default function InvoicesAddPopupContainer(props) {
       popupHeader={props.popupHeader}
       detail={props.detail}
       close={props.close}
+      navigateFunc={props.navigateFunc}
     />
   )
 };

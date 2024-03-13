@@ -149,22 +149,42 @@ export default function ProjectsFilter(props) {
           <p className={classNames('filterLabel')}>Дата начала</p>
           <div className={classNames('popupInputBox', 'filterInputBox')}>
             <input
-              className={classNames('popupInput', 'filterInput')}
+              className={!errors.start
+                ? classNames('popupInput', 'filterInput')
+                : classNames('popupInput', 'filterInput', 'popupError')}
               type='date'
               name='start'
-              {...register('start')}
+              {...register('start',
+                {
+                  max: {
+                    value: Boolean(getValues('end')) ? getValues('end') : '3000-01-01',
+                    message: 'Больше Max'
+                  }
+                }
+              )}
             />
+            {errors.start && <div className={classNames('popupErrorMessage')}>{errors.start.message}</div>}
           </div>
         </div>
         <div className={classNames('flex', 'filterColumn')}>
           <p className={classNames('filterLabel')}>Дата окончания</p>
           <div className={classNames('popupInputBox', 'filterInputBox')}>
             <input
-              className={classNames('popupInput', 'filterInput')}
+              className={!errors.end
+                ? classNames('popupInput', 'filterInput')
+                : classNames('popupInput', 'filterInput', 'popupError')}
               type='date'
               name='end'
-              {...register('end')}
+              {...register('end',
+                {
+                  min: {
+                    value: Boolean(getValues('start')) ? getValues('start') : '1970-01-01',
+                    message: 'Меньше Min'
+                  }
+                }
+              )}
             />
+            {errors.end && <div className={classNames('popupErrorMessage')}>{errors.end.message}</div>}
           </div>
         </div>
       </div>
@@ -216,7 +236,7 @@ export default function ProjectsFilter(props) {
                       message: 'Неверный ввод'
                     },
                     min: {
-                      value: Number(getValues('minSumm')) && 0,
+                      value: Boolean(getValues('minSumm')) ? Number(getValues('minSumm')) : 0,
                       message: 'Больше Min и 0'
                     }
                   })
@@ -297,6 +317,10 @@ export default function ProjectsFilter(props) {
                       value: /^[-]?[0]{1}$|^[-]?[0]{1}[.]([0-9]{0,2})$|^[-]?[1-9]([0-9])*?[.]?([0-9]{0,2})$/,
                       message: 'Неверный ввод'
                     },
+                    min: {
+                      value: 0,
+                      message: "Больше 0"
+                    },
                     max: {
                       value: Boolean(getValues('maxExpense')) ? Number(getValues('maxExpense')) : Infinity,
                       message: 'Больше Max'
@@ -322,8 +346,8 @@ export default function ProjectsFilter(props) {
                       message: 'Неверный ввод'
                     },
                     min: {
-                      value: Boolean(getValues('minExpense')) ? Number(getValues('minExpense')) : -Infinity,
-                      message: 'Больше Min'
+                      value: Boolean(getValues('minExpense')) ? Number(getValues('minExpense')) : 0,
+                      message: 'Больше Min и 0'
                     }
                   })
                 }

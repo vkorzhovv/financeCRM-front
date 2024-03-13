@@ -45,6 +45,7 @@ export const editUser = (
   phone,
   superuser,
   descr,
+  start_balance
 ) => async (dispatch) => {
   dispatch(toggleIsFetching(true))
 
@@ -58,7 +59,8 @@ export const editUser = (
     type,
     phone,
     superuser,
-    descr)
+    descr,
+    start_balance)
     .then(response => {
       dispatch(setUserItem(response.data))
       dispatch(toggleIsFetching(false));

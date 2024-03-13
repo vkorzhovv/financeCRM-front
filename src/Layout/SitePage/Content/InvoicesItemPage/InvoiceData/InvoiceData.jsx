@@ -201,6 +201,7 @@ export default function InvoiceData(props) {
               isStatic={'isStatic'}
               submitText={'Добавить'}
               popupHeader={`Добавить платеж`}
+              remainder={remainder}
             />
           }
         </div>

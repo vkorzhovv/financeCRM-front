@@ -26,6 +26,15 @@ button {
   cursor: pointer;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -281,6 +290,30 @@ button {
   color: var(--redCF);
   margin-top: 10px;
   max-width: 100%;
+}
+
+.react-select-container {
+  width: 100%;
+}
+
+.react-select__control {
+  padding: 7px 0 7px 15px;
+  border-radius: 5px !important;
+  border-color: var(--grey78) !important;
+}
+
+.react-select__menu-notice {
+  position: relative;
+  color: transparent !important;
+}
+
+.react-select__menu-notice::after {
+  content:'Совпадений нет';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: var(--black05);
 }
 
 .filterForm {

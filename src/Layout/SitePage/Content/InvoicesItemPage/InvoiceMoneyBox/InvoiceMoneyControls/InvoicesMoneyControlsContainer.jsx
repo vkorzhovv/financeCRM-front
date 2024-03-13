@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { getMe } from '../../../../../../redux/authReducer';
 import { getInvoiceItem } from '../../../../../../redux/invoiceItemReducer';
 import { editPayment } from '../../../../../../redux/paymentItemReducer';
 import { deletePayment, getPaymentsInInvoice } from '../../../../../../redux/paymentReducer';
@@ -28,6 +29,7 @@ export default function InvoiceMoneyControlsContainer(props) {
     ))
       .then(() => dispatch(getPaymentsInInvoice(props.payment.invoice.id)))
       .then(() => dispatch(getInvoiceItem(props.invoice.id)))
+      .then(() => dispatch(getMe()))
   }
 
   return (

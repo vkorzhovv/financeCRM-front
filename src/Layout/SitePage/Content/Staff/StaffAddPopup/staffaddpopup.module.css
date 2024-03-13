@@ -10,6 +10,10 @@
   position: relative;
 }
 
+.inputHalf {
+  width: 176px;
+}
+
 @media (max-width: 576px) {
   .group {
     grid-template-columns: 100%;

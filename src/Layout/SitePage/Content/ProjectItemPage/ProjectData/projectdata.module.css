@@ -30,11 +30,25 @@
 }
 
 .projectHeader {
+  position: relative;
   justify-content: space-between;
   width: 100%;
   margin-bottom: 30px;
   padding: 0 10px 13px 10px;
   border-bottom: 1px solid var(--greyE1);
+}
+
+.showMap {
+  padding: 5px 10px;
+}
+
+.map {
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  width: 400px;
+  height: 300px;
+  z-index: 200;
 }
 
 .theProjectTitle {

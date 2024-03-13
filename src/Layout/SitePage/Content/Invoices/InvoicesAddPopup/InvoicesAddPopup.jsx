@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from './invoicesaddpopup.module.css';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { addInvoice, getInvoices, getProjectExpenses, getProjectInvoices, getProjectReceipts } from "../../../../../redux/invoicesReducer";
 import { editInvoice, getInvoiceItem } from "../../../../../redux/invoiceItemReducer";
@@ -18,10 +18,28 @@ import { selectAllUsers } from "../../../../../redux/usersSelector";
 import { getUsers } from "../../../../../redux/usersReducer";
 import { getItems, getPaymentTypes } from "../../../../../redux/cashItemReducer";
 import { selectAllItems, selectPaymentTypes } from "../../../../../redux/cashItemSelector";
+import { useNavigate } from "react-router-dom";
+import Select from 'react-select';
+import { useState } from "react";
 
 export default function InvoicesAddPopup(props) {
 
+  const {
+    clearErrors,
+    setError,
+    register,
+    getValues,
+    setValue,
+    control,
+    watch,
+    handleSubmit,
+    formState: { errors, isValid }
+  } = useForm({
+    mode: 'onChange',
+  });
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const me = useSelector(selectMe);
   const isFetchingAdd = useSelector(selectIsFetchingAddInvoice);
@@ -32,38 +50,58 @@ export default function InvoicesAddPopup(props) {
   const typesList = useSelector(selectPaymentTypes);
   const createdTypes = useSelector(selectAllItems);
 
-  const {
-    clearErrors,
-    setError,
-    register,
-    getValues,
-    setValue,
-    handleSubmit,
-    formState: { errors, isValid }
-  } = useForm({
-    mode: 'onChange',
-  });
+  let optionsUsers = [];
+  usersList?.map((item) => {
+    optionsUsers.push({
+      value: `${item?.id}`, label: `${item?.last_name} ${item?.first_name} ${item?.father_name}`
+    })
+  })
+
+  let optionsProjects = [];
+  projectsList?.map((item) => {
+    optionsProjects.push({
+      value: `${item?.id}`, label: `${item?.name}`
+    })
+  })
+
+  let optionsTypes = [];
+  typesList?.filter(item =>
+    createdTypes.map(type => type.item_type).includes(item.type)
+  ).map((item) => {
+    optionsTypes.push({
+      value: `${item?.type}`, label: `${item?.name}`
+    })
+  })
+
+  let optionsSubtypes = [];
+  subtypesList?.map((item) => {
+    optionsSubtypes.push({
+      value: `${item}`, label: `${item}`
+    })
+  })
 
   useEffect(() => {
+
     dispatch(getUsers())
       .then(() => {
         if (!props.detail && props.projectReceipt) {
-          setValue('payer', props.projectClient);
+          setValue('payer', String(props.projectClient));
         }
+
         if (!props.detail && !props.projectReceipt) {
-          setValue('payer', me.id);
+          setValue('payer', String(me.id));
         }
 
         if (props.detail) {
-          setValue('payer', props.invoice.payer && props.invoice.payer.id);
+          setValue('payer', String(props.invoice.payer?.id));
         }
 
-        props.detail && setValue('receiver', props.invoice.receiver && props.invoice.receiver.id);
+        props.detail && setValue('receiver', String(props.invoice.receiver?.id));
       })
 
     dispatch(getProjects())
       .then(() => {
-        props.detail && setValue('project', props.invoice.project.id);
+        props.detail && setValue('project', String(props.invoice?.project?.id));
       })
 
     const getTypes = () => {
@@ -75,21 +113,23 @@ export default function InvoicesAddPopup(props) {
 
     getTypes()
       .then(() => {
-        props.detail && setValue('type', props.invoice.payment_type);
+        props.detail && setValue('type', String(props.invoice?.payment_type));
       })
 
 
     if (props.detail) {
-      props.invoice.payment_type &&
-        dispatch(getSubtypes(props.invoice.payment_type))
-          .then(() => setValue('purpose', props.invoice.subtype && props.invoice.subtype))
+      dispatch(getSubtypes(props.invoice?.payment_type))
+        .then(() => setValue('purpose', props.invoice?.subtype))
+      console.log('да ты заебал', props.invoice?.subtype)
     }
 
   }, [dispatch, setValue])
 
+  const watchType = watch('type');
+
   useEffect(() => {
-    getValues('type') && dispatch(getSubtypes(getValues('type')))
-  }, [dispatch, getValues('type')])
+    watchType && dispatch(getSubtypes(watchType))
+  }, [dispatch, watchType])
 
   const addInvoiceLocal = (data) => {
     dispatch(addInvoice(
@@ -103,12 +143,13 @@ export default function InvoicesAddPopup(props) {
       data.summ,
       data.date,
     ))
-      .then(() => {
+      .then((response) => {
         (!props.projectReceipt && !props.projectExpense) && dispatch(getInvoices())
         props.projectReceipt && dispatch(getProjectReceipts(props.projectId))
         props.projectExpense && dispatch(getProjectExpenses(props.projectId))
         props.close(false)
         document.body.classList.remove('modal-show');
+        navigate(`/invoices/${response?.data?.id}`)
       })
       .catch(err => {
         if (err.response.data) {
@@ -161,142 +202,128 @@ export default function InvoicesAddPopup(props) {
           onSubmit={handleSubmit(onSubmit)}
           onChange={() => {
             clearErrors('serverError');
-          }
-          }
+          }}
         >
           <div className={!errors.payer
-            ? classNames('flex', 'popupInputBox', styles.inputBox)
-            : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel')} htmlFor="payer">Плательщик</label>
-            <select {...register('payer', {
-              required: 'Выберите плательщика',
-            })}
-              id='payer'
-              className={!errors.payer
-                ? classNames('popupInput', styles.input, (!me.is_superuser || props.projectReceipt) && 'nonTouch')
-                : classNames('popupInput', 'popupError', styles.input, styles.error, (!me.is_superuser || props.projectReceipt) && 'nonTouch')}
-            >
-              <option value="">Выбрать</option>
-              {props.projectReceipt ?
-                usersList && usersList.map(item =>
-                  <option
-                    value={item.id}
-                    key={item.id}>
-                    {item.last_name} {item.first_name} {item.father_name}
-                  </option>
-                )
-                :
-                usersList && usersList.filter(item => item.id !== props.projectClient).map(item =>
-                  <option
-                    value={item.id}
-                    key={item.id}>
-                    {item.last_name} {item.first_name} {item.father_name}
-                  </option>
-                )
-              }
-            </select>
+            ? classNames('flex', 'popupInputBox')
+            : classNames('flex', 'popupInputBox', 'popupBoxError')}>
+            <label className={classNames('popupLabel')}>Плательщик</label>
+            <Controller
+              control={control}
+              name='payer'
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  isClearable={true}
+                  isDisabled={!me.is_superuser || props.projectReceipt}
+                  placeholder='Выбрать'
+                  classNamePrefix="react-select"
+                  className={classNames('react-select-container')}
+                  options={props.projectReceipt
+                    ?
+                    optionsUsers
+                    :
+                    optionsUsers.filter(item => item.value !== String(props.projectClient))}
+                  value={value ? optionsUsers.find((с) => с.value === value) : ''}
+                  onChange={(val) => onChange(val?.value)}
+                />
+              )}
+              rules={{ required: 'Выберите плательщика' }}
+            />
             {errors.payer && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.payer.message}</div>}
           </div>
           <div className={!errors.receiver
-            ? classNames('flex', 'popupInputBox', styles.inputBox)
-            : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel')} htmlFor="receivers">Получатель</label>
-            <select {...register('receiver', {
-              required: 'Выберите получателя',
-            })}
-              id='receivers'
-              className={!errors.receiver
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
-            >
-              <option value="">Выбрать</option>
-              {usersList && usersList.map(item =>
-                <option
-                  key={item.id}
-                  value={item.id}
-                >{item.last_name} {item.first_name} {item.father_name}
-                </option>
+            ? classNames('flex', 'popupInputBox')
+            : classNames('flex', 'popupInputBox', 'popupBoxError')}>
+            <label className={classNames('popupLabel')}>Получатель</label>
+            <Controller
+              control={control}
+              name='receiver'
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  isClearable={true}
+                  placeholder='Выбрать'
+                  classNamePrefix="react-select"
+                  className={classNames('react-select-container')}
+                  options={optionsUsers}
+                  value={value ? optionsUsers.find((с) => с.value === value) : ''}
+                  onChange={(val) => onChange(val?.value)}
+                />
               )}
-            </select>
+              rules={{ required: 'Выберите получателя' }}
+            />
             {errors.receiver && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.receiver.message}</div>}
           </div>
           {
             !props.projectId &&
             <div className={!errors.project
-              ? classNames('flex', 'popupInputBox', styles.inputBox, (me.user_type && me.user_type !== 's') && 'nonTouch')
-              : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError, (me.user_type && me.user_type !== 's') && 'nonTouch')}>
-              <label className={classNames('popupLabel')} htmlFor="project">Проект</label>
-              <select {...register('project', {
-                required: 'Выберите проект',
-              })}
-                id='project'
-                className={!errors.projects
-                  ? classNames('popupInput', styles.input)
-                  : classNames('popupInput', 'popupError', styles.input, styles.error)}
-              >
-                <option value="">Выбрать</option>
-                {projectsList && projectsList.map(item =>
-                  <option
-                    value={item.id}
-                    key={item.id}>
-                    {item.name}
-                  </option>
+              ? classNames('flex', 'popupInputBox')
+              : classNames('flex', 'popupInputBox', 'popupBoxError')}>
+              <label className={classNames('popupLabel')}>Проект</label>
+              <Controller
+                control={control}
+                name='project'
+                render={({ field: { value, onChange } }) => (
+                  <Select
+                    isClearable={true}
+                    placeholder='Выбрать'
+                    classNamePrefix="react-select"
+                    className={classNames('react-select-container')}
+                    options={optionsProjects}
+                    value={value ? optionsProjects.find((с) => с.value === value) : ''}
+                    onChange={(val) => onChange(val?.value)}
+                  />
                 )}
-              </select>
+                rules={{ required: 'Выберите проект' }}
+              />
               {errors.project && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.project.message}</div>}
             </div>
           }
           <div className={!errors.type
-            ? classNames('flex', 'popupInputBox', styles.inputBox)
-            : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel')} htmlFor="type">Тип начисления</label>
-            <select
-              {...register('type', {
-                required: 'Выберите тип',
-              })}
-              id='type'
-              className={!errors.type
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
-            >
-              <option value="">Выбрать</option>
-              {typesList && createdTypes && typesList.filter(item =>
-                createdTypes.map(type => type.item_type).includes(item.type)
-              )
-                .map(item =>
-                  <option
-                    key={item.type}
-                    value={item.type}>
-                    {item.name}
-                  </option>
-                )}
-            </select>
+            ? classNames('flex', 'popupInputBox')
+            : classNames('flex', 'popupInputBox', 'popupBoxError')}>
+            <label className={classNames('popupLabel')}>Тип начисления</label>
+            <Controller
+              control={control}
+              name='type'
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  isClearable={true}
+                  placeholder='Выбрать'
+                  classNamePrefix="react-select"
+                  className={classNames('react-select-container')}
+                  options={optionsTypes}
+                  value={value ? optionsTypes.find((с) => с.value === value) : ''}
+                  onChange={(val) => {
+                    onChange(val?.value)
+                    setValue('purpose', '')
+                  }}
+                />
+              )}
+              rules={{ required: 'Выберите тип' }}
+            />
             {errors.type && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.type.message}</div>}
           </div>
           <div className={!errors.purpose
-            ? classNames('flex', 'popupInputBox', styles.inputBox)
-            : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel')} htmlFor="purpose">Назначение начисления</label>
-            <select
-              disabled={!props.detail ? !getValues('type') : !props.invoice.payment_type}
-              {...register('purpose', {
-                required: 'Выберите назначение',
-              })}
-              id='purpose'
-              className={!errors.purpose
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
-            >
-              <option value="">Выбрать</option>
-              {subtypesList && subtypesList.map(item =>
-                <option
-                  value={item}
-                  key={item}>
-                  {item}
-                </option>
+            ? classNames('flex', 'popupInputBox')
+            : classNames('flex', 'popupInputBox', 'popupBoxError')}>
+            <label className={classNames('popupLabel')}>Тип начисления</label>
+            <Controller
+              control={control}
+              name='purpose'
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  isDisabled={!props.detail ? !getValues('type') : !props.invoice?.payment_type}
+                  isClearable={true}
+                  placeholder='Выбрать'
+                  classNamePrefix="react-select"
+                  className={classNames('react-select-container')}
+                  options={optionsSubtypes}
+                  value={value ? optionsSubtypes.find((с) => с.value === value) : ''}
+                  onChange={(val) => onChange(val?.value)}
+                />
               )}
-            </select>
-
+              rules={{ required: 'Выберите тип' }}
+            />
             {errors.purpose && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.purpose.message}</div>}
           </div>
           <div className={!errors.summ
@@ -308,7 +335,8 @@ export default function InvoicesAddPopup(props) {
               className={!errors.summ
                 ? classNames('popupInput', styles.inputHalf, styles.input)
                 : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
-              type='text'
+              type='number'
+              step='0.01'
               name='summ'
               defaultValue={props.detail && props.invoice.amount}
               placeholder='0 &#8381;'
@@ -316,8 +344,8 @@ export default function InvoicesAddPopup(props) {
                 {
                   required: 'Введите сумму',
                   pattern: {
-                    value: /^[1-9]([0-9])*?[.]?([0-9]{0,2})$/,
-                    message: 'Минимум 1. В качестве разделителя "точка"'
+                    value: /^[0]{1}$|^[0]{1}[.]([0-9]{0,2})$|^[1-9]([0-9])*?[.]?([0-9]{0,2})$/,
+                    message: 'Неверный ввод'
                   },
                 })
               }

@@ -40,6 +40,7 @@ export default function StaffAddPopup(props) {
       data.phone,
       data.superuser || false,
       data.description,
+      Number(data.start_balance) || 0
     ))
       .then(() => {
         data.type === 'k' ? dispatch(getClients())
@@ -69,8 +70,12 @@ export default function StaffAddPopup(props) {
       data.phone,
       data.superuser || false,
       data.description,
+      Number(data.start_balance) || 0
     ))
       .then(() => {
+        data.type === 'k' ? dispatch(getClients())
+          : data.type === 's' ? dispatch(getEmployees())
+            : dispatch(getContractors())
         props.close(false);
         document.body.classList.remove('modal-show');
       })
@@ -293,7 +298,6 @@ export default function StaffAddPopup(props) {
               placeholder='+7800000000'
               {...register('phone',
                 {
-                  required: 'Введите номер телефона',
                   minLength: {
                     value: 12,
                     message: 'Введите номер целиком'
@@ -311,6 +315,34 @@ export default function StaffAddPopup(props) {
             />
             {errors.phone && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.phone.message}</div>}
           </div>
+          {
+            me.is_superuser &&
+            <div className={!errors.start_balance
+              ? classNames('flex', 'popupInputBox', styles.inputBox)
+              : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
+              <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="start_balance">Стартовый баланс</label>
+              <input
+                id='start_balance'
+                className={!errors.start_balance
+                  ? classNames('popupInput', styles.inputHalf, styles.input)
+                  : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
+                type='number'
+                step='0.01'
+                name='start_balance'
+                defaultValue={props.detail && props.user.start_balance}
+                placeholder='0 &#8381;'
+                {...register('start_balance',
+                  {
+                    pattern: {
+                      value: /^[-]?[0]{1}$|^[-]?[0]{1}[.]([0-9]{0,2})$|^[-]?[1-9]([0-9])*?[.]?([0-9]{0,2})$/,
+                      message: 'Неверный ввод'
+                    },
+                  })
+                }
+              />
+              {errors.start_balance && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.start_balance.message}</div>}
+            </div>
+          }
           {
             me.is_superuser && getValues('type') === 's' &&
             <div className={classNames('flex', styles.inputBox)}>

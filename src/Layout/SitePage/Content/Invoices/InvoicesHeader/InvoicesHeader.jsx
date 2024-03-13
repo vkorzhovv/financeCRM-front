@@ -5,10 +5,12 @@ import InvoicesAddPopupContainer from '../InvoicesAddPopup/InvoicesAddPopupConta
 import styles from './invoicesheader.module.css';
 import { useSelector } from 'react-redux';
 import { selectMe } from '../../../../../redux/authSelectors';
+import { selectFilteredInvoices } from '../../../../../redux/invoicesSelector';
 
 export default function InvoicesHeader(props) {
 
   const me = useSelector(selectMe);
+  const invoices = useSelector(selectFilteredInvoices);
 
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const handleClickOpen = () => {
@@ -18,6 +20,10 @@ export default function InvoicesHeader(props) {
   const handleClickClose = () => {
     setIsOpenPopup(false)
     document.body.classList.remove('modal-show');
+  }
+
+  const navigateFunc = () => {
+    setTimeout(() => console.log(invoices), 2000);
   }
 
   return (
@@ -39,6 +45,7 @@ export default function InvoicesHeader(props) {
           submitText={'Добавить'}
           popupHeader={'Добавить счет'}
           close={setIsOpenPopup}
+          navigateFunc={navigateFunc}
         />
       }
     </div>

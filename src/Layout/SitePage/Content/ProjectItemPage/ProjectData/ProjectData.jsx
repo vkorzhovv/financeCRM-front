@@ -4,8 +4,15 @@ import classNames from 'classnames';
 import { editDate } from '../../../../../utils/dateEditor';
 import ProjectMoneyBox from './ProjectMoneyBox/ProjectMoneyBox';
 import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
+import MapProject from '../Map/MapProject';
 
 export default function ProjectData(props) {
+
+  const [isOpenMap, setIsOpenMap] = useState(false);
+  const handleOpenMap = () => {
+    isOpenMap ? setIsOpenMap(false) : setIsOpenMap(true);
+  }
 
   const projectTh = [
     'Сумма договора',
@@ -33,9 +40,25 @@ export default function ProjectData(props) {
           <div className={classNames(styles.leftItem, styles.projectDataItem, styles.projectDataMain)}>
             <div className={classNames('flex', styles.projectHeader)}>
               <h2 className={styles.theProjectTitle}>{props.project.name}</h2>
+              {props.coordinates &&
+                <button
+                  className={classNames('btn', styles.showMap)}
+                  onClick={handleOpenMap}
+                >
+                  {isOpenMap ? 'Скрыть карту' : 'Показать карту'}
+                </button>
+              }
               <div className={styles.status}>
                 {props.project.active ? <span className={styles.statusTrue}>Активен</span> : <span className={styles.statusFalse}>Неактивен</span>}
               </div>
+              {
+                isOpenMap &&
+                <div className={styles.map}>
+                  <MapProject
+                    coordinates={props.coordinates}
+                  />
+                </div>
+              }
             </div>
             <div className={classNames('flex', styles.projectMainInfo)}>
               <div className={styles.projectPersonList}>

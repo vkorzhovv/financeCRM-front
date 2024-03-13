@@ -27,6 +27,7 @@ export default function PaymentAddPopupContainer(props) {
         isStatic={props.isStatic}
         submitText={props.submitText}
         popupHeader={props.popupHeader}
+        remainder={props.remainder}
       />
   )
 }

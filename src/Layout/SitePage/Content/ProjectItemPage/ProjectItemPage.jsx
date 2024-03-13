@@ -27,10 +27,10 @@ export default function ProjectItemPage(props) {
 
   const onDelete = async () => {
     await dispatch(deleteProject(props.project.id))
-    .then(() => {
-      navigate("/projects");
-      document.body.classList.remove('modal-show')
-    })
+      .then(() => {
+        navigate("/projects");
+        document.body.classList.remove('modal-show')
+      })
   }
 
   const client = props.project.client && props.project.client.id;
@@ -71,9 +71,9 @@ export default function ProjectItemPage(props) {
           projectId={props.project.id}
           projectInvoices={props.projectInvoices}
           projectExpenses={props.projectExpenses}
+          coordinates={props.project.coordinates}
         />
       </div>
-
     </div>
   );
 }

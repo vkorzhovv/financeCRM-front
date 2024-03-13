@@ -16,13 +16,14 @@ import { useEffect } from "react";
 import { getUnapprovedInvoices, getUserInvoices } from "../../../../../redux/invoicesReducer";
 import { selectUnapprovedInvoices } from "../../../../../redux/invoicesSelector";
 import { selectMe } from "../../../../../redux/authSelectors";
+import { getMe } from "../../../../../redux/authReducer";
 
 export default function PaymentAddPopup(props) {
 
   const [filesList, setFilesList] = useState(((props.detail && props.payment.scans) && props.payment.scans.slice()) || []);
 
   const dispatch = useDispatch();
-  const me = useSelector(selectMe)
+  const me = useSelector(selectMe);
   const isFetchingAdd = useSelector(selectIsFetchingAddPayment);
   const isFetchingEdit = useSelector(selectIsFetchingEditPayment);
   const invoice = useSelector(selectInvoiceItem);
@@ -34,6 +35,7 @@ export default function PaymentAddPopup(props) {
     register,
     reset,
     setValue,
+    setFocus,
     handleSubmit,
     getValues,
     formState: { errors, isValid }
@@ -109,6 +111,7 @@ export default function PaymentAddPopup(props) {
         !props.invoicePage && dispatch(getPaymentItem(props.payment.id))
         !props.invoicePage && props.invoice && dispatch(getPaymentsInInvoice(props.invoice.id));
         !props.invoicePage && props.invoice && dispatch(getInvoiceItem(props.invoice.id))
+        dispatch(getMe());
         props.close(false);
         document.body.classList.remove('modal-show');
       })
@@ -181,7 +184,8 @@ export default function PaymentAddPopup(props) {
               className={!errors.summ_plus
                 ? classNames('popupInput', styles.inputHalf, styles.input)
                 : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
-              type='text'
+              type='number'
+              step='0.01'
               name='summ_plus'
               defaultValue={props.detail && props.payment.total}
               placeholder='0 &#8381;'
@@ -189,12 +193,23 @@ export default function PaymentAddPopup(props) {
                 {
                   required: 'Введите сумму',
                   pattern: {
-                    value: /^[1-9]([0-9])*?[.]?([0-9]{0,2})$/,
-                    message: 'Минимум 1. В качестве разделителя "точка"'
+                    value: /^[0]{1}$|^[0]{1}[.]([0-9]{0,2})$|^[1-9]([0-9])*?[.]?([0-9]{0,2})$/,
+                    message: 'Неверный ввод'
                   },
                 })
               }
             />
+            {(props.invoicePage && props.remainder > 0) &&
+              <button
+                onClick={() => {
+                  setFocus('summ_plus')
+                  setValue('summ_plus', props.remainder)
+                }}
+                type='button'
+                className={classNames('btn', styles.fullBtn)}>
+                Полная оплата
+              </button>
+            }
             {errors.summ_plus && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.summ_plus.message}</div>}
           </div>
           <div className={!errors.date
