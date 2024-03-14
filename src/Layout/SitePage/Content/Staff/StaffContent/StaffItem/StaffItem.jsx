@@ -21,6 +21,7 @@ export default function StaffItem(props) {
                 patronymic={item.father_name}
                 phone={item.phone}
                 balance={item.balance}
+                type={item.user_type}
               />
             )
             :

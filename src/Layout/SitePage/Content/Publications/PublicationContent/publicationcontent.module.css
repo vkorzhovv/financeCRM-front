@@ -1,0 +1,6 @@
+.publicationContent {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 450px auto;
+  gap: 20px;
+}

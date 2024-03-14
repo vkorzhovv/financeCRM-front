@@ -47,6 +47,12 @@ export default function Navigation(props) {
       linkUrl: '/payment',
       access: ['s', 'p', 'k']
     },
+    {
+      key: 'publications',
+      itemName: 'Лента',
+      linkUrl: '/publications',
+      access: ['s', 'p', 'k']
+    },
   ]
 
   return (

@@ -10,6 +10,7 @@ import InvoicesContainer from './Invoices/InvoicesContainer';
 import InvoicesItemPageContainer from './InvoicesItemPage/InvoicesItemPageContainer';
 import PaymentContainer from './Payment/PaymentContainer';
 import PaymentItemPageContainer from './PaymentItemPage/PaymentItemPageContainer';
+import PublicationsContainer from './Publications/PublicationsContainer';
 
 export default function Content(props) {
 
@@ -26,6 +27,7 @@ export default function Content(props) {
           <Route path='invoices/:invoicesId?' element={<InvoicesItemPageContainer />} />
           <Route path='payment' element={<PaymentContainer />} />
           <Route path='payment/:paymentId?' element={<PaymentItemPageContainer />} />
+          <Route path='publications' element={<PublicationsContainer />} />
         </Routes>
     </main>
   );

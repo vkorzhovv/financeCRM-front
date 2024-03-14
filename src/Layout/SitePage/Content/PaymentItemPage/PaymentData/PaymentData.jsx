@@ -114,7 +114,7 @@ export default function PaymentData(props) {
               <p className={styles.attachmentFieldName}>Скан/фото документа:</p>
               <div className={classNames(styles.attachmentLinks)}>
                 {(props.payment.scans && props.payment.scans.length) ?
-                  props.payment.scans.map((item, index) =>
+                  props.payment.scans.map((item) =>
                     <a
                       href={item.scan}
                       key={item.id}
@@ -124,7 +124,6 @@ export default function PaymentData(props) {
                       className={styles.attachmentFieldDocument}>
                       Файл {item.id}{editFileName(item.scan)}
                     </a>
-
                   )
                   :
                   "Приложенных документов нет"

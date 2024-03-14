@@ -9,6 +9,7 @@ import { paymentsReducer } from './paymentReducer';
 import { expensesReducer } from './projectExpensesReducer';
 import { projectItemReducer } from './projectItemReducer';
 import { projectsReducer } from './projectsReducer';
+import { publicationsReducer } from './publicationsReducer';
 import { userItemReducer } from './userItemReducer';
 import { usersReducer } from './usersReducer';
 
@@ -24,6 +25,7 @@ let reducers = combineReducers({
   payments: paymentsReducer,
   paymentItem: paymentItemReducer,
   projectExpenses: expensesReducer,
+  publications: publicationsReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -56,6 +56,7 @@ export default function InvoicesAddPopup(props) {
       value: `${item?.id}`, label: `${item?.last_name} ${item?.first_name} ${item?.father_name}`
     })
   })
+  optionsUsers.sort((a, b) => a.label.localeCompare(b.label))
 
   let optionsProjects = [];
   projectsList?.map((item) => {

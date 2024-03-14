@@ -94,7 +94,7 @@ export default function PageControls(props) {
   return (
     <div className={classNames('flex', styles.pageControls)}>
       <div className={classNames('flex', styles.svgBtnsBlock)}>
-        {!props.detail &&
+        {(!props.detail && !props.publicationSearch) &&
           <div className={classNames('flex', styles.pageControlItem, styles.findBlock)}>
             <div className={
               isVisible

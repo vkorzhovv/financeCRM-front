@@ -19,3 +19,7 @@ export function editDateForInput(key) {
 
   return `${year}-${month}-${day}`
 }
+
+export function editTime(key) {
+  return key.substring(0, 5)
+}

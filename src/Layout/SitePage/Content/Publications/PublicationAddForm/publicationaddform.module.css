@@ -1,22 +1,6 @@
-.paymentAddPopupStatic {
-  position: relative;
-  width: 100%;
-  height: max-content;
-}
-
-.paymentPopupStaticWindow {
-  flex-direction: column;
-  width: 100%;
-  max-height: 100%;
-  padding: 25px 30px 30px 30px;
-  border-radius: 10px;
-  background-color: var(--whiteF8);
-}
-
 .inputBoxStatic {
   width: 100%;
   margin-bottom: 20px;
-  justify-content: flex-start;
 }
 
 .popupHeaderStatic {
@@ -27,29 +11,43 @@
   font-weight: 400;
 }
 
+.popupStaticWindow {
+  width: 100%;
+  height: max-content;
+  padding: 25px 30px 30px 30px;
+  border-radius: 10px;
+  background-color: var(--whiteF8);
+}
+
+.inputCheckBox {
+  margin-bottom: 20px;
+}
+
+.checkLabel {
+  margin-right: 30px;
+}
+
 .inputHalf {
   width: 176px;
 }
 
-.select {
-  border-radius: 5px;
-  padding: 20px 20px;
-}
-
-.attachmentFieldDocument {
-  display: inline-block;
-  margin-right: 10px;
-  border-bottom: 1px solid var(--black05);
+.labelText {
+  min-width: 185px;
 }
 
 .fileLabel {
+  position: relative;
   max-width: max-content;
   width: 100%;
   justify-content: flex-start;
 }
 
-.labelText {
-  min-width: 185px;
+.fileName {
+  position: absolute;
+  right: 10px;
+  bottom: -15px;
+  color: var(--green63);
+  font-size: 12px;
 }
 
 .inputFile {
@@ -115,26 +113,4 @@
 .fullBtn {
   padding: 10px 15px;
   margin-left: 30px;
-}
-
-@media (max-width: 768px) {
-  .inputBoxStatic {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .labelText {
-    min-width: 0;
-    margin-bottom: 10px;
-  }
-
-  .inputFile {
-    margin-right: 0;
-    margin-bottom: 10px;
-  }
-
-  .fileLabel {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }

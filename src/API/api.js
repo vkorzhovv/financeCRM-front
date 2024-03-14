@@ -604,6 +604,88 @@ export const paymentsAPI = {
   }
 }
 
+export const publicationsAPI = {
+  getPublications() {
+    return instance.get('/api/publications/', {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    })
+  },
+  addPublication(
+    {
+      author: author,
+      project: project,
+      text: text,
+      files: files,
+      date: date,
+      time: time,
+    }
+  ) {
+    return instance.post('/api/publications/',
+      {
+        author: author,
+        project: project,
+        text: text,
+        files: files,
+        date: date,
+        time: time,
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+  },
+  editPublication(
+    {
+      id: id,
+      author: author,
+      project: project,
+      text: text,
+      files: files,
+      date: date,
+      time: time,
+    }
+  ) {
+    return instance.patch(`/api/publications/${id}/`,
+      {
+        author: author,
+        project: project,
+        text: text,
+        files: files,
+        date: date,
+        time: time,
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+  },
+  deletePublication(id) {
+    return instance.delete(`/api/publications/${id}/`,
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      }
+    )
+  },
+}
+
+
+
+
+
+
+
+
+
+
+
 export function setupInterceptor(store) {
 
   // instance.interceptors.request.use(

@@ -1,0 +1,6 @@
+.pubList {
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  justify-content: flex-start;
+}
