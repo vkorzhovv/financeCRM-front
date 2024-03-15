@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 import styles from './paymentaddpopup.module.css';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPayment, getPayments, getPaymentsInInvoice } from "../../../../../redux/paymentReducer";
 import { editPayment, getPaymentItem } from "../../../../../redux/paymentItemReducer";
@@ -17,6 +17,7 @@ import { getUnapprovedInvoices, getUserInvoices } from "../../../../../redux/inv
 import { selectUnapprovedInvoices } from "../../../../../redux/invoicesSelector";
 import { selectMe } from "../../../../../redux/authSelectors";
 import { getMe } from "../../../../../redux/authReducer";
+import Select from 'react-select';
 
 export default function PaymentAddPopup(props) {
 
@@ -27,13 +28,24 @@ export default function PaymentAddPopup(props) {
   const isFetchingAdd = useSelector(selectIsFetchingAddPayment);
   const isFetchingEdit = useSelector(selectIsFetchingEditPayment);
   const invoice = useSelector(selectInvoiceItem);
-  const invoicesList = useSelector(selectUnapprovedInvoices)
+  const invoicesList = useSelector(selectUnapprovedInvoices);
+
+  let optionsCheck = [];
+  invoicesList?.map((item) => {
+    optionsCheck.push({
+      value: `${item?.id}`, label: `Счет № ${item.id + 10000}`
+    })
+  })
+
+  const optionsStatus = [{ value: '1', label: 'Оплачен' }, { value: '0', label: 'Неоплачен' }];
 
   const {
     clearErrors,
     setError,
+    control,
     register,
     reset,
+    watch,
     setValue,
     setFocus,
     handleSubmit,
@@ -42,23 +54,28 @@ export default function PaymentAddPopup(props) {
   } = useForm({
     mode: 'onChange',
   });
-  me.user_type && me.user_type !== 's' && dispatch(getUserInvoices(me.id))
+
   useEffect(() => {
     !props.isStatic &&
       dispatch(getUnapprovedInvoices())
         .then(() => {
-          props.detail && setValue('check', props.payment.invoice.id);
+          props.detail && setValue('check', String(props.payment.invoice.id));
         })
 
     if (props.detail) {
       dispatch(getInvoiceItem(props.payment.invoice.id))
     }
 
+    props.detail && setValue('status', String(Number(props.payment.approved)))
+
+    me?.user_type !== 's' && dispatch(getUserInvoices(me.id))
   }, [dispatch, setValue])
 
+  const watchCheck = watch('check');
+
   useEffect(() => {
-    getValues('check') && dispatch(getInvoiceItem(getValues('check')));
-  }, [dispatch, getValues('check')])
+    watchCheck && dispatch(getInvoiceItem(watchCheck));
+  }, [dispatch, watchCheck])
 
   function arrayFiles(list) {
     const arr = [];
@@ -144,29 +161,30 @@ export default function PaymentAddPopup(props) {
             <div className={!errors.check
               ? classNames('flex', 'popupInputBox', styles.inputBox)
               : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-              <label className={classNames('popupLabel')} htmlFor="check">Счет</label>
-              <select {...register('check', {
-                required: 'Выберите счет',
-              })}
-                id='check'
-                className={!errors.check
-                  ? classNames('popupInput', styles.input, (me.user_type && me.user_type !== 's') && 'nonTouch')
-                  : classNames('popupInput', 'popupError', styles.input, styles.error, (me.user_type && me.user_type !== 's') && 'nonTouch')}
-              >
-                <option value="">Выбрать</option>
-                {invoicesList && invoicesList.map(item =>
-                  <option
-                    key={item.id}
-                    value={item.id}>
-                    Счет № {item.id + 10000}
-                  </option>
+              <label className={classNames('popupLabel')}>Счет</label>
+              <Controller
+                control={control}
+                name='check'
+                render={({ field: { value, onChange } }) => (
+                  <Select
+                    isClearable={true}
+                    isDisabled={me?.user_type !== 's'}
+                    placeholder='Выбрать'
+                    classNamePrefix="react-select"
+                    className={classNames('react-select-container')}
+                    options={optionsCheck}
+                    value={value ? optionsCheck.find((с) => с.value === value) : ''}
+                    onChange={(val) => onChange(val?.value)}
+                  />
                 )}
-              </select>
+                rules={{ required: 'Выберите счет' }}
+              />
+
               {errors.check && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.check.message}</div>}
             </div>
           }
 
-          {!props.isStatic && (!props.detail ? getValues('check') : props.payment.invoice) &&
+          {!props.isStatic && (!props.detail ? watchCheck : props.payment.invoice) &&
             <div className={classNames('flex', 'popupInputBox')}>
               <p className={classNames('popupLabel', styles.projectLabel)}>Остаток по счету:</p>
               <div className={classNames('flex', styles.filesContainer)}>
@@ -237,7 +255,25 @@ export default function PaymentAddPopup(props) {
               ? classNames('flex', 'popupInputBox', styles.inputBox)
               : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
               <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="status">Статус платежа</label>
-              <select {...register('status', {
+              <Controller
+                control={control}
+                name='status'
+                render={({ field: { value, onChange } }) => (
+                  <Select
+                    isClearable={true}
+                    isSearchable={false}
+                    placeholder='Выбрать'
+                    classNamePrefix="react-select"
+                    className={classNames('react-select-container')}
+                    options={optionsStatus}
+                    value={value ? optionsStatus.find((с) => с.value === value) : ''}
+                    onChange={(val) => onChange(val?.value)}
+                  />
+                )}
+                rules={{ required: 'Выберите статус' }}
+              />
+
+              {/* <select {...register('status', {
                 required: 'Выберите статус',
               })}
                 id='status'
@@ -249,7 +285,7 @@ export default function PaymentAddPopup(props) {
                 <option value="">Выбрать</option>
                 <option value='1'>Оплачен</option>
                 <option value='0'>Не оплачен</option>
-              </select>
+              </select> */}
               {errors.status && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.status.message}</div>}
             </div>
           }

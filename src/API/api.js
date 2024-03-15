@@ -619,7 +619,6 @@ export const publicationsAPI = {
       text: text,
       files: files,
       date: date,
-      time: time,
     }
   ) {
     return instance.post('/api/publications/',
@@ -628,8 +627,7 @@ export const publicationsAPI = {
         project: project,
         text: text,
         files: files,
-        date: date,
-        time: time,
+        datetime: date,
       },
       {
         headers: {
@@ -646,7 +644,6 @@ export const publicationsAPI = {
       text: text,
       files: files,
       date: date,
-      time: time,
     }
   ) {
     return instance.patch(`/api/publications/${id}/`,
@@ -655,8 +652,7 @@ export const publicationsAPI = {
         project: project,
         text: text,
         files: files,
-        date: date,
-        time: time,
+        datetime: date,
       },
       {
         headers: {

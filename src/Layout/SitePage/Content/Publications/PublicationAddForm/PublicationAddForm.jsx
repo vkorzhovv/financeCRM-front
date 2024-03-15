@@ -7,7 +7,7 @@ import { selectMe } from '../../../../../redux/authSelectors';
 import { getProjects } from '../../../../../redux/projectsReducer';
 import classNames from "classnames";
 import Select from 'react-select';
-import { editDateForInput } from '../../../../../utils/dateEditor';
+import { editDateForInput, editToUTC } from '../../../../../utils/dateEditor';
 import LoadingIcon from '../../../../../svgIcons/loading';
 import { addPublication, getPublications } from '../../../../../redux/publicationsReducer';
 
@@ -54,14 +54,14 @@ export default function PublicationAddForm(props) {
   }
 
   const addItem = (data) => {
+
     dispatch(addPublication(
       {
         author: Number(data.author),
         project: data.project || null,
         text: data.text,
         files: arrayFiles(data.files),
-        date: data.date,
-        time: data.time,
+        date: (data.date || data.time) && editToUTC(data.date, data.time),
       }
     ))
       .then(() => {
@@ -121,7 +121,9 @@ export default function PublicationAddForm(props) {
             name='text'
             defaultValue={props.detail && props.invoice.comment}
             placeholder='Комментарий'
-            {...register('text')}
+            {...register('text', {
+              required: 'Введите текст',
+            })}
           ></textarea>
           {errors.text && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.text.message}</div>}
         </div>
@@ -189,7 +191,10 @@ export default function PublicationAddForm(props) {
                 name='date'
                 {...register('date',
                   {
-                    required: 'Выберите дату',
+                    min: {
+                      value: new Date(),
+                      message: 'Больше Max'
+                    }
                   })
                 }
               />
@@ -205,11 +210,7 @@ export default function PublicationAddForm(props) {
                   : classNames('popupInput', 'popupError', styles.inputHalf, styles.input, styles.error)}
                 type='time'
                 name='date'
-                {...register('time',
-                  {
-                    required: 'Выберите время',
-                  })
-                }
+                {...register('time')}
               />
               {errors.time && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.time.message}</div>}
             </div>

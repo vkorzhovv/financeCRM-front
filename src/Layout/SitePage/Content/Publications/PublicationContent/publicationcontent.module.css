@@ -4,3 +4,17 @@
   grid-template-columns: 450px auto;
   gap: 20px;
 }
+
+@media (max-width: 1400px) {}
+
+@media (max-width: 1200px) {}
+
+@media (max-width: 992px) {
+  .publicationContent {
+    grid-template-columns: 100%;
+  }
+}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 576px) {}

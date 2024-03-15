@@ -20,7 +20,6 @@ import { getItems, getPaymentTypes } from "../../../../../redux/cashItemReducer"
 import { selectAllItems, selectPaymentTypes } from "../../../../../redux/cashItemSelector";
 import { useNavigate } from "react-router-dom";
 import Select from 'react-select';
-import { useState } from "react";
 
 export default function InvoicesAddPopup(props) {
 
@@ -121,7 +120,6 @@ export default function InvoicesAddPopup(props) {
     if (props.detail) {
       dispatch(getSubtypes(props.invoice?.payment_type))
         .then(() => setValue('purpose', props.invoice?.subtype))
-      console.log('да ты заебал', props.invoice?.subtype)
     }
 
   }, [dispatch, setValue])

@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from './projectaddpopup.module.css';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProject, getProjects } from "../../../../../redux/projectsReducer";
 import { editProject } from "../../../../../redux/projectItemReducer";
@@ -10,6 +10,7 @@ import { selectIsFetchingAddProjects } from "../../../../../redux/projectItemSel
 import { selectIsFetchingEditProjects } from "../../../../../redux/projectsSelector";
 import { getClients, getEmployees } from "../../../../../redux/usersReducer";
 import { selectClients, selectEmployees } from "../../../../../redux/usersSelector";
+import Select from 'react-select';
 
 export default function ProjectAddPopup(props) {
 
@@ -19,11 +20,30 @@ export default function ProjectAddPopup(props) {
   const employees = useSelector(selectEmployees);
   const clients = useSelector(selectClients);
 
+  const optionsStatus = [{ value: '1', label: 'Активен' }, { value: '0', label: 'Неактивен' }];
+
+  let optionsEmployees = [];
+  employees?.map((item) => {
+    optionsEmployees.push({
+      value: `${item?.id}`, label: `${item?.last_name} ${item?.first_name} ${item?.father_name}`
+    })
+  })
+  optionsEmployees.sort((a, b) => a.label.localeCompare(b.label))
+
+  let optionsClients = [];
+  clients?.map((item) => {
+    optionsClients.push({
+      value: `${item?.id}`, label: `${item?.last_name} ${item?.first_name} ${item?.father_name}`
+    })
+  })
+  optionsClients.sort((a, b) => a.label.localeCompare(b.label))
+
   const {
     clearErrors,
     setError,
     register,
     setValue,
+    control,
     getValues,
     handleSubmit,
     formState: { errors, isValid }
@@ -34,15 +54,18 @@ export default function ProjectAddPopup(props) {
   useEffect(() => {
     dispatch(getClients())
       .then(() => {
-        props.detail && setValue('client', props.project.client && props.project.client.id);
+        props.detail && setValue('client', String(props.project.client?.id || ''));
       }
       )
     dispatch(getEmployees())
       .then(() => {
-        props.detail && setValue('manager', props.project.project_manager && props.project.project_manager.id);
-        props.detail && setValue('foreman', props.project.foreman && props.project.foreman.id);
+        props.detail && setValue('manager', String(props.project.project_manager?.id || ''));
+        props.detail && setValue('foreman', String(props.project.foreman?.id || ''));
       }
       )
+
+    props.detail && setValue('status', String(Number(props.project.active)))
+
   }, [dispatch, setValue])
 
   const addProjectLocal = (data) => {
@@ -57,7 +80,7 @@ export default function ProjectAddPopup(props) {
       Number(data.client) || null,
       Number(data.foreman),
       data.coordinates || null
-      ))
+    ))
       .then(() => {
         props.close(false)
         document.body.classList.remove('modal-show');
@@ -83,7 +106,7 @@ export default function ProjectAddPopup(props) {
       Number(data.client) || null,
       Number(data.foreman),
       data.coordinates || null
-      ))
+    ))
       .then(() => {
         props.close(false)
         document.body.classList.remove('modal-show');
@@ -152,91 +175,91 @@ export default function ProjectAddPopup(props) {
             {errors.description && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.description.message}</div>}
           </div>
           <div className={!errors.manager
-            ? classNames('flex', 'popupInputBox', styles.inputBox)
-            : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="manager">Менеджер</label>
-            <select {...register('manager', {
-              required: 'Выберите менеджера',
-            })}
-              id='manager'
-              className={!errors.status
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
-            >
-              <option value="">Выбрать</option>
-              {employees && employees.map(item =>
-                <option
-                  key={item.id}
-                  value={item.id}>
-                  {item.last_name} {item.first_name} {item.father_name}
-                </option>
+            ? classNames('flex', 'popupInputBox')
+            : classNames('flex', 'popupInputBox', 'popupBoxError')}>
+            <label className={classNames('popupLabel')}>Менеджер</label>
+            <Controller
+              control={control}
+              name='manager'
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  isClearable={true}
+                  placeholder='Выбрать'
+                  classNamePrefix="react-select"
+                  className={classNames('react-select-container')}
+                  options={optionsEmployees}
+                  value={value ? optionsEmployees.find((с) => с.value === value) : ''}
+                  onChange={(val) => onChange(val?.value)}
+                />
               )}
-            </select>
-
+              rules={{ required: 'Выберите менеджера' }}
+            />
             {errors.manager && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.manager.message}</div>}
           </div>
           <div className={!errors.client
-            ? classNames('flex', 'popupInputBox', styles.inputBox)
-            : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="client">Клиент</label>
-            <select {...register('client')}
-              id='client'
-              className={!errors.status
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
-            >
-              <option value="">Выбрать</option>
-              {clients && clients.map(item =>
-                <option
-                  key={item.id}
-                  value={item.id}>
-                  {item.last_name} {item.first_name} {item.father_name}
-                </option>
+            ? classNames('flex', 'popupInputBox')
+            : classNames('flex', 'popupInputBox', 'popupBoxError')}>
+            <label className={classNames('popupLabel')}>Клиент</label>
+            <Controller
+              control={control}
+              name='client'
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  isClearable={true}
+                  placeholder='Выбрать'
+                  classNamePrefix="react-select"
+                  className={classNames('react-select-container')}
+                  options={optionsClients}
+                  value={value ? optionsClients.find((с) => с.value === value) : ''}
+                  onChange={(val) => onChange(val?.value)}
+                />
               )}
-            </select>
-
+            />
             {errors.client && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.client.message}</div>}
           </div>
           <div className={!errors.foreman
-            ? classNames('flex', 'popupInputBox', styles.inputBox)
-            : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="foreman">Прораб</label>
-            <select {...register('foreman', {
-              required: 'Выберите прораба',
-            })}
-              id='foreman'
-              className={!errors.status
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
-            >
-              <option value="">Выбрать</option>
-              {employees && employees.map(item =>
-                <option
-                  key={item.id}
-                  value={item.id}>
-                  {item.last_name} {item.first_name} {item.father_name}
-                </option>
+            ? classNames('flex', 'popupInputBox')
+            : classNames('flex', 'popupInputBox', 'popupBoxError')}>
+            <label className={classNames('popupLabel')}>Прораб</label>
+            <Controller
+              control={control}
+              name='foreman'
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  isClearable={true}
+                  placeholder='Выбрать'
+                  classNamePrefix="react-select"
+                  className={classNames('react-select-container')}
+                  options={optionsEmployees}
+                  value={value ? optionsEmployees.find((с) => с.value === value) : ''}
+                  onChange={(val) => onChange(val?.value)}
+                />
               )}
-            </select>
+              rules={{ required: 'Выберите менеджера' }}
+            />
             {errors.foreman && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.foreman.message}</div>}
           </div>
           <div className={!errors.status
-            ? classNames('flex', 'popupInputBox', styles.inputBox)
-            : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel', styles.projectLabel)} htmlFor="status">Статус</label>
-            <select {...register('status', {
-              required: 'Выберите статус',
-            })}
-              id='status'
-              className={!errors.status
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
-              defaultValue={props.detail && String(Number(props.project.active))}
-            >
-              <option value="">Выбрать</option>
-              <option value='1'>Активен</option>
-              <option value='0'>Неактивен</option>
-            </select>
+            ? classNames('flex', 'popupInputBox')
+            : classNames('flex', 'popupInputBox', 'popupBoxError')}>
+            <label className={classNames('popupLabel')}>Статус</label>
+            <Controller
+              control={control}
+              name='status'
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  isClearable={true}
+                  isSearchable={false}
+                  placeholder='Выбрать'
+                  classNamePrefix="react-select"
+                  className={classNames('react-select-container')}
+                  options={optionsStatus}
+                  value={value ? optionsStatus.find((с) => с.value === value) : ''}
+                  onChange={(val) => onChange(val?.value)}
+                />
+              )}
+              rules={{ required: 'Выберите статус' }}
+            />
             {errors.status && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.status.message}</div>}
           </div>
           <div className={!errors.start

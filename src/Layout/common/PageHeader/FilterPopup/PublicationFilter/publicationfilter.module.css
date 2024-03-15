@@ -1,0 +1,17 @@
+.pubProject {
+  width: 100%;
+  gap: 20px;
+}
+
+.pubProjectInputBox {
+  max-width: 400px;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+
+}
+
+@media (max-width: 500px) {
+
+}

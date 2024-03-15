@@ -1,13 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectPublications } from '../../../../../../redux/publicationsSelector';
+import { selectFilteredPublications } from '../../../../../../redux/publicationsSelector';
 import styles from './publicationlist.module.css';
 import classNames from 'classnames';
 import PublicationItem from './PublicationItem/PublicationItem';
 
 export default function PublicationList(props) {
 
-  const publications = useSelector(selectPublications)
+  const publications = useSelector(selectFilteredPublications)
 
   return (
     <div className={classNames('flex', styles.pubList)}>

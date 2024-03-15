@@ -3,6 +3,7 @@ import React from "react";
 import InvoicesFilter from "./InvoicesFilter/InvoicesFilter";
 import PaymentFilter from "./PaymentFilter/PaymentFilter";
 import ProjectsFilter from "./ProjectsFilter/ProjectsFilter";
+import PublicationFilter from "./PublicationFilter/PublicationFilter";
 import UsersFilter from "./UsersFilter/UsersFilter";
 
 export default function FilterPopup(props) {
@@ -12,6 +13,7 @@ export default function FilterPopup(props) {
       {props.projectsFilter && <ProjectsFilter />}
       {props.invoicesFilter && <InvoicesFilter />}
       {props.paymentFilter && <PaymentFilter />}
+      {props.publicationFilter && <PublicationFilter />}
     </div>
   )
 }

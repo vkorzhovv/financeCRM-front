@@ -34,7 +34,6 @@ export const projectsReducer = (state = initialState, action) => {
       return {
         ...state,
         projects: action.projects,
-
       }
     case SET_USER_PROJECTS:
       return {

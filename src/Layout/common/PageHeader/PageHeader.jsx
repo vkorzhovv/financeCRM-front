@@ -55,6 +55,7 @@ export default function PageHeader(props) {
             invoicesFilter={props.invoicesFilter}
             projectsFilter={props.projectsFilter}
             usersFilter={props.usersFilter}
+            publicationFilter={props.publicationFilter}
           />
         </div>
       }

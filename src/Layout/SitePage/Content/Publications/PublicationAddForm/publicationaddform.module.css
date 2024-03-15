@@ -102,6 +102,7 @@
 .deleteFileBtn:hover .line {
   background-color: var(--redCF);
 }
+
 .deleteFileBtn:active {
   border: 1px solid var(--black05);
 }
@@ -114,3 +115,40 @@
   padding: 10px 15px;
   margin-left: 30px;
 }
+
+@media (max-width: 1400px) {}
+
+@media (max-width: 1200px) {}
+
+@media (max-width: 992px) {}
+
+@media (max-width: 768px) {
+  .checkLabel {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .fileLabel {
+    flex-direction: column;
+  }
+
+  .labelText {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .btnsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-self: flex-end;
+  }
+
+  .btnsWrapper button {
+    margin: 0 !important;
+  }
+}
+
+

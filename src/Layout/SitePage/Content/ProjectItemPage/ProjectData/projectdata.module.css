@@ -225,4 +225,13 @@
   .projectDataItem {
     padding: 27px 20px 25px 20px;
   }
+
+  .map {
+    position: fixed;
+    right: 15px;
+    bottom: 0;
+    width: 290px;
+    height: 260px;
+    z-index: 200;
+  }
 }

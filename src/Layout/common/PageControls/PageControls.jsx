@@ -90,6 +90,8 @@ export default function PageControls(props) {
       sessionStorage.getItem('paymentSummMax') != 'Infinity' ||
       sessionStorage.getItem('paymentStatus') != ''
     );
+  const publicationFilterActive = props.publicationFilter && Boolean(sessionStorage.getItem('publicationProject').length)
+
 
   return (
     <div className={classNames('flex', styles.pageControls)}>
@@ -124,7 +126,7 @@ export default function PageControls(props) {
             >
               <SettingsIcon />
               {
-                (userFilterActive || projectFilterActive || invoiceFilterActive || paymentFilterActive) &&
+                (userFilterActive || projectFilterActive || invoiceFilterActive || paymentFilterActive || publicationFilterActive) &&
                 <div>
                   <CheckIcon />
                 </div>

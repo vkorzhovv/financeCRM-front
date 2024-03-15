@@ -28,7 +28,7 @@ export default function PaymentContentContainer(props) {
           sessionStorage.getItem('paymentSummMax') || 'Infinity',
           sessionStorage.getItem('paymentStatus') || ''
         ))
-      })
+      }) 
 
   }, [dispatch, me])
 

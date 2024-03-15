@@ -2,13 +2,15 @@ import classNames from "classnames";
 import React from "react";
 import { createPortal } from "react-dom";
 import styles from './staffaddpopup.module.css';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { addUser, getClients, getContractors, getEmployees } from "../../../../../redux/usersReducer";
 import { useDispatch, useSelector } from 'react-redux';
 import { editUser } from "../../../../../redux/userItemReducer";
 import { selectIsFetchingAddUser } from "../../../../../redux/usersSelector";
 import { selectIsFetchingEditUser } from "../../../../../redux/userItemSelector";
 import { selectMe } from "../../../../../redux/authSelectors";
+import Select from 'react-select';
+import { useEffect } from "react";
 
 export default function StaffAddPopup(props) {
 
@@ -18,11 +20,15 @@ export default function StaffAddPopup(props) {
   const isFetchingAdd = useSelector(selectIsFetchingAddUser);
   const isFetchingEdit = useSelector(selectIsFetchingEditUser);
 
+  const optionsTypes = [{value: 'k', label: 'Клиент'}, {value: 'p', label: 'Подрядчик'}, {value: 's', label: 'Сотрудник'}];
+
   const {
     clearErrors,
     setError,
     register,
-    getValues,
+    setValue,
+    control,
+    watch,
     handleSubmit,
     formState: { errors, isValid }
   } = useForm({
@@ -87,6 +93,12 @@ export default function StaffAddPopup(props) {
         }
       })
   }
+
+  const watchType = watch('type');
+
+  useEffect(() => {
+    props.detail && setValue('type', props.user.user_type)
+  }, [setValue])
 
   const onSubmit = (data => {
     props.detail ? editUserLocal(data) : addUserLocal(data);
@@ -262,27 +274,31 @@ export default function StaffAddPopup(props) {
               />
               {errors.password && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.password.message}</div>}
             </div>}
+
           <div className={!errors.type
-            ? classNames('flex', 'popupInputBox', styles.inputBox)
-            : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <label className={classNames('popupLabel', styles.staffLabel)} htmlFor="type">Тип пользователя</label>
-            <select
-              id='type'
-              {...register('type', {
-                required: 'Выберите тип пользователя',
-              })}
-              defaultValue={props.detail && props.user.user_type}
-              className={!errors.type
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
-            >
-              <option value="">Выбрать</option>
-              <option value="k">Клиент</option>
-              <option value="p">Подрядчик</option>
-              <option value="s">Сотрудник</option>
-            </select>
+            ? classNames('flex', 'popupInputBox')
+            : classNames('flex', 'popupInputBox', 'popupBoxError')}>
+            <label className={classNames('popupLabel')}>Тип пользователя</label>
+            <Controller
+              control={control}
+              name='type'
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  isClearable={true}
+                  isSearchable={false}
+                  placeholder='Выбрать'
+                  classNamePrefix="react-select"
+                  className={classNames('react-select-container')}
+                  options={optionsTypes}
+                  value={value ? optionsTypes.find((с) => с.value === value) : ''}
+                  onChange={(val) => onChange(val?.value)}
+                />
+              )}
+              rules={{ required: 'Выберите тип' }}
+            />
             {errors.type && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.type.message}</div>}
           </div>
+
           <div className={!errors.phone
             ? classNames('flex', 'popupInputBox', styles.inputBox)
             : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
@@ -344,7 +360,7 @@ export default function StaffAddPopup(props) {
             </div>
           }
           {
-            me.is_superuser && getValues('type') === 's' &&
+            me.is_superuser && watchType === 's' &&
             <div className={classNames('flex', styles.inputBox)}>
               <label className={classNames('popupLabel', styles.staffLabel)} htmlFor="superuser">Доступ ко всему</label>
               <div className={styles.checkWrapper}>

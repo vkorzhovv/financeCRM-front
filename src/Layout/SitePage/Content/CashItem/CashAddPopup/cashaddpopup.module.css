@@ -4,6 +4,10 @@
   height: max-content;
 }
 
+.visible {
+  overflow: visible;
+}
+
 .cashPopupStaticWindow {
   flex-direction: column;
   width: 100%;
