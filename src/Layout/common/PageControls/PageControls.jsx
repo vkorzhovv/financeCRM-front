@@ -46,51 +46,51 @@ export default function PageControls(props) {
   const userFilterActive =
     props.usersFilter && Boolean(sessionStorage.getItem('userBalanceStart')) &&
     (
-      sessionStorage.getItem('userBalanceStart') != '-Infinity' ||
-      sessionStorage.getItem('userBalanceEnd') != 'Infinity'
+      sessionStorage.getItem('userBalanceStart') !== '-Infinity' ||
+      sessionStorage.getItem('userBalanceEnd') !== 'Infinity'
     );
   const projectFilterActive =
     props.projectsFilter && Boolean(sessionStorage.getItem('projectBalanceMax')) &&
     (
-      sessionStorage.getItem('projectManager') != '' ||
-      sessionStorage.getItem('projectForeman') != '' ||
-      sessionStorage.getItem('projectClient') != '' ||
-      sessionStorage.getItem('projectStartDate') != '' ||
-      sessionStorage.getItem('projectEndDate') != '' ||
-      sessionStorage.getItem('projectSummMin') != '0' ||
-      sessionStorage.getItem('projectSummMax') != 'Infinity' ||
-      sessionStorage.getItem('projectBalanceMin') != '-Infinity' ||
-      sessionStorage.getItem('projectBalanceMax') != 'Infinity' ||
-      sessionStorage.getItem('projectExpensesMin') != '-Infinity' ||
-      sessionStorage.getItem('projectExpensesMax') != 'Infinity' ||
-      sessionStorage.getItem('projectStatus') != ''
+      sessionStorage.getItem('projectManager') !== '' ||
+      sessionStorage.getItem('projectForeman') !== '' ||
+      sessionStorage.getItem('projectClient') !== '' ||
+      sessionStorage.getItem('projectStartDate') !== '' ||
+      sessionStorage.getItem('projectEndDate') !== '' ||
+      sessionStorage.getItem('projectSummMin') !== '0' ||
+      sessionStorage.getItem('projectSummMax') !== 'Infinity' ||
+      sessionStorage.getItem('projectBalanceMin') !== '-Infinity' ||
+      sessionStorage.getItem('projectBalanceMax') !== 'Infinity' ||
+      sessionStorage.getItem('projectExpensesMin') !== '-Infinity' ||
+      sessionStorage.getItem('projectExpensesMax') !== 'Infinity' ||
+      sessionStorage.getItem('projectStatus') !== ''
     );
   const invoiceFilterActive =
     props.invoicesFilter && Boolean(sessionStorage.getItem('invoiceSummMax')) &&
     (
-      sessionStorage.getItem('invoiceProject') != '' ||
-      sessionStorage.getItem('invoicePayer') != '' ||
-      sessionStorage.getItem('invoiceReceiver') != '' ||
-      sessionStorage.getItem('invoiceFromDate') != '' ||
-      sessionStorage.getItem('invoiceToDate') != '' ||
-      sessionStorage.getItem('invoiceSummMin') != '0' ||
-      sessionStorage.getItem('invoiceSummMax') != 'Infinity' ||
-      sessionStorage.getItem('invoiceType') != '' ||
-      sessionStorage.getItem('invoiceStatus') != ''
+      sessionStorage.getItem('invoiceProject') !== '' ||
+      sessionStorage.getItem('invoicePayer') !== '' ||
+      sessionStorage.getItem('invoiceReceiver') !== '' ||
+      sessionStorage.getItem('invoiceFromDate') !== '' ||
+      sessionStorage.getItem('invoiceToDate') !== '' ||
+      sessionStorage.getItem('invoiceSummMin') !== '0' ||
+      sessionStorage.getItem('invoiceSummMax') !== 'Infinity' ||
+      sessionStorage.getItem('invoiceType') !== '' ||
+      sessionStorage.getItem('invoiceStatus') !== ''
     );
   const paymentFilterActive =
     props.paymentFilter && Boolean(sessionStorage.getItem('paymentSummMax')) &&
     (
-      sessionStorage.getItem('paymentProject') != '' ||
-      sessionStorage.getItem('paymentPayer') != '' ||
-      sessionStorage.getItem('paymentReceiver') != '' ||
-      sessionStorage.getItem('paymentFromDate') != '' ||
-      sessionStorage.getItem('paymentToDate') != '' ||
-      sessionStorage.getItem('paymentSummMin') != '0' ||
-      sessionStorage.getItem('paymentSummMax') != 'Infinity' ||
-      sessionStorage.getItem('paymentStatus') != ''
+      sessionStorage.getItem('paymentProject') !== '' ||
+      sessionStorage.getItem('paymentPayer') !== '' ||
+      sessionStorage.getItem('paymentReceiver') !== '' ||
+      sessionStorage.getItem('paymentFromDate') !== '' ||
+      sessionStorage.getItem('paymentToDate') !== '' ||
+      sessionStorage.getItem('paymentSummMin') !== '0' ||
+      sessionStorage.getItem('paymentSummMax') !== 'Infinity' ||
+      sessionStorage.getItem('paymentStatus') !== ''
     );
-  const publicationFilterActive = props.publicationFilter && Boolean(sessionStorage.getItem('publicationProject').length)
+  const publicationFilterActive = props.publicationFilter && Boolean(sessionStorage.getItem('publicationProject')?.length)
 
 
   return (

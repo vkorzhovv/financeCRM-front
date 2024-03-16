@@ -273,19 +273,6 @@ export default function PaymentAddPopup(props) {
                 rules={{ required: 'Выберите статус' }}
               />
 
-              {/* <select {...register('status', {
-                required: 'Выберите статус',
-              })}
-                id='status'
-                className={!errors.status
-                  ? classNames('popupInput', styles.input)
-                  : classNames('popupInput', 'popupError', styles.input, styles.error)}
-                defaultValue={String(Number(props.detail && props.payment.approved))}
-              >
-                <option value="">Выбрать</option>
-                <option value='1'>Оплачен</option>
-                <option value='0'>Не оплачен</option>
-              </select> */}
               {errors.status && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.status.message}</div>}
             </div>
           }
