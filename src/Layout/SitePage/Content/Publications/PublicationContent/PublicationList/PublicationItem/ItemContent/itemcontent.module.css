@@ -72,6 +72,20 @@
   gap: 15px;
 }
 
+.docs, .images {
+  margin-top: 15px;
+}
+
+.openImg {
+  cursor: pointer;
+}
+
+.image {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+}
+
 .file {
   width: max-content;
   gap: 10px;

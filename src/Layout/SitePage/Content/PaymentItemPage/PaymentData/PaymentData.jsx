@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './paymentdata.module.css';
 import classNames from 'classnames';
 import { editDate } from '../../../../../utils/dateEditor';
-import { editFileName } from '../../../../../utils/fileNameEditor';
+import { editFileName, editFileNameFull } from '../../../../../utils/fileNameEditor';
 import { NavLink } from 'react-router-dom';
 
 export default function PaymentData(props) {
@@ -122,7 +122,7 @@ export default function PaymentData(props) {
                       target="_blank"
                       rel="noreferrer"
                       className={styles.attachmentFieldDocument}>
-                      Файл {item.id}{editFileName(item.scan)}
+                      {editFileNameFull(item.scan)}
                     </a>
                   )
                   :

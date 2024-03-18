@@ -646,12 +646,12 @@ export const publicationsAPI = {
       date: date,
     }
   ) {
-    return instance.patch(`/api/publications/${id}/`,
+    return instance.patch(`/api/change_publication/${id}/`,
       {
         author: author,
         project: project,
         text: text,
-        files: files,
+        scans: files,
         datetime: date,
       },
       {

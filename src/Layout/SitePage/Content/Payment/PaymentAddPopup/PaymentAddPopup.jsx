@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPayment, getPayments, getPaymentsInInvoice } from "../../../../../redux/paymentReducer";
 import { editPayment, getPaymentItem } from "../../../../../redux/paymentItemReducer";
 import { getInvoiceItem } from "../../../../../redux/invoiceItemReducer";
-import { editFileName } from "../../../../../utils/fileNameEditor";
+import { editFileName, editFileNameFull } from "../../../../../utils/fileNameEditor";
 import { selectIsFetchingAddPayment } from "../../../../../redux/paymentSelector";
 import { selectIsFetchingEditPayment } from "../../../../../redux/paymentItemSelector";
 import { editDateForInput } from "../../../../../utils/dateEditor";
@@ -292,7 +292,7 @@ export default function PaymentAddPopup(props) {
                       target="_blank"
                       rel="noreferrer"
                       className={styles.attachmentFieldDocument}>
-                      Файл&nbsp;{item.id}{editFileName(item.scan)}
+                      {editFileNameFull(item.scan)}
                     </a>
 
                     <button

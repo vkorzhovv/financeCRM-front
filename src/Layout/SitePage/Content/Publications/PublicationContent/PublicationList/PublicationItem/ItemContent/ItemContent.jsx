@@ -10,6 +10,8 @@ import ConfirmDelete from '../../../../../../../common/ConfirmDelete/ConfirmDele
 import { deletePublication } from '../../../../../../../../redux/publicationsReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMe } from '../../../../../../../../redux/authSelectors';
+import { editFileName, editFileNameFull } from '../../../../../../../../utils/fileNameEditor';
+import ImgPopup from './ImgPopup/ImgPopup';
 
 export default function ItemContent(props) {
 
@@ -20,6 +22,18 @@ export default function ItemContent(props) {
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [fullText, setFullText] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+
+  const [isOpenFullImg, setIsOpenFullImg] = useState(false);
+  const handleClickOpenImg = () => {
+    setIsOpenFullImg(true)
+    document.body.classList.add('modal-show');
+  }
+  const handleClickCloseImg = (e) => {
+    setIsOpenFullImg(false)
+    document.body.classList.remove('modal-show');
+  }
+
+  const [link, setLink] = useState('')
 
   const handleClickOpenDelete = () => {
     setIsOpenDelete(true)
@@ -78,23 +92,47 @@ export default function ItemContent(props) {
       {filesList.length > 0 &&
         <div className={styles.pubFilesBox}>
           <p>Приложенные документы:</p>
-          <div className={classNames('flex', styles.pubFiles)}>
+          <div className={classNames('flex', styles.pubFiles, styles.docs)}>
             {
-              filesList.map((item) =>
+              filesList.filter(item => editFileName(item.file) === '.pdf').map((item) =>
                 <div
                   key={item.id}
                   className={classNames('flex', styles.file)}
                 >
                   <a
                     href={item.file}
-                    download
                     target="_blank"
                     rel="noreferrer"
                     className={styles.attachmentFieldDocument}>
-                    Файл {item.id}
+                    {editFileNameFull(item.file)}
                   </a>
                 </div>
               )
+            }
+          </div>
+          <div className={classNames('flex', styles.pubFiles, styles.images)}>
+            {
+              filesList.filter(item => editFileName(item.file) !== '.pdf').map((item) =>
+                <div
+                  key={item.id}
+                  className={classNames('flex', 'imageBox', styles.image, styles.openImg)}
+                  onClick={() => {
+                    setLink(item.file)
+                    handleClickOpenImg()
+                  }}
+                >
+                  <img
+                    src={item.file}
+                    className={styles.attachmentFieldDocument} />
+                </div>
+              )
+            }
+            {
+              isOpenFullImg &&
+              <ImgPopup
+                file={link}
+                handleClickClose={handleClickCloseImg}
+              />
             }
           </div>
         </div>

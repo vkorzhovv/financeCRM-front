@@ -54,7 +54,7 @@ export default function PublicationAddForm(props) {
   }
 
   const addItem = (data) => {
-
+    console.log(data)
     dispatch(addPublication(
       {
         author: Number(data.author),

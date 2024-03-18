@@ -10,6 +10,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import LoadingIcon from '../../../../../../../../svgIcons/loading';
 import { selectProjects } from '../../../../../../../../redux/projectsSelector';
+import { editFileName, editFileNameFull } from '../../../../../../../../utils/fileNameEditor';
 
 export default function EditForm(props) {
 
@@ -31,6 +32,8 @@ export default function EditForm(props) {
 
   const [filesList, setFilesList] = useState(props.item.files?.slice());
 
+  console.log(filesList)
+
   const projectsList = useSelector(selectProjects);
 
   let optionsProjects = [];
@@ -39,6 +42,8 @@ export default function EditForm(props) {
       value: `${item?.id}`, label: `${item?.name}`
     })
   })
+
+  console.log(filesList);
 
   const handleDeleteFile = (arr, item) => {
     const filtered = arr.filter((el) => el.id !== item.id)
@@ -54,7 +59,7 @@ export default function EditForm(props) {
   }
 
   useEffect(() => {
-    setValue('author', props.item.author.id);
+    setValue('author', props.item.author?.id);
     setValue('project', String(props.item?.project?.id))
   }, [dispatch, setValue, props.item])
 
@@ -164,7 +169,7 @@ export default function EditForm(props) {
           </div>
           <div className={classNames('flex', styles.pubFiles)}>
             {
-              filesList.map((item) =>
+              filesList.filter(item => editFileName(item.file) === '.pdf').map((item) =>
                 <div
                   key={item.id}
                   className={classNames('flex', styles.file)}
@@ -175,8 +180,30 @@ export default function EditForm(props) {
                     target="_blank"
                     rel="noreferrer"
                     className={styles.attachmentFieldDocument}>
-                    Файл {item.id}
+                    {editFileNameFull(item.file)}
                   </a>
+                  <button
+                    onClick={() => handleDeleteFile(filesList, item)}
+                    type="button"
+                    className={classNames('flex', styles.deleteFileBtn)}
+                  >
+                    <span className={classNames(styles.horLine, styles.line)}></span>
+                    <span className={classNames(styles.verLine, styles.line)}></span>
+                  </button>
+                </div>
+              )
+            }
+          </div>
+          <div className={classNames('flex', styles.pubFiles, styles.images)}>
+            {
+              filesList.filter(item => editFileName(item.file) !== '.pdf').map((item) =>
+                <div
+                  key={item.id}>
+                  <div
+                    className={classNames('flex', 'imageBox', styles.image)}
+                  >
+                    <img src={item.file} />
+                  </div>
                   <button
                     onClick={() => handleDeleteFile(filesList, item)}
                     type="button"
