@@ -29,7 +29,7 @@ export default function PaymentData(props) {
               <div className={styles.paymentDataList}>
                 <div className={classNames('flex', styles.paymentDataField)}>
                   <p className={styles.paymentDataTitle}>Проект:</p>
-                  {props.payment.invoice.project ?
+                  {props.payment?.invoice?.project ?
                     <NavLink
                       to={`/projects/${props.payment.invoice.project.id}`}
                       className={!(props.me.user_type === 's' ||

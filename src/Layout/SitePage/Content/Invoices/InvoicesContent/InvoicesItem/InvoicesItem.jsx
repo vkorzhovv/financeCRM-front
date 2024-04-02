@@ -19,12 +19,12 @@ export default function InvoicesItem(props) {
       </div>
       <div className={classNames('tableCell', styles.invoicesCell)}>
         {
-          props.item.project ? props.item.project.name : 'Не выбран'
+          props.item?.project ? props.item?.project?.name : 'Не выбран'
         }
       </div>
       <div className={classNames('tableCell', 'nowrapString', styles.invoicesCell)}>
         {
-          props.item.receiver
+          props.item?.receiver
             ?
             `${props.item.receiver.last_name} ${editName(props.item.receiver.first_name)} ${editName(props.item.receiver.father_name)}`
             :

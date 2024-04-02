@@ -43,8 +43,6 @@ export default function EditForm(props) {
     })
   })
 
-  console.log(filesList);
-
   const handleDeleteFile = (arr, item) => {
     const filtered = arr.filter((el) => el.id !== item.id)
     setFilesList(filtered);

@@ -20,7 +20,7 @@ export default function PaymentItem(props) {
       </div>
       <div className={classNames('tableCell', styles.paymentCell)}>
         {
-          props.item.invoice.project && props.item.invoice.project.name
+          props.item.invoice.project ? props.item.invoice.project.name : 'Не выбран'
         }
       </div>
       <div className={classNames('tableCell', 'nowrapString', styles.paymentCell)}>

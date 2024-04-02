@@ -21,7 +21,6 @@ export default function ItemContent(props) {
   const [filesList, setFilesList] = useState(props.item.files?.slice());
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [fullText, setFullText] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
 
   const [isOpenFullImg, setIsOpenFullImg] = useState(false);
   const handleClickOpenImg = () => {

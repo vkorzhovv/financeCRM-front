@@ -10,15 +10,15 @@ export default function InvoicesListContainer(props) {
   const dispatch = useDispatch();
   const invoicesList = useSelector(selectProjectInvoices);
 
-  const projectId = props.invoice.project && props.invoice.project.id;
+  const projectId = props.invoice?.project?.id;
 
   useEffect(() => {
-    projectId && dispatch(getProjectInvoices(projectId))
+    projectId && dispatch(getProjectInvoices(projectId));
   }, [dispatch, projectId])
 
   return (
     <InvoicesList
-      invoicesList={invoicesList}
+      invoicesList={projectId ? invoicesList : []}
       me={props.me}
     />
   );

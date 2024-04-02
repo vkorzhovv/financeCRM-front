@@ -77,8 +77,8 @@ export const invoicesReducer = (state = initialState, action) => {
         filteredInvoices: state.invoices.length
           ? [...state.invoices]
             .filter(item => (`${item.id + 10000}
-                ${item.project.name}
-                ${item.project.description}
+                ${item.project?.name}
+                ${item.project?.description}
                 ${item.payer && item.payer.last_name} ${item.payer && item.payer.first_name} ${item.payer && item.payer.father_name}
                 ${item.receiver && item.receiver.last_name} ${item.receiver && item.receiver.first_name} ${item.receiver && item.receiver.father_name}`
               .toLowerCase()).includes(action.searchInvoice))
@@ -89,9 +89,9 @@ export const invoicesReducer = (state = initialState, action) => {
       return {
         ...state,
         filterDatas: action.filterDatas,
-        filteredInvoices: state.filteredInvoices.length
+        filteredInvoices: state.filteredInvoices?.length
           ? [...state.filteredInvoices]
-            .filter(item => action.filterDatas.project === '' ? item : +action.filterDatas.project === +item.project.id)
+            .filter(item => action.filterDatas.project === '' ? item : +action.filterDatas.project === +item.project?.id)
             .filter(item => action.filterDatas.payer === '' ? item : +action.filterDatas.payer === +item.payer.id)
             .filter(item => action.filterDatas.receiver === '' ? item : +action.filterDatas.receiver === +item.receiver.id)
             .filter(item => action.filterDatas.fromDate === '' ? item : new Date(action.filterDatas.fromDate).getTime() <= new Date(item.date).getTime())

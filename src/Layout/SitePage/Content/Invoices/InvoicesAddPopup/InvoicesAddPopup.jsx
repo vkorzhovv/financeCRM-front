@@ -272,7 +272,6 @@ export default function InvoicesAddPopup(props) {
                     onChange={(val) => onChange(val?.value)}
                   />
                 )}
-                rules={{ required: 'Выберите проект' }}
               />
               {errors.project && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.project.message}</div>}
             </div>

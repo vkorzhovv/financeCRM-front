@@ -97,7 +97,7 @@ export default function InvoiceData(props) {
                 <div className={styles.invoiceDataList}>
                   <div className={classNames('flex', styles.invoiceDataField)}>
                     <p className={styles.invoiceDataTitle}>Проект:</p>
-                    {props.invoice.project ?
+                    {props.invoice?.project ?
                       <NavLink
                         className={!(me.user_type === 's' ||
                           me.id === props.invoice.project.client.id ||
@@ -106,7 +106,7 @@ export default function InvoiceData(props) {
                           && 'nonTouch'}
                         to={`/projects/${props.invoice.project.id}`}
                       >
-                        {props.invoice.project.name}
+                        {props.invoice.project?.name}
                       </NavLink>
                       :
                       <p>Не выбран</p>

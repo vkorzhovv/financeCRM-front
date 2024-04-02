@@ -1,3 +1,7 @@
 export function editName(string) {
-  return `${string && string.slice(0, 1)}.`
+  if(string) {
+    return `${string && string.slice(0, 1)}.`
+  } else {
+    return ''
+  }
 }
