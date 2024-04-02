@@ -1,5 +1,7 @@
 .controls {
   position: relative;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .userBtn {
@@ -32,9 +34,6 @@
 }
 
 .balance {
-  position: absolute;
-  top: 100%;
-  left: 0;
   font-size: 14px;
   color: var(--grey78);
 }
