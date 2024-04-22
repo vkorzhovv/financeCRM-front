@@ -24,7 +24,7 @@ export default function UserControls(props) {
         <MoreIcon />
       </button>
       {
-        props.me.user_type === 's' &&
+        props.me.user_type === 's' && props.me.countBalance &&
         <p className={styles.balance}>Баланс&nbsp;{props.me.balance}&nbsp;&#8381;</p>
       }
       {isOpenUser &&

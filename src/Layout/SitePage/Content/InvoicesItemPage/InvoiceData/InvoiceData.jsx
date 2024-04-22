@@ -36,7 +36,7 @@ export default function InvoiceData(props) {
         props.invoice.subtype,
         props.invoice.payer.id,
         props.invoice.receiver.id,
-        props.invoice.project.id,
+        props.invoice?.project?.id || null,
         props.invoice.amount,
         props.invoice.date,
       ))
@@ -52,7 +52,7 @@ export default function InvoiceData(props) {
         props.invoice.subtype,
         props.invoice.payer.id,
         props.invoice.receiver.id,
-        props.invoice.project.id,
+        props.invoice?.project?.id || null,
         props.invoice.amount,
         props.invoice.date,
       ))

@@ -14,6 +14,10 @@
   width: 176px;
 }
 
+.inputBoxMargBot {
+  margin-bottom: 20px;
+}
+
 @media (max-width: 576px) {
   .group {
     grid-template-columns: 100%;

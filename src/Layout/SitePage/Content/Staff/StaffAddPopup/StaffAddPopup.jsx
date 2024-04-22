@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import styles from './staffaddpopup.module.css';
 import { Controller, useForm } from 'react-hook-form';
@@ -20,7 +20,7 @@ export default function StaffAddPopup(props) {
   const isFetchingAdd = useSelector(selectIsFetchingAddUser);
   const isFetchingEdit = useSelector(selectIsFetchingEditUser);
 
-  const optionsTypes = [{value: 'k', label: 'Клиент'}, {value: 'p', label: 'Подрядчик'}, {value: 's', label: 'Сотрудник'}];
+  const optionsTypes = [{ value: 'k', label: 'Клиент' }, { value: 'p', label: 'Подрядчик' }, { value: 's', label: 'Сотрудник' }];
 
   const {
     clearErrors,
@@ -37,16 +37,20 @@ export default function StaffAddPopup(props) {
 
   const addUserLocal = (data) => {
     dispatch(addUser(
-      data.name,
-      data.surname,
-      data.patronymic,
-      data.login,
-      data.password,
-      data.type,
-      data.phone,
-      data.superuser || false,
-      data.description,
-      Number(data.start_balance) || 0
+      {
+        name: data.name,
+        surname: data.surname,
+        patronymic: data.patronymic,
+        login: data.login || null,
+        password: data.password || null,
+        type: data.type,
+        phone: data.phone,
+        superuser: data.superuser || false,
+        descr: data.description,
+        start_balance: Number(data.start_balance) || 0,
+        countBalance: data.countBalance || null,
+        isRegister: data.registerUser,
+      }
     ))
       .then(() => {
         data.type === 'k' ? dispatch(getClients())
@@ -67,16 +71,21 @@ export default function StaffAddPopup(props) {
 
   const editUserLocal = (data) => {
     dispatch(editUser(
-      props.user.id,
-      data.name,
-      data.surname,
-      data.patronymic,
-      data.login,
-      data.type,
-      data.phone,
-      data.superuser || false,
-      data.description,
-      Number(data.start_balance) || 0
+      {
+        userId: props.user.id,
+        name: data.name,
+        surname: data.surname,
+        patronymic: data.patronymic,
+        login: data.login || null,
+        password: data.password,
+        type: data.type,
+        phone: data.phone,
+        superuser: data.superuser || false,
+        descr: data.description,
+        start_balance: Number(data.start_balance) || 0,
+        countBalance: data.countBalance,
+        isRegister: data.registerUser,
+      }
     ))
       .then(() => {
         data.type === 'k' ? dispatch(getClients())
@@ -95,10 +104,22 @@ export default function StaffAddPopup(props) {
   }
 
   const watchType = watch('type');
+  const watchRegisterUser = watch('registerUser');
+  const watchCountBalance = watch('countBalance');
+
+  const [registerUser, setRegisterUser] = useState(true);
+  const [countBalance, setCountBalance] = useState(false);
 
   useEffect(() => {
     props.detail && setValue('type', props.user.user_type)
+    props.detail && setValue('registerUser', props.user.isRegister)
+    console.log(props.user?.countBalance)
   }, [setValue])
+
+  useEffect(() => {
+    setRegisterUser(watchRegisterUser)
+    setCountBalance(watchCountBalance)
+  }, [watchRegisterUser, watchCountBalance])
 
   const onSubmit = (data => {
     props.detail ? editUserLocal(data) : addUserLocal(data);
@@ -222,33 +243,37 @@ export default function StaffAddPopup(props) {
             ></textarea>
             {errors.description && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.description.message}</div>}
           </div>
-          <div className={!errors.login
-            ? classNames('popupInputBox', styles.inputBox)
-            : classNames('popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
-            <input
-              className={!errors.login
-                ? classNames('popupInput', styles.input)
-                : classNames('popupInput', 'popupError', styles.input, styles.error)}
-              type='text'
-              name='login'
-              defaultValue={props.detail && props.user.username}
-              placeholder='Логин'
-              {...register('login',
-                {
-                  required: 'Введите логин',
-                  minLength: {
-                    value: 4,
-                    message: 'Минимум 4 символа'
-                  },
-                  pattern: {
-                    value: /^[a-zA-z0-9]+$/,
-                    message: 'Ввод только латинских букв и цифр'
-                  }
-                })}
-            />
-            {errors.login && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.login.message}</div>}
-          </div>
-          {!props.detail &&
+          {
+            registerUser &&
+            <div className={!errors.login
+              ? classNames('popupInputBox', styles.inputBox)
+              : classNames('popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
+              <input
+                className={!errors.login
+                  ? classNames('popupInput', styles.input)
+                  : classNames('popupInput', 'popupError', styles.input, styles.error)}
+                type='text'
+                name='login'
+                defaultValue={(props.detail && props.user.isRegister) ? props.user.username : ''}
+                placeholder='Логин'
+                {...register('login',
+                  {
+                    required: 'Введите логин',
+                    minLength: {
+                      value: 4,
+                      message: 'Минимум 4 символа'
+                    },
+                    pattern: {
+                      value: /^[a-zA-z0-9]+$/,
+                      message: 'Ввод только латинских букв и цифр'
+                    }
+                  })}
+              />
+              {errors.login && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.login.message}</div>}
+            </div>
+          }
+          {
+            (((props.detail && !props.user.isRegister) || (!props.detail && registerUser)) && registerUser) &&
             <div className={!errors.password
               ? classNames('popupInputBox', styles.inputBox)
               : classNames('popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
@@ -259,6 +284,7 @@ export default function StaffAddPopup(props) {
                 type='password'
                 name='password'
                 placeholder='Пароль'
+                autoComplete='off'
                 {...register('password',
                   {
                     required: 'Введите пароль',
@@ -273,7 +299,8 @@ export default function StaffAddPopup(props) {
                   })}
               />
               {errors.password && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.password.message}</div>}
-            </div>}
+            </div>
+          }
 
           <div className={!errors.type
             ? classNames('flex', 'popupInputBox')
@@ -332,7 +359,7 @@ export default function StaffAddPopup(props) {
             {errors.phone && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.phone.message}</div>}
           </div>
           {
-            me.is_superuser &&
+            (me.is_superuser && countBalance && watchType === 's') &&
             <div className={!errors.start_balance
               ? classNames('flex', 'popupInputBox', styles.inputBox)
               : classNames('flex', 'popupInputBox', 'popupBoxError', styles.inputBox, styles.boxError)}>
@@ -359,8 +386,40 @@ export default function StaffAddPopup(props) {
               {errors.start_balance && <div className={classNames('popupErrorMessage', styles.errorMessage)}>{errors.start_balance.message}</div>}
             </div>
           }
+
+          <div className={classNames('flex', styles.inputBox, styles.inputBoxMargBot)}>
+            <label className={classNames('popupLabel', styles.staffLabel)} htmlFor="registerUser">Регистрировать</label>
+            <div className={styles.checkWrapper}>
+              <input
+                className={classNames(styles.inputCheck)}
+                type='checkbox'
+                name='registerUser'
+                id='registerUser'
+                defaultChecked={true}
+                {...register('registerUser')}
+              />
+            </div>
+          </div>
+
           {
-            me.is_superuser && watchType === 's' &&
+            (me.is_superuser && watchType === 's') &&
+            <div className={classNames('flex', styles.inputBox, styles.inputBoxMargBot)}>
+              <label className={classNames('popupLabel', styles.staffLabel)} htmlFor="countBalance">Считать баланс</label>
+              <div className={styles.checkWrapper}>
+                <input
+                  className={classNames(styles.inputCheck)}
+                  type='checkbox'
+                  name='countBalance'
+                  id='countBalance'
+                  defaultChecked={props.detail && props.user.countBalance}
+                  {...register('countBalance')}
+                />
+              </div>
+            </div>
+          }
+
+          {
+            me.is_superuser && watchType === 's' && registerUser &&
             <div className={classNames('flex', styles.inputBox)}>
               <label className={classNames('popupLabel', styles.staffLabel)} htmlFor="superuser">Доступ ко всему</label>
               <div className={styles.checkWrapper}>

@@ -22,6 +22,7 @@ export default function StaffItem(props) {
                 phone={item.phone}
                 balance={item.balance}
                 type={item.user_type}
+                countBalance={item.countBalance}
               />
             )
             :

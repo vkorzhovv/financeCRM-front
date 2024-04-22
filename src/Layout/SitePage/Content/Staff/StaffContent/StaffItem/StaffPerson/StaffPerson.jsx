@@ -23,7 +23,7 @@ export default function StaffPerson(props) {
         <p className={styles.phone}>{props.phone}</p>
       </div>
       {
-        (props.type === 's' && me.user_type === 's') &&
+        (props.type === 's' && me.user_type === 's' && props.countBalance) &&
         <div className={classNames('tableCell', styles.tableCellStaff)}>
           <p>{props.balance}&nbsp;&#8381;</p>
         </div>

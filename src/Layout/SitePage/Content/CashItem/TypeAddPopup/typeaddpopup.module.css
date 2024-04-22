@@ -1,0 +1,51 @@
+.cashAddPopupStatic {
+  position: relative;
+  width: 100%;
+  height: max-content;
+}
+
+.visible {
+  overflow: visible;
+}
+
+.cashPopupStaticWindow {
+  flex-direction: column;
+  width: 100%;
+  max-height: 100%;
+  padding: 25px 30px 30px 30px;
+  border-radius: 10px;
+  background-color: var(--whiteF8);
+}
+
+.inputBoxStatic {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.popupHeaderStatic {
+  margin-bottom: 30px;
+  padding: 0 0 22px 10px;
+  border-bottom: 1px solid var(--greyE1);
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.btnWrap {
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.typeBtn {
+  padding: 8px 16px;
+}
+
+@media (max-width: 576px) {
+  .inputBoxStatic {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cashLabel {
+    margin-bottom: 10px;
+  }
+}

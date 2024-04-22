@@ -304,7 +304,7 @@ export default function InvoicesAddPopup(props) {
           <div className={!errors.purpose
             ? classNames('flex', 'popupInputBox')
             : classNames('flex', 'popupInputBox', 'popupBoxError')}>
-            <label className={classNames('popupLabel')}>Тип начисления</label>
+            <label className={classNames('popupLabel')}>Статья расходов/доходов</label>
             <Controller
               control={control}
               name='purpose'

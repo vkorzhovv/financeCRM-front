@@ -151,31 +151,40 @@ export const getContractors = () => async (dispatch) => {
 }
 
 export const addUser = (
-  name,
-  surname,
-  patronymic,
-  login,
-  password,
-  type,
-  phone,
-  superuser,
-  descr,
-  start_balance
+  {
+    name: name,
+    surname: surname,
+    patronymic: patronymic,
+    login: login,
+    password: password,
+    type: type,
+    phone: phone,
+    superuser: superuser,
+    descr: descr,
+    start_balance: start_balance,
+    countBalance: countBalance,
+    isRegister: isRegister,
+  }
 ) => async (dispatch) => {
 
   dispatch(toggleIsFetching(true))
 
   await usersAPI.addUser(
-    name,
-    surname,
-    patronymic,
-    login,
-    password,
-    type,
-    phone,
-    superuser,
-    descr,
-    start_balance)
+    {
+      name: name,
+      surname: surname,
+      patronymic: patronymic,
+      login: login,
+      password: password,
+      type: type,
+      phone: phone,
+      superuser: superuser,
+      descr: descr,
+      start_balance: start_balance,
+      countBalance: countBalance,
+      isRegister: isRegister,
+    }
+  )
     .then(response => {
       dispatch(setAddUser(response.data))
       dispatch(toggleIsFetching(false));

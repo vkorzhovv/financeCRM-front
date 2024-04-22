@@ -21,6 +21,14 @@
   color: var(--redCF);
 }
 
+.greenCell {
+  background-color: var(--green76);
+}
+
+.redCell {
+  background-color: var(--redCF);
+}
+
 @media (max-width: 1400px) {}
 
 @media (max-width: 1200px) {}

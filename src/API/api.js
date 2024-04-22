@@ -84,16 +84,20 @@ export const usersAPI = {
     })
   },
   addUser(
-    name,
-    surname,
-    patronymic,
-    login,
-    password,
-    type,
-    phone,
-    superuser,
-    descr,
-    start_balance
+    {
+      name: name,
+      surname: surname,
+      patronymic: patronymic,
+      login: login,
+      password: password,
+      type: type,
+      phone: phone,
+      superuser: superuser,
+      descr: descr,
+      start_balance: start_balance,
+      countBalance: countBalance,
+      isRegister: isRegister,
+    }
   ) {
     return instance.post('/api/auth/users/', {
       first_name: name,
@@ -105,7 +109,9 @@ export const usersAPI = {
       phone: phone,
       is_superuser: superuser,
       description: descr,
-      start_balance: start_balance
+      start_balance: start_balance,
+      countBalance: countBalance,
+      isRegister: isRegister,
     },
       {
         headers: {
@@ -114,17 +120,36 @@ export const usersAPI = {
       }
     )
   },
-  editUser(userId, name, surname, patronymic, login, type, phone, superuser, descr, start_balance) {
+  editUser(
+    {
+      userId: userId,
+      name: name,
+      surname: surname,
+      patronymic: patronymic,
+      login: login,
+      password: password,
+      type: type,
+      phone: phone,
+      superuser: superuser,
+      descr: descr,
+      start_balance: start_balance,
+      countBalance: countBalance,
+      isRegister: isRegister,
+    }
+  ) {
     return instance.patch(`/api/auth/users/${userId}/`, {
       first_name: name,
       last_name: surname,
       father_name: patronymic,
       username: login,
+      password: password,
       user_type: type,
       phone: phone,
       is_superuser: superuser,
       description: descr,
-      start_balance: start_balance
+      start_balance: start_balance,
+      countBalance: countBalance,
+      isRegister: isRegister,
     },
       {
         headers: {
@@ -360,7 +385,38 @@ export const cashItemAPI = {
         'Authorization': `Token ${localStorage.getItem('token')}`
       }
     })
-  }
+  },
+  addType(name) {
+    return instance.post('/api/payment_types/',
+      {
+        name: name,
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+  },
+  deleteType(typeId) {
+    return instance.delete(`/api/payment_types/${typeId}`,
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+  },
+  editType(typeId, name) {
+    return instance.patch(`/api/payment_types/${typeId}/`,
+      {
+        name: name,
+      },
+      {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+      })
+  },
+
 }
 
 export const invoicesAPI = {

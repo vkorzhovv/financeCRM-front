@@ -30,37 +30,46 @@ const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching
 
 export const getUserItem = (userId) => async (dispatch) => {
   await usersAPI.getUserItem(userId)
-  .then(response => dispatch(setUserItem(response.data)))
-  .catch(err => console.log(err))
+    .then(response => dispatch(setUserItem(response.data)))
+    .catch(err => console.log(err))
 }
 
 export const editUser = (
-  userId,
-  name,
-  surname,
-  patronymic,
-  login,
-  // password,
-  type,
-  phone,
-  superuser,
-  descr,
-  start_balance
+  {
+    userId: userId,
+    name: name,
+    surname: surname,
+    patronymic: patronymic,
+    login: login,
+    password: password,
+    type: type,
+    phone: phone,
+    superuser: superuser,
+    descr: descr,
+    start_balance: start_balance,
+    countBalance: countBalance,
+    isRegister: isRegister,
+  }
 ) => async (dispatch) => {
   dispatch(toggleIsFetching(true))
 
   await usersAPI.editUser(
-    userId,
-    name,
-    surname,
-    patronymic,
-    login,
-    // password,
-    type,
-    phone,
-    superuser,
-    descr,
-    start_balance)
+    {
+      userId: userId,
+      name: name,
+      surname: surname,
+      patronymic: patronymic,
+      login: login,
+      password: password,
+      type: type,
+      phone: phone,
+      superuser: superuser,
+      descr: descr,
+      start_balance: start_balance,
+      countBalance: countBalance,
+      isRegister: isRegister,
+    }
+  )
     .then(response => {
       dispatch(setUserItem(response.data))
       dispatch(toggleIsFetching(false));

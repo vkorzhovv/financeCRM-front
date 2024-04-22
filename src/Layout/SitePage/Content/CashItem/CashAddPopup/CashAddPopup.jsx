@@ -18,7 +18,7 @@ export default function CashAddPopup(props) {
   let optionsTypes = [];
   paymentsTypes?.map((item) => {
     optionsTypes.push({
-      value: `${item?.type}`, label: `${item?.name}`
+      value: `${item?.id}`, label: `${item?.name}`
     })
   })
 
@@ -97,7 +97,9 @@ export default function CashAddPopup(props) {
               render={({ field: { value, onChange } }) => (
                 <Select
                   isClearable={true}
-                  isSearchable={false}
+                  isSearchable={true}
+                  maxMenuHeight={180}
+                  menuPlacement={'auto'}
                   placeholder='Выбрать'
                   classNamePrefix="react-select"
                   className={classNames('react-select-container')}

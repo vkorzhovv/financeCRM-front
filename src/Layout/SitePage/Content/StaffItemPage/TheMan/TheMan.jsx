@@ -11,9 +11,12 @@ export default function TheMan(props) {
           <h2 className={styles.theManTitle}>
             {props.user.last_name} {props.user.first_name} {props.user.father_name}
           </h2>
-          <div className={styles.cash}>
-            {props.user.balance}&nbsp;&#8381;
-          </div>
+          {
+            props.user.countBalance &&
+            <div className={styles.cash}>
+              {props.user.balance}&nbsp;&#8381;
+            </div>
+          }
         </div>
         <div className={classNames('flex', styles.manDatas)}>
           <div className={styles.manInfo}>
@@ -21,10 +24,12 @@ export default function TheMan(props) {
               <p className={styles.itemTitle}>Телефон</p>
               <p className={styles.itemData}>{props.user.phone}</p>
             </div>
-            <div className={classNames('flex', styles.infoItem)}>
-              <p className={styles.itemTitle}>Логин</p>
-              <p className={styles.itemData}>{props.user.username}</p>
-            </div>
+            {props.user.isRegister &&
+              <div className={classNames('flex', styles.infoItem)}>
+                <p className={styles.itemTitle}>Логин</p>
+                <p className={styles.itemData}>{props.user.username}</p>
+              </div>
+            }
           </div>
           <div className={classNames('flex', styles.description)}>
             <p className={styles.descriptionText}>{props.user.description}</p>
@@ -40,6 +45,6 @@ export default function TheMan(props) {
         </div>
       }
 
-    </div>
+    </div >
   );
 }
