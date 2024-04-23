@@ -71,8 +71,9 @@ export default function CashAddPopup(props) {
     props.detail ? editCashItem(data) : addCashItem(data)
   })
 
+
   useEffect(() => {
-    props.detail && setValue('type', props.type)
+    props.detail && setValue('type', String(props.type))
   }, [setValue])
 
   return (

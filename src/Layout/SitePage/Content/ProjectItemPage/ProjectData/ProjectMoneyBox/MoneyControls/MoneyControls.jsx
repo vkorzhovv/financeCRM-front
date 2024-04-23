@@ -42,7 +42,7 @@ export default function MoneyControls(props) {
 
   return (
     <div className={classNames('flex', styles.moneyControls)}>
-      {props.me.user_type === 's' &&
+      {(props.me.user_type === 's' && !props.money.payments) &&
         <button
           onClick={handleClickOpenDelete}
           className={classNames('flex', styles.controlBtn, styles.fillSVG, styles.deleteBtn)}

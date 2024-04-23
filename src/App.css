@@ -313,6 +313,21 @@ input[type="file"] {
   color: transparent !important;
 }
 
+.multiNone .react-select__multi-value {
+  display: none !important;
+}
+
+.multiNone {
+  position: relative;
+}
+.textSelect {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
 .react-select__menu-notice::after {
   content:'Совпадений нет';
   position: absolute;

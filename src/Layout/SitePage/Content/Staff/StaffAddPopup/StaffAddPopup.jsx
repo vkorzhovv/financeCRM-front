@@ -28,6 +28,7 @@ export default function StaffAddPopup(props) {
     register,
     setValue,
     control,
+    resetField,
     watch,
     handleSubmit,
     formState: { errors, isValid }
@@ -48,7 +49,7 @@ export default function StaffAddPopup(props) {
         superuser: data.superuser || false,
         descr: data.description,
         start_balance: Number(data.start_balance) || 0,
-        countBalance: data.countBalance || null,
+        countBalance: data.countBalance || false,
         isRegister: data.registerUser,
       }
     ))
@@ -83,7 +84,7 @@ export default function StaffAddPopup(props) {
         superuser: data.superuser || false,
         descr: data.description,
         start_balance: Number(data.start_balance) || 0,
-        countBalance: data.countBalance,
+        countBalance: data.countBalance || false,
         isRegister: data.registerUser,
       }
     ))
@@ -119,10 +120,14 @@ export default function StaffAddPopup(props) {
   useEffect(() => {
     setRegisterUser(watchRegisterUser)
     setCountBalance(watchCountBalance)
+
+    !watchRegisterUser && resetField('login')
+    !watchRegisterUser && resetField('password')
   }, [watchRegisterUser, watchCountBalance])
 
   const onSubmit = (data => {
     props.detail ? editUserLocal(data) : addUserLocal(data);
+    console.log(data)
   })
 
   return createPortal((
@@ -254,6 +259,7 @@ export default function StaffAddPopup(props) {
                   : classNames('popupInput', 'popupError', styles.input, styles.error)}
                 type='text'
                 name='login'
+                autoComplete="off"
                 defaultValue={(props.detail && props.user.isRegister) ? props.user.username : ''}
                 placeholder='Логин'
                 {...register('login',

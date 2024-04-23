@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React from "react";
+import CashFilter from "./CashFilter/CashFilter";
 import InvoicesFilter from "./InvoicesFilter/InvoicesFilter";
 import PaymentFilter from "./PaymentFilter/PaymentFilter";
 import ProjectsFilter from "./ProjectsFilter/ProjectsFilter";

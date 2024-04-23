@@ -9,12 +9,14 @@ const DELETE_TYPE = 'DELETE_TYPE';
 const SET_SUBTYPES = 'SET_SUBTYPES';
 const ADD_ITEM = 'ADD_ITEM';
 const SET_SEARCH_ITEMS = 'SET_SEARCH_ITEMS';
+const FILTER_ITEMS = 'FILTER_ITEMS;'
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
   items: [],
   filteredItems: [],
   searchItem: '',
+  filterData: sessionStorage.getItem('filterItemsTypes') || [],
   types: [],
   subtypes: [],
   isFetching: false
@@ -22,11 +24,6 @@ let initialState = {
 
 export const itemsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_ITEMS:
-      return {
-        ...state,
-        items: action.items
-      }
     case SET_TYPES:
       return {
         ...state,
@@ -54,6 +51,11 @@ export const itemsReducer = (state = initialState, action) => {
         ...state,
         subtypes: action.subtypes
       }
+    case SET_ITEMS:
+      return {
+        ...state,
+        items: action.items
+      }
     case ADD_ITEM: {
       return {
         ...state,
@@ -67,8 +69,21 @@ export const itemsReducer = (state = initialState, action) => {
         filteredItems: state.items.length
           ? [...state.items]
             .filter(item => (`${item.name}
-              ${item.item_type_name}`
+              ${item.item_type?.name}`
               .toLowerCase()).includes(action.searchItem))
+          : [],
+      }
+    }
+    case FILTER_ITEMS: {
+      return {
+        ...state,
+        filterData: action.types,
+        filteredItems: state.filteredItems.length
+          ? [...state.filteredItems]
+            .filter(item =>
+              action.types.length === 0 ?
+                item :
+                action.types.includes(+item.item_type?.id))
           : [],
       }
     }
@@ -88,16 +103,23 @@ const setAddType = (newType) => ({ type: ADD_TYPE, newType });
 const setDeleteType = (typeId) => ({ type: DELETE_TYPE, typeId });
 const setEditType = (typeId, newObj) => ({ type: EDIT_TYPE, typeId, newObj });
 const setSubtypes = (subtypes) => ({ type: SET_SUBTYPES, subtypes });
-const setAddItem = (newItem) => ({ type: ADD_ITEM, newItem })
+const setAddItem = (newItem) => ({ type: ADD_ITEM, newItem });
+
 const setSearchItems = (searchItem) => ({ type: SET_SEARCH_ITEMS, searchItem });
+const setFilterItems = (types) => ({ type: FILTER_ITEMS, types });
 const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
+
+const filterFunctions = (dispatch) => {
+  dispatch(setSearchItems(localStorage.getItem('searchItem') || ''));
+  dispatch(setFilterItems(sessionStorage.getItem('filterItemsTypes') || []));
+}
 
 export const getItems = () => async (dispatch) => {
   await cashItemAPI.getItems()
     .then(response => dispatch(setItems(response.data)))
     .catch(err => console.log(err))
 
-  dispatch(setSearchItems(localStorage.getItem('searchItem') || ''));
+  filterFunctions(dispatch);
 }
 
 export const getPaymentTypes = () => async (dispatch) => {
@@ -124,10 +146,9 @@ export const addType = (name) => async (dispatch) => {
 export const deleteType = (typeId) => async (dispatch) => {
   dispatch(toggleIsFetching(true))
   await cashItemAPI.deleteType(typeId)
-    .then(response => {
+    .then(() => {
       dispatch(setDeleteType(typeId))
       dispatch(toggleIsFetching(false));
-      return response;
     })
     .catch((err) => {
       dispatch(toggleIsFetching(false));
@@ -139,7 +160,7 @@ export const editType = (typeId, name) => async (dispatch) => {
   dispatch(toggleIsFetching(true))
   await cashItemAPI.editType(typeId, name)
     .then(response => {
-      dispatch(setEditType(response.data))
+      dispatch(setEditType(typeId, response.data))
       dispatch(toggleIsFetching(false));
       return response;
     })
@@ -187,7 +208,17 @@ export const editItem = (itemId, type, name) => async (dispatch) => {
 export const searchItem = (searchText) => (dispatch) => {
   let text = searchText.toLowerCase()
   localStorage.setItem('searchItem', text);
-  setTimeout(() => dispatch(setSearchItems(text)), 300)
+  dispatch(setSearchItems(text))
+  dispatch(setFilterItems(sessionStorage.getItem('filterItemsTypes') || []));
+}
+
+export const filterItems = (types) => (dispatch) => {
+  types.length > 0 ?
+    sessionStorage.setItem('filterItemsTypes', types) :
+    sessionStorage.removeItem('filterItemsTypes');
+
+  dispatch(setSearchItems(localStorage.getItem('searchItem') || ''));
+  dispatch(setFilterItems(types));
 }
 
 export const deleteItem = (itemId) => async () => {

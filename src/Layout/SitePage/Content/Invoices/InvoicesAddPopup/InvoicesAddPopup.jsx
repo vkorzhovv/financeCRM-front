@@ -66,10 +66,10 @@ export default function InvoicesAddPopup(props) {
 
   let optionsTypes = [];
   typesList?.filter(item =>
-    createdTypes.map(type => type.item_type).includes(item.type)
+    createdTypes.map(type => type.item_type?.id).includes(item.id)
   ).map((item) => {
     optionsTypes.push({
-      value: `${item?.type}`, label: `${item?.name}`
+      value: `${item?.id}`, label: `${item?.name}`
     })
   })
 
@@ -81,7 +81,6 @@ export default function InvoicesAddPopup(props) {
   })
 
   useEffect(() => {
-
     dispatch(getUsers())
       .then(() => {
         if (!props.detail && props.projectReceipt) {
@@ -113,12 +112,12 @@ export default function InvoicesAddPopup(props) {
 
     getTypes()
       .then(() => {
-        props.detail && setValue('type', String(props.invoice?.payment_type));
+        props.detail && setValue('type', String(props.invoice?.payment_type?.id));
       })
 
 
     if (props.detail) {
-      dispatch(getSubtypes(props.invoice?.payment_type))
+      dispatch(getSubtypes(props.invoice?.payment_type?.id))
         .then(() => setValue('purpose', props.invoice?.subtype))
     }
 
@@ -128,6 +127,7 @@ export default function InvoicesAddPopup(props) {
 
   useEffect(() => {
     watchType && dispatch(getSubtypes(watchType))
+    console.log(watchType)
   }, [dispatch, watchType])
 
   const addInvoiceLocal = (data) => {
@@ -310,7 +310,7 @@ export default function InvoicesAddPopup(props) {
               name='purpose'
               render={({ field: { value, onChange } }) => (
                 <Select
-                  isDisabled={!props.detail ? !getValues('type') : !props.invoice?.payment_type}
+                  isDisabled={!watchType || watchType === 'undefined'}
                   isClearable={true}
                   placeholder='Выбрать'
                   classNamePrefix="react-select"

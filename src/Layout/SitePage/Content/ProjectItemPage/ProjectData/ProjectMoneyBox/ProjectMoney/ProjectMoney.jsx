@@ -45,6 +45,7 @@ export default function ProjectMoney(props) {
           receipts={props.receipts}
           projectId={props.projectId}
           projectClient={props.projectClient}
+          
         />
       </div>
     </NavLink>

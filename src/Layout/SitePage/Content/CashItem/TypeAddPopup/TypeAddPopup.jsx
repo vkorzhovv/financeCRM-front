@@ -7,7 +7,7 @@ import { selectIsFetchingCash } from "../../../../../redux/cashItemSelector";
 import Select from 'react-select';
 import { useEffect } from "react";
 import { useState } from "react";
-import { addType, deleteType, editType, getItems } from "../../../../../redux/cashItemReducer";
+import { addType, deleteType, editType, getItems, getPaymentTypes } from "../../../../../redux/cashItemReducer";
 
 export default function TypeAddPopup(props) {
 
@@ -49,6 +49,7 @@ export default function TypeAddPopup(props) {
           editType(data.type, data.name))
       .then(() => {
         dispatch(getItems())
+        dispatch(getPaymentTypes())
         reset()
       })
       .catch(err => {

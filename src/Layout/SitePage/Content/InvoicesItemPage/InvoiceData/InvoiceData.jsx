@@ -32,8 +32,8 @@ export default function InvoiceData(props) {
         props.invoice.id,
         props.invoice.comment,
         true,
-        props.invoice.payment_type,
-        props.invoice.subtype,
+        props.invoice?.payment_type?.id,
+        props.invoice?.subtype,
         props.invoice.payer.id,
         props.invoice.receiver.id,
         props.invoice?.project?.id || null,
@@ -48,8 +48,8 @@ export default function InvoiceData(props) {
         props.invoice.id,
         props.invoice.comment,
         false,
-        props.invoice.payment_type,
-        props.invoice.subtype,
+        props.invoice?.payment_type?.id,
+        props.invoice?.subtype,
         props.invoice.payer.id,
         props.invoice.receiver.id,
         props.invoice?.project?.id || null,
@@ -59,7 +59,6 @@ export default function InvoiceData(props) {
         .then(() => {
           dispatch(getInvoiceItem(props.invoice.id))
         })
-
   }
 
   return (
@@ -133,10 +132,10 @@ export default function InvoiceData(props) {
                     }
                   </div>
                   <div className={classNames('flex', styles.invoiceDataField)}>
-                    <p className={styles.invoiceDataTitle}>Тип начисления:</p><p>{props.invoice.payment_type_name}</p>
+                    <p className={styles.invoiceDataTitle}>Тип начисления:</p><p>{props.invoice?.payment_type?.name}</p>
                   </div>
                   <div className={classNames('flex', styles.invoiceDataField)}>
-                    <p className={styles.invoiceDataTitle}>Назначение начисления:</p><p>{props.invoice.subtype}</p>
+                    <p className={styles.invoiceDataTitle}>Назначение начисления:</p><p>{props.invoice?.subtype}</p>
                   </div>
                 </div>
                 <div className={styles.description}>

@@ -1,0 +1,42 @@
+.filterTypes {
+  width: 100%;
+  margin-right: 20px;
+}
+
+.typeInputBox {
+  width: 200px;
+}
+
+.controlBtn:not(:last-child) {
+  margin-right: 10px;
+}
+
+.controlBtn {
+  border: unset;
+  background-color: transparent;
+}
+
+.controlBtn svg * {
+  transition: .3s;
+}
+
+.strokeSVG:hover svg * {
+  stroke: var(--green63);
+}
+
+.fillSVG:hover svg * {
+  fill: var(--green63);
+}
+
+.deleteBtn {
+  position: relative;
+  top: -1px;
+}
+
+@media (max-width: 1050px) {
+
+}
+
+@media (max-width: 500px) {
+
+}

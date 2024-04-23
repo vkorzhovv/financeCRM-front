@@ -158,7 +158,7 @@ export default function PageControls(props) {
           </button>
         </div>
       }
-      {props.detail && !props.approved && !props.isApprovedInvoiceForPayment && props.accessDelete &&
+      {props.detail && (!props.approved && !props.isPayments) && !props.isApprovedInvoiceForPayment && props.accessDelete &&
         <div className={classNames(styles.pageControlItem, styles.deleteBlock)}>
           <button
             className={classNames('btn', 'btnTransparent', styles.deleteBtn)}

@@ -40,11 +40,9 @@ export default function CashData(props) {
       .then(() => document.body.classList.remove('modal-show'))
   }
 
-  console.log(props.item_type?.id)
-
   return (
     <div className={classNames('flex', styles.cashData)}>
-      <p className={styles.type}>{props.item_type?.name}
+      <p className={styles.type}>{props.type_name}
       </p>
       <p className={styles.name}>{props.name}</p>
       <div className={classNames('flex', styles.btnGroup)}>
@@ -71,7 +69,7 @@ export default function CashData(props) {
         isOpenPopup && <CashAddPopupContainer
           id={props.id}
           name={props.name}
-          type={props.item_type?.id}
+          type={props.typeId}
           handleClickClose={handleClickClose}
           submitText={'Готово'}
           popupHeader={'Редактировать статью'}

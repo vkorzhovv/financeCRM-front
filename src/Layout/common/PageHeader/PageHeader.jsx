@@ -23,6 +23,7 @@ export default function PageHeader(props) {
           access={props.access}
           isApprovedInvoiceForPayment={props.isApprovedInvoiceForPayment}
           approved={props.approved}
+          isPayments={props.isPayments}
           addBtnText={props.addBtnText}
           handleClickAdd={props.handleClickAdd}
           detail={props.detail}

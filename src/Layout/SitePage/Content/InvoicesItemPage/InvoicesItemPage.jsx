@@ -38,6 +38,7 @@ export default function InvoicesItemPage(props) {
   return (
     <div className={styles.invoiceItemPage}>
       <PageHeader
+        isPayments={props.invoice.payments}
         approved={props.invoice.approved}
         title={'Начисления'}
         addBtnText={'Редактировать'}

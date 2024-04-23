@@ -104,6 +104,7 @@ export default function PaymentAddPopup(props) {
         !props.invoicePage && props.close(false);
         !props.invoicePage && document.body.classList.remove('modal-show');
         props.invoicePage && dispatch(getPaymentsInInvoice(props.invoice.id));
+        props.invoicePage && dispatch(getInvoiceItem(props.invoice.id));
         props.invoicePage && reset();
       })
       .catch(err => {

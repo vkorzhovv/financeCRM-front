@@ -9,7 +9,7 @@ const FILTER_PUBLICATION = 'FILTER_PUBLICATION';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
-  publications: [],
+  publications: [], 
   filteredPublications: [],
   filterDatas: {
     publicationProject: sessionStorage.getItem('publicationProject') || [],
