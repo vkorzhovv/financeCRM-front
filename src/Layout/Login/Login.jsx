@@ -53,6 +53,7 @@ export default function Login(props) {
                   : classNames(styles.input, styles.error)}
                 type='text'
                 name='username'
+                autoComplete='new-password'
                 placeholder='Логин'
                 {...register('username',
                   {
@@ -71,6 +72,7 @@ export default function Login(props) {
                 type={visible ? 'text' : 'password'}
                 name='password'
                 placeholder='Пароль'
+                autoComplete='new-password'
                 {...register('password',
                   {
                     required: 'Введите пароль',

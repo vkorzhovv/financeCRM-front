@@ -259,7 +259,7 @@ export default function StaffAddPopup(props) {
                   : classNames('popupInput', 'popupError', styles.input, styles.error)}
                 type='text'
                 name='login'
-                autoComplete="off"
+                autoComplete="new-password"
                 defaultValue={(props.detail && props.user.isRegister) ? props.user.username : ''}
                 placeholder='Логин'
                 {...register('login',
@@ -290,7 +290,7 @@ export default function StaffAddPopup(props) {
                 type='password'
                 name='password'
                 placeholder='Пароль'
-                autoComplete='off'
+                autoComplete='new-password'
                 {...register('password',
                   {
                     required: 'Введите пароль',

@@ -4,7 +4,6 @@ import styles from './cashfilter.module.css';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
-import DeleteIcon from "../../../../../svgIcons/delete";
 import CheckIcon from "../../../../../svgIcons/check";
 import { filterItems, getPaymentTypes } from "../../../../../redux/cashItemReducer";
 import { selectPaymentTypes } from "../../../../../redux/cashItemSelector";
@@ -20,6 +19,8 @@ export default function CashFilter(props) {
       value: `${item?.id}`, label: `${item?.name}`
     })
   })
+
+
 
   const {
     clearErrors,
@@ -38,12 +39,14 @@ export default function CashFilter(props) {
 
   useEffect(() => {
     dispatch(getPaymentTypes())
-      .then(() => {
-        const savedTypes = sessionStorage.getItem('filterItemsTypes');
-        setValue('types', savedTypes ? optionsTypes.filter(item => savedTypes.includes(+item.value)) : []);
-        console.log(optionsTypes, paymentsTypes, savedTypes)
-      })
-  }, [dispatch, setValue])
+  }, [dispatch])
+
+  useEffect(() => {
+    if (paymentsTypes.length > 0) {
+      const savedTypes = sessionStorage.getItem('filterItemsTypes');
+      setValue('types', savedTypes ? optionsTypes.filter(item => savedTypes.includes(+item.value)) : []);
+    }
+  }, [paymentsTypes, setValue])
 
   const onSubmit = (data => {
     dispatch(filterItems(
@@ -92,13 +95,6 @@ export default function CashFilter(props) {
         </div>
       </div>
       <div className={classNames('flex')}>
-        {/* <button
-          onClick={() => setValue('project', [])}
-          className={classNames('flex', styles.controlBtn, styles.fillSVG)}
-          type="button"
-        >
-          <DeleteIcon />
-        </button> */}
         <button
           className={classNames('flex', styles.controlBtn, styles.fillSVG)}
           type='submit'
