@@ -402,6 +402,7 @@ export default function StaffAddPopup(props) {
                 name='registerUser'
                 id='registerUser'
                 defaultChecked={true}
+                disabled={props.detail && me.id === props.user.id}
                 {...register('registerUser')}
               />
             </div>
