@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deletePayment } from '../../../../redux/paymentReducer';
 import PaymentListContainer from './PaymentList/PaymentListContainer';
 import { selectMe } from '../../../../redux/authSelectors';
+import { getMe } from '../../../../redux/authReducer';
 
 export default function PaymentItemPage(props) {
 
@@ -32,6 +33,7 @@ export default function PaymentItemPage(props) {
         navigate("/payment");
         document.body.classList.remove('modal-show');
       })
+      .then(() => dispatch(getMe()))
   }
 
   return (

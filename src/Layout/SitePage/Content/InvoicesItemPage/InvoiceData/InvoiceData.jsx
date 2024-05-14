@@ -99,9 +99,9 @@ export default function InvoiceData(props) {
                     {props.invoice?.project ?
                       <NavLink
                         className={!(me.user_type === 's' ||
-                          me.id === props.invoice.project.client.id ||
-                          me.id === props.invoice.project.foreman.id ||
-                          me.id === props.invoice.project.project_manager.id)
+                          me?.id === props.invoice.project.client.id ||
+                          me?.id === props.invoice.project.foreman.id ||
+                          me?.id === props.invoice.project.project_manager.id)
                           && 'nonTouch'}
                         to={`/projects/${props.invoice.project.id}`}
                       >

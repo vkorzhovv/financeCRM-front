@@ -15,6 +15,7 @@ export default function InvoiceMoneyControlsContainer(props) {
       .then(() => dispatch(getPaymentsInInvoice(props.payment.invoice.id)))
       .then(() => dispatch(getInvoiceItem(props.invoice.id)))
       .then(() => document.body.classList.remove('modal-show'))
+      .then(() => dispatch(getMe()))
   }
 
   const onApproved = async () => {

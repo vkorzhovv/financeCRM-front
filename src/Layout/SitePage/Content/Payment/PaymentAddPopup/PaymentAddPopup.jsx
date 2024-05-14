@@ -106,6 +106,7 @@ export default function PaymentAddPopup(props) {
         props.invoicePage && dispatch(getPaymentsInInvoice(props.invoice.id));
         props.invoicePage && dispatch(getInvoiceItem(props.invoice.id));
         props.invoicePage && reset();
+        dispatch(getMe())
       })
       .catch(err => {
         if (err.response.data) {

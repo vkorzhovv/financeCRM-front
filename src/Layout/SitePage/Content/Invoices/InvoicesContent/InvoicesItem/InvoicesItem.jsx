@@ -25,20 +25,20 @@ export default function InvoicesItem(props) {
           props.item?.project ? props.item?.project?.name : 'Не выбран'
         }
       </div>
-      <div className={classNames('tableCell', 'nowrapString', styles.invoicesCell)}>
+      <div className={classNames('tableCell', styles.invoicesCell)}>
         {
           props.item.payer
             ?
-            `${props.item.payer.last_name} ${editName(props.item.payer.first_name)} ${editName(props.item.payer.father_name)}`
+            `${props.item.payer.last_name} ${props.item.payer?.first_name}`
             :
             'Не выбран'
         }
       </div>
-      <div className={classNames('tableCell', 'nowrapString', styles.invoicesCell)}>
+      <div className={classNames('tableCell', styles.invoicesCell)}>
         {
           props.item?.receiver
             ?
-            `${props.item.receiver.last_name} ${editName(props.item.receiver.first_name)} ${editName(props.item.receiver.father_name)}`
+            `${props.item.receiver.last_name} ${props.item.receiver?.first_name}`
             :
             'Не выбран'
         }
